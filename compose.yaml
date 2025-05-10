@@ -10,7 +10,7 @@ services:
       - SPRING_DATASOURCE_USERNAME=user
       - SPRING_DATASOURCE_PASSWORD=${MYSQL_PASSWORD}
     ports:
-      - "8042"
+      - "8043:8042"
     depends_on:
       - db
   
