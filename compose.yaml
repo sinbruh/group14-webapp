@@ -5,7 +5,7 @@ services:
     context: ./backend
     dockerfile: Dockerfile
     environment:
-      - SPRING_DATASOURCE_USERNAME=${MYSQL_USER}
+      - SPRING_DATASOURCE_USERNAME=user
       - SPRING_DATASOURCE_PASSWORD=${MYSQL_PASSWORD}
     ports:
       - "8042"
@@ -17,7 +17,7 @@ services:
     environment:
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
       - MYSQL_DATABASE=webapp
-      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_USER=user
       - MYSQL_PASSWORD=${MYSQL_PASSWORD}
     ports:
       - "3306"
