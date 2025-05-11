@@ -8,8 +8,7 @@ import { DatePickerWithRange } from "@/components/date-range-picker"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Separator } from "@/components/ui/separator"
 
-export default function CarDetailPage({ params }: { params: { id: string } }) {
-    // This would normally come from an API or database
+export default function CarDetailPage({ params}) {
     const car = {
         id: params.id,
         name: "Toyota Camry",
