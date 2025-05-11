@@ -1,3 +1,4 @@
+"use client";
 import Link from "next/link"
 import Image from "next/image"
 import { Car, ChevronDown, Filter, Fuel, Search, Settings, Users } from "lucide-react"
@@ -10,8 +11,23 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Slider } from "@/components/ui/slider"
+import {useState} from "react";
+import {CarModal, carModal} from "@/components/carModal";
 
 export default function CarsPage() {
+    const [selectedCar, setSelectedCar] = useState(null);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const openModal = (car) => {
+        setSelectedCar(car);
+        setIsModalOpen(true);
+    };
+
+    const closeModal = () => {
+        setSelectedCar(null);
+        setIsModalOpen(false);
+    }
+
     const cars = [
         {
             id: 1,
@@ -391,8 +407,11 @@ export default function CarsPage() {
                                                 </div>
                                             </CardContent>
                                             <CardFooter className="p-4 pt-0">
-                                                <Button asChild className="w-full bg-emerald-600 hover:bg-emerald-700">
-                                                    <Link href={`/cars/${car.id}`}>View Details</Link>
+                                                <Button
+                                                    className="w-full bg-emerald-600 text-white hover:bg-emerald-700"
+                                                    onClick={() => openModal(car)}
+                                                >
+                                                    View Details
                                                 </Button>
                                             </CardFooter>
                                         </Card>
@@ -422,6 +441,11 @@ export default function CarsPage() {
                     </div>
                 </section>
             </main>
+
+            {isModalOpen && selectedCar && (
+                <CarModal car={selectedCar} isOpen={isModalOpen} onClose={closeModal} />
+            )}
+
             <footer className="flex flex-col gap-2 sm:flex-row py-6 w-full shrink-0 items-center px-4 md:px-6 border-t">
                 <p className="text-xs text-gray-500">© 2023 DriveEasy. All rights reserved.</p>
                 <nav className="sm:ml-auto flex gap-4 sm:gap-6">
@@ -437,5 +461,5 @@ export default function CarsPage() {
                 </nav>
             </footer>
         </div>
-    )
+    );
 }

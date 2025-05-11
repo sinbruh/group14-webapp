@@ -11,7 +11,7 @@ import { DatePickerWithRange } from "@/components/date-range-picker";
 import { FeaturedCars } from "@/components/featured-cars";
 import { Testimonials } from "@/components/testimonials";
 import { SpecialOffers } from "@/components/special-offers";
-import AuthModal from "@/components/AuthModal"; // Import AuthModals
+import AuthModal from "@/components/AuthModal";
 
 export default function Home() {
     return (
