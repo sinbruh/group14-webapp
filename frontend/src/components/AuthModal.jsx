@@ -8,12 +8,58 @@ export default function AuthModal() {
 
     const handleLogin = async (e) => {
         e.preventDefault();
-        alert("Login successful!");
+        try {
+            const response = await fetch("/api/authenticate", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    email: e.target.email.value,
+                    password: e.target.email.value
+                }),
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                alert("Login successful");
+                localStorage.setItem("token", data.token);
+            } else {
+                const error = await response.text();
+                alert("Login failed: " + error);
+            }
+        } catch (error) {
+            console.error("Error during login:", error);
+            alert("Login failed");
+        }
     };
 
     const handleSignup = async (e) => {
         e.preventDefault();
-        alert("Signup successful!");
+        try {
+            const response = await fetch("/api/register", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    firstName: e.target.firstName.value,
+                    lastName: e.target.lastName.value,
+                    email: e.target.email.value,
+                    phoneNumber: e.target.phoneNumber.value,
+                    password: e.target.password.value,
+                    dateOfBirth: e.target.dateOfBirth.value
+                }),
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                alert("Signup successful");
+                localStorage.setItem("token", data.token);
+            } else {
+                const error = await response.text();
+                alert("Signup failed: " + error);
+            }
+        } catch (error) {
+            console.error("Error during signup:", error);
+            alert("Signup failed");
+        }
     };
 
     return (
