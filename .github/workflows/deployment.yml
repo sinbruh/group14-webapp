@@ -1,0 +1,16 @@
+name: Remote Deployment
+on:
+  push:
+    branches: [ "cd_test" ] #only on cd test while testing
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: masterjanic/docker-compose-ssh-deployment@master
+        name: Docker-Compose Remote Deployment
+        with:
+          ssh_host: your-remote-server.com
+          ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
+          ssh_user: ${{ secrets.SSH_USER }}
