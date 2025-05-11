@@ -1,0 +1,441 @@
+import Link from "next/link"
+import Image from "next/image"
+import { Car, ChevronDown, Filter, Fuel, Search, Settings, Users } from "lucide-react"
+
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
+import { Checkbox } from "@/components/ui/checkbox"
+import { Slider } from "@/components/ui/slider"
+
+export default function CarsPage() {
+    const cars = [
+        {
+            id: 1,
+            name: "Toyota Camry",
+            category: "Sedan",
+            price: 45,
+            image: "/placeholder.svg?height=200&width=300",
+            features: {
+                seats: 5,
+                transmission: "Automatic",
+                fuel: "Hybrid",
+            },
+            isNew: true,
+        },
+        {
+            id: 2,
+            name: "Honda CR-V",
+            category: "SUV",
+            price: 65,
+            image: "/placeholder.svg?height=200&width=300",
+            features: {
+                seats: 5,
+                transmission: "Automatic",
+                fuel: "Gasoline",
+            },
+            isNew: false,
+        },
+        {
+            id: 3,
+            name: "BMW 3 Series",
+            category: "Luxury",
+            price: 95,
+            image: "/placeholder.svg?height=200&width=300",
+            features: {
+                seats: 5,
+                transmission: "Automatic",
+                fuel: "Gasoline",
+            },
+            isNew: false,
+        },
+        {
+            id: 4,
+            name: "Tesla Model 3",
+            category: "Electric",
+            price: 85,
+            image: "/placeholder.svg?height=200&width=300",
+            features: {
+                seats: 5,
+                transmission: "Automatic",
+                fuel: "Electric",
+            },
+            isNew: true,
+        },
+        {
+            id: 5,
+            name: "Ford Mustang",
+            category: "Sports",
+            price: 110,
+            image: "/placeholder.svg?height=200&width=300",
+            features: {
+                seats: 4,
+                transmission: "Automatic",
+                fuel: "Gasoline",
+            },
+            isNew: false,
+        },
+        {
+            id: 6,
+            name: "Chevrolet Suburban",
+            category: "SUV",
+            price: 120,
+            image: "/placeholder.svg?height=200&width=300",
+            features: {
+                seats: 8,
+                transmission: "Automatic",
+                fuel: "Gasoline",
+            },
+            isNew: false,
+        },
+        {
+            id: 7,
+            name: "Audi A4",
+            category: "Luxury",
+            price: 90,
+            image: "/placeholder.svg?height=200&width=300",
+            features: {
+                seats: 5,
+                transmission: "Automatic",
+                fuel: "Gasoline",
+            },
+            isNew: false,
+        },
+        {
+            id: 8,
+            name: "Nissan Leaf",
+            category: "Electric",
+            price: 70,
+            image: "/placeholder.svg?height=200&width=300",
+            features: {
+                seats: 5,
+                transmission: "Automatic",
+                fuel: "Electric",
+            },
+            isNew: false,
+        },
+    ]
+
+    return (
+        <div className="flex flex-col min-h-screen">
+            <header className="px-4 lg:px-6 h-16 flex items-center justify-between border-b">
+                <Link className="flex items-center gap-2 font-semibold" href="/">
+                    <Car className="h-6 w-6 text-emerald-600" />
+                    <span>DriveEasy</span>
+                </Link>
+                <nav className="hidden md:flex gap-6">
+                    <Link className="text-sm font-medium hover:underline underline-offset-4" href="/">
+                        Home
+                    </Link>
+                    <Link className="text-sm font-medium hover:underline underline-offset-4 text-emerald-600" href="/cars">
+                        Cars
+                    </Link>
+                    <Link className="text-sm font-medium hover:underline underline-offset-4" href="/locations">
+                        Locations
+                    </Link>
+                    <Link className="text-sm font-medium hover:underline underline-offset-4" href="/about">
+                        About
+                    </Link>
+                    <Link className="text-sm font-medium hover:underline underline-offset-4" href="/contact">
+                        Contact
+                    </Link>
+                </nav>
+                <div className="flex items-center gap-4">
+                    <Link className="text-sm font-medium hover:underline underline-offset-4" href="/login">
+                        Log In
+                    </Link>
+                    <Button asChild size="sm">
+                        <Link href="/register">Sign Up</Link>
+                    </Button>
+                </div>
+            </header>
+            <main className="flex-1">
+                <section className="w-full py-12 md:py-24 lg:py-32 bg-emerald-50">
+                    <div className="container px-4 md:px-6">
+                        <div className="flex flex-col items-center justify-center space-y-4 text-center">
+                            <div className="space-y-2">
+                                <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">Our Fleet</h1>
+                                <p className="max-w-[700px] text-gray-500 md:text-xl">
+                                    Browse our extensive selection of vehicles to find the perfect match for your needs.
+                                </p>
+                            </div>
+                            <div className="w-full max-w-sm">
+                                <div className="relative">
+                                    <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500" />
+                                    <Input type="search" placeholder="Search cars..." className="w-full bg-white pl-8 rounded-full" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section className="w-full py-12">
+                    <div className="container px-4 md:px-6">
+                        <div className="grid gap-6 lg:grid-cols-[250px_1fr] lg:gap-12">
+                            <div className="hidden lg:block">
+                                <div className="sticky top-6">
+                                    <div className="flex items-center justify-between mb-4">
+                                        <h3 className="font-semibold text-lg">Filters</h3>
+                                        <Button variant="ghost" size="sm" className="h-8 text-sm">
+                                            Reset All
+                                        </Button>
+                                    </div>
+                                    <Accordion type="multiple" defaultValue={["category", "price", "features"]}>
+                                        <AccordionItem value="category">
+                                            <AccordionTrigger>Vehicle Type</AccordionTrigger>
+                                            <AccordionContent>
+                                                <div className="space-y-2">
+                                                    <div className="flex items-center space-x-2">
+                                                        <Checkbox id="sedan" />
+                                                        <label
+                                                            htmlFor="sedan"
+                                                            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                                                        >
+                                                            Sedan
+                                                        </label>
+                                                    </div>
+                                                    <div className="flex items-center space-x-2">
+                                                        <Checkbox id="suv" />
+                                                        <label
+                                                            htmlFor="suv"
+                                                            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                                                        >
+                                                            SUV
+                                                        </label>
+                                                    </div>
+                                                    <div className="flex items-center space-x-2">
+                                                        <Checkbox id="luxury" />
+                                                        <label
+                                                            htmlFor="luxury"
+                                                            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                                                        >
+                                                            Luxury
+                                                        </label>
+                                                    </div>
+                                                    <div className="flex items-center space-x-2">
+                                                        <Checkbox id="electric" />
+                                                        <label
+                                                            htmlFor="electric"
+                                                            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                                                        >
+                                                            Electric
+                                                        </label>
+                                                    </div>
+                                                    <div className="flex items-center space-x-2">
+                                                        <Checkbox id="sports" />
+                                                        <label
+                                                            htmlFor="sports"
+                                                            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                                                        >
+                                                            Sports
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </AccordionContent>
+                                        </AccordionItem>
+                                        <AccordionItem value="price">
+                                            <AccordionTrigger>Price Range</AccordionTrigger>
+                                            <AccordionContent>
+                                                <div className="space-y-4">
+                                                    <Slider defaultValue={[40, 120]} min={0} max={200} step={5} />
+                                                    <div className="flex items-center justify-between">
+                                                        <span className="text-sm">$40</span>
+                                                        <span className="text-sm">$120</span>
+                                                    </div>
+                                                </div>
+                                            </AccordionContent>
+                                        </AccordionItem>
+                                        <AccordionItem value="features">
+                                            <AccordionTrigger>Features</AccordionTrigger>
+                                            <AccordionContent>
+                                                <div className="space-y-2">
+                                                    <div className="flex items-center space-x-2">
+                                                        <Checkbox id="automatic" />
+                                                        <label
+                                                            htmlFor="automatic"
+                                                            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                                                        >
+                                                            Automatic
+                                                        </label>
+                                                    </div>
+                                                    <div className="flex items-center space-x-2">
+                                                        <Checkbox id="manual" />
+                                                        <label
+                                                            htmlFor="manual"
+                                                            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                                                        >
+                                                            Manual
+                                                        </label>
+                                                    </div>
+                                                    <div className="flex items-center space-x-2">
+                                                        <Checkbox id="gps" />
+                                                        <label
+                                                            htmlFor="gps"
+                                                            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                                                        >
+                                                            GPS
+                                                        </label>
+                                                    </div>
+                                                    <div className="flex items-center space-x-2">
+                                                        <Checkbox id="bluetooth" />
+                                                        <label
+                                                            htmlFor="bluetooth"
+                                                            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                                                        >
+                                                            Bluetooth
+                                                        </label>
+                                                    </div>
+                                                    <div className="flex items-center space-x-2">
+                                                        <Checkbox id="child-seat" />
+                                                        <label
+                                                            htmlFor="child-seat"
+                                                            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                                                        >
+                                                            Child Seat
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </AccordionContent>
+                                        </AccordionItem>
+                                    </Accordion>
+                                </div>
+                            </div>
+                            <div>
+                                <div className="flex flex-col gap-4 mb-6">
+                                    <div className="flex items-center justify-between">
+                                        <div>
+                                            <h2 className="text-2xl font-bold">Available Cars</h2>
+                                            <p className="text-sm text-gray-500">Showing {cars.length} results</p>
+                                        </div>
+                                        <div className="flex items-center gap-2">
+                                            <Button variant="outline" size="sm" className="lg:hidden">
+                                                <Filter className="h-4 w-4 mr-2" />
+                                                Filters
+                                            </Button>
+                                            <Select defaultValue="recommended">
+                                                <SelectTrigger className="w-[180px]">
+                                                    <SelectValue placeholder="Sort by" />
+                                                </SelectTrigger>
+                                                <SelectContent>
+                                                    <SelectItem value="recommended">Recommended</SelectItem>
+                                                    <SelectItem value="price-low">Price: Low to High</SelectItem>
+                                                    <SelectItem value="price-high">Price: High to Low</SelectItem>
+                                                    <SelectItem value="newest">Newest First</SelectItem>
+                                                </SelectContent>
+                                            </Select>
+                                        </div>
+                                    </div>
+                                    <div className="flex flex-wrap gap-2">
+                                        <Badge variant="outline" className="rounded-full">
+                                            Sedan
+                                            <Button variant="ghost" size="icon" className="h-4 w-4 ml-1 hover:bg-transparent">
+                                                <ChevronDown className="h-3 w-3" />
+                                            </Button>
+                                        </Badge>
+                                        <Badge variant="outline" className="rounded-full">
+                                            Price: $40 - $120
+                                            <Button variant="ghost" size="icon" className="h-4 w-4 ml-1 hover:bg-transparent">
+                                                <ChevronDown className="h-3 w-3" />
+                                            </Button>
+                                        </Badge>
+                                        <Badge variant="outline" className="rounded-full">
+                                            Automatic
+                                            <Button variant="ghost" size="icon" className="h-4 w-4 ml-1 hover:bg-transparent">
+                                                <ChevronDown className="h-3 w-3" />
+                                            </Button>
+                                        </Badge>
+                                    </div>
+                                </div>
+                                <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                                    {cars.map((car) => (
+                                        <Card key={car.id} className="overflow-hidden">
+                                            <CardHeader className="p-0">
+                                                <div className="relative">
+                                                    <Image
+                                                        src={car.image || "/placeholder.svg"}
+                                                        alt={car.name}
+                                                        width={300}
+                                                        height={200}
+                                                        className="w-full object-cover h-48"
+                                                    />
+                                                    {car.isNew && <Badge className="absolute top-2 right-2 bg-emerald-600">New</Badge>}
+                                                </div>
+                                            </CardHeader>
+                                            <CardContent className="p-4">
+                                                <div className="flex justify-between items-start">
+                                                    <div>
+                                                        <h3 className="font-bold">{car.name}</h3>
+                                                        <p className="text-sm text-gray-500">{car.category}</p>
+                                                    </div>
+                                                    <div className="text-right">
+                                                        <span className="font-bold text-lg">${car.price}</span>
+                                                        <p className="text-xs text-gray-500">per day</p>
+                                                    </div>
+                                                </div>
+                                                <div className="grid grid-cols-3 gap-2 mt-4 text-sm">
+                                                    <div className="flex flex-col items-center gap-1">
+                                                        <Users className="h-4 w-4 text-gray-500" />
+                                                        <span>{car.features.seats} Seats</span>
+                                                    </div>
+                                                    <div className="flex flex-col items-center gap-1">
+                                                        <Settings className="h-4 w-4 text-gray-500" />
+                                                        <span>{car.features.transmission}</span>
+                                                    </div>
+                                                    <div className="flex flex-col items-center gap-1">
+                                                        <Fuel className="h-4 w-4 text-gray-500" />
+                                                        <span>{car.features.fuel}</span>
+                                                    </div>
+                                                </div>
+                                            </CardContent>
+                                            <CardFooter className="p-4 pt-0">
+                                                <Button asChild className="w-full bg-emerald-600 hover:bg-emerald-700">
+                                                    <Link href={`/cars/${car.id}`}>View Details</Link>
+                                                </Button>
+                                            </CardFooter>
+                                        </Card>
+                                    ))}
+                                </div>
+                                <div className="flex justify-center mt-8">
+                                    <div className="flex items-center gap-2">
+                                        <Button variant="outline" size="icon" disabled>
+                                            <ChevronDown className="h-4 w-4 rotate-90" />
+                                        </Button>
+                                        <Button variant="outline" size="sm" className="h-8 w-8">
+                                            1
+                                        </Button>
+                                        <Button variant="outline" size="sm" className="h-8 w-8">
+                                            2
+                                        </Button>
+                                        <Button variant="outline" size="sm" className="h-8 w-8">
+                                            3
+                                        </Button>
+                                        <Button variant="outline" size="icon">
+                                            <ChevronDown className="h-4 w-4 -rotate-90" />
+                                        </Button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </main>
+            <footer className="flex flex-col gap-2 sm:flex-row py-6 w-full shrink-0 items-center px-4 md:px-6 border-t">
+                <p className="text-xs text-gray-500">© 2023 DriveEasy. All rights reserved.</p>
+                <nav className="sm:ml-auto flex gap-4 sm:gap-6">
+                    <Link className="text-xs hover:underline underline-offset-4" href="#">
+                        Terms of Service
+                    </Link>
+                    <Link className="text-xs hover:underline underline-offset-4" href="#">
+                        Privacy
+                    </Link>
+                    <Link className="text-xs hover:underline underline-offset-4" href="#">
+                        Cookies
+                    </Link>
+                </nav>
+            </footer>
+        </div>
+    )
+}
