@@ -1,25 +1,23 @@
-import Image from "next/image";
+"use client";
+import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
 
-export default function About() {
+export default function AboutPage() {
+    const router = useRouter();
+
+    const handleRedirect = () => {
+        router.push("/");
+    };
+
     return (
-        <div className="container mx-auto py-12 px-4">
-            <h1 className="text-3xl font-bold mb-6">About Us</h1>
-            <div className="grid gap-6 md:grid-cols-2">
-                <div>
-                    <p className="text-gray-600">
-                        Welcome to DriveEasy! We are dedicated to providing the best car rental experience with a modern fleet, convenient locations, and premium service.
-                    </p>
-                </div>
-                <div>
-                    <Image
-                        src="/placeholder.svg?height=400&width=600"
-                        width={600}
-                        height={400}
-                        alt="About Us"
-                        className="rounded-lg"
-                    />
-                </div>
-            </div>
+        <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50">
+            <h1 className="text-4xl font-bold mb-4">About Us</h1>
+            <p className="text-gray-600 text-center max-w-md mb-6">
+                Welcome to DriveEasy! We are committed to providing the best car rental experience with a wide range of vehicles to suit your needs.
+            </p>
+            <Button className="bg-emerald-600 text-white hover:bg-emerald-700" onClick={handleRedirect}>
+                Go Back to Home
+            </Button>
         </div>
     );
 }
