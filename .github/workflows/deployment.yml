@@ -14,3 +14,4 @@ jobs:
           ssh_host: 10.212.25.61
           ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
           ssh_user: ${{ secrets.SSH_USER }}
+          use_stack: 'true'
