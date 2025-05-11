@@ -1,3 +1,4 @@
+"use client";
 import Link from "next/link";
 import Image from "next/image";
 import { CalendarDays, Car, MapPin, Search, Star, Users } from "lucide-react";
@@ -12,8 +13,15 @@ import { FeaturedCars } from "@/components/featured-cars";
 import { Testimonials } from "@/components/testimonials";
 import { SpecialOffers } from "@/components/special-offers";
 import AuthModal from "@/components/AuthModal";
+import {useRouter} from "next/navigation";
 
 export default function Home() {
+    const router = useRouter();
+
+    const handleRedirectToCars = () => {
+        router.push("/cars");
+    };
+
     return (
         <div className="flex flex-col min-h-screen">
             <header className="px-4 lg:px-6 h-16 flex items-center justify-between border-b">
@@ -57,7 +65,7 @@ export default function Home() {
                                     </p>
                                 </div>
                                 <div className="flex flex-col gap-2 min-[400px]:flex-row">
-                                    <Button size="lg" className="bg-emerald-600 hover:bg-emerald-700">
+                                    <Button size="lg" className="bg-emerald-600 hover:bg-emerald-700" onClick={handleRedirectToCars}>
                                         Browse Cars
                                     </Button>
                                     <Button size="lg" variant="outline">
