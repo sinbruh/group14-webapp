@@ -10,22 +10,13 @@ jobs:
       MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
       MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
 
-    services:
-      docker:
-        image: docker:20.10.24-dind
-        options: --privileged
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-      - name: Set up docker
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y docker-compose
       - name: Build and start containers
         run: docker compose -f compose.yaml up --build &
       - name: Wait for backend to be ready
-        run: sleep 15
+        run: sleep 90
       - name: Install Postman CLI
         run: |
           curl -o- "https://dl-cli.pstmn.io/install/linux64.sh" | sh
