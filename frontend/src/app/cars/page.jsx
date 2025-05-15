@@ -149,9 +149,6 @@ export default function CarsPage() {
                     <Link className="text-sm font-medium hover:underline underline-offset-4 text-emerald-600" href="/cars">
                         Cars
                     </Link>
-                    <Link className="text-sm font-medium hover:underline underline-offset-4" href="/locations">
-                        Locations
-                    </Link>
                     <Link className="text-sm font-medium hover:underline underline-offset-4" href="/about">
                         About
                     </Link>
