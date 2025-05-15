@@ -49,12 +49,6 @@ export default function Home() {
           </Link>
           <Link
             className="text-sm font-medium hover:underline underline-offset-4"
-            href="/locations"
-          >
-            Locations
-          </Link>
-          <Link
-            className="text-sm font-medium hover:underline underline-offset-4"
             href="/about"
           >
             About
