@@ -5,6 +5,7 @@ import no.ntnu.project.group14.webapp.models.ExtraFeature;
 import no.ntnu.project.group14.webapp.repositories.ExtraFeatureRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * The ExtraFeatureService class represents the service class for the extra feature entity.
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
  * @version v1.0 (2024.05.22)
  */
 @Service
+@Transactional(readOnly = true)
 public class ExtraFeatureService {
   @Autowired
   private ExtraFeatureRepository extraFeatureRepository;
@@ -43,6 +45,7 @@ public class ExtraFeatureService {
    * @return The generated ID of the specified extra feature if it is added to the database
    * @throws IllegalArgumentException If the specified extra feature is invalid
    */
+  @Transactional
   public Long add(ExtraFeature extraFeature) {
     if (!extraFeature.isValid()) {
       throw new IllegalArgumentException("Extra feature is invalid");
@@ -61,6 +64,7 @@ public class ExtraFeatureService {
    *         specified extra feature or false otherwise
    * @throws IllegalArgumentException If the specified extra feature is invalid
    */
+  @Transactional
   public boolean update(Long id, ExtraFeature extraFeature) {
     Optional<ExtraFeature> existingExtraFeature = this.extraFeatureRepository.findById(id);
     if (!extraFeature.isValid()) {
@@ -82,6 +86,7 @@ public class ExtraFeatureService {
    * @return True if the extra feature with the specified ID is found and deleted or false
    *         otherwise
    */
+  @Transactional
   public boolean delete(Long id) {
     Optional<ExtraFeature> extraFeature = this.extraFeatureRepository.findById(id);
     if (extraFeature.isPresent()) {

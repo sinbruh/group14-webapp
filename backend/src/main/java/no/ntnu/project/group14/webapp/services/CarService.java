@@ -5,6 +5,7 @@ import no.ntnu.project.group14.webapp.models.Car;
 import no.ntnu.project.group14.webapp.repositories.CarRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * The CarService class represents the service class for the car entity.
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
  * @version v1.0 (2024.05.22)
  */
 @Service
+@Transactional(readOnly = true)
 public class CarService {
   @Autowired
   private CarRepository carRepository;
@@ -43,6 +45,7 @@ public class CarService {
    * @return The generated ID of the specified car if it is added to the database
    * @throws IllegalArgumentException If the specified car is invalid
    */
+  @Transactional
   public Long add(Car car) {
     if (!car.isValid()) {
       throw new IllegalArgumentException("Car is invalid");
@@ -61,6 +64,7 @@ public class CarService {
    *         false otherwise
    * @throws IllegalArgumentException If the specified car is invalid
    */
+  @Transactional
   public boolean update(Long id, Car car) {
     Optional<Car> existingCar = this.carRepository.findById(id);
     if (!car.isValid()) {
@@ -82,6 +86,7 @@ public class CarService {
    * @param id The specified ID
    * @return True if the car with the specified ID is found and deleted or false otherwise
    */
+  @Transactional
   public boolean delete(Long id) {
     Optional<Car> car = this.carRepository.findById(id);
     if (car.isPresent()) {
