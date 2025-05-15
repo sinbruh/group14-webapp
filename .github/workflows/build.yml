@@ -1,7 +1,7 @@
 name: Publish Docker Images
 on:
-  push:
-    branches: [cd_test]
+  release:
+    types: [published]
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
@@ -17,6 +17,10 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Build and push images
+        env:
+          TAG: ${{ github.event.release.tag_name }}
         run: |
-          docker compose build
+          sed -i "s/frontend:latest/frontend:$TAG/" docker-compose.yml
+          sed -i "s/backend:latest/backend:$TAG/" docker-compose.yml
+          docker compose build --no-cache
           docker compose push
