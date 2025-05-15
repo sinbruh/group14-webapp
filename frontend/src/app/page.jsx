@@ -1,6 +1,5 @@
 "use client";
 import Link from "next/link";
-import Image from "next/image";
 import { CalendarDays, Car, MapPin, Search, Star, Users } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -163,7 +162,7 @@ export default function Home() {
                               </SelectContent>
                             </Select>
                           </div>
-                          <Button className="w-full bg-emerald-600 hover:bg-emerald-700">
+                          <Button className="w-full bg-emerald-600 hover:bg-emerald-700" onClick={handleRedirectToCars}>
                             <Search className="mr-2 h-4 w-4" />
                             Search Cars
                           </Button>
