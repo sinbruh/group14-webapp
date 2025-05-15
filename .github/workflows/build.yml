@@ -15,5 +15,5 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Build and push images
         run: |
-          docker-compose build
-          docker-compose push
+          docker compose build
+          docker compose push
