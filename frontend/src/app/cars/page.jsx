@@ -140,7 +140,7 @@ export default function CarsPage() {
             <header className="px-4 lg:px-6 h-16 flex items-center justify-between border-b">
                 <Link className="flex items-center gap-2 font-semibold" href="/">
                     <Car className="h-6 w-6 text-emerald-600" />
-                    <span>DriveEasy</span>
+                    <span>RentalRoulette</span>
                 </Link>
                 <nav className="hidden md:flex gap-6">
                     <Link className="text-sm font-medium hover:underline underline-offset-4" href="/">
