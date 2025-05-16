@@ -5,6 +5,7 @@ import no.ntnu.project.group14.webapp.models.Receipt;
 import no.ntnu.project.group14.webapp.repositories.ReceiptRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * The ReceiptService class represents the service class for the receipt entity.
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
  * @version 1.1 (2024.05.21)
  */
 @Service
+@Transactional(readOnly = true)
 public class ReceiptService {
   @Autowired
   private ReceiptRepository receiptRepository;
@@ -43,6 +45,7 @@ public class ReceiptService {
    * @return The generated ID of the specified receipt if it is added to the database
    * @throws IllegalArgumentException If the specified receipt is invalid
    */
+  @Transactional
   public Long add(Receipt receipt) {
     if (!receipt.isValid()) {
       throw new IllegalArgumentException("The specified receipt is invalid");
@@ -57,6 +60,7 @@ public class ReceiptService {
    * @param id The specified ID
    * @return True if the receipt with the specified ID is found and deleted or false otherwise
    */
+  @Transactional
   public boolean delete(Long id) {
     Optional<Receipt> receipt = this.receiptRepository.findById(id);
     if (receipt.isPresent()) {

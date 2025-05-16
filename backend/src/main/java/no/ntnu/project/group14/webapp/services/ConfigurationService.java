@@ -5,6 +5,7 @@ import no.ntnu.project.group14.webapp.models.Configuration;
 import no.ntnu.project.group14.webapp.repositories.ConfigurationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * The ConfigurationService class represents the service class for the configuration entity.
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
  * @version v1.0 (2024.05.22)
  */
 @Service
+@Transactional(readOnly = true)
 public class ConfigurationService {
   @Autowired
   private ConfigurationRepository configurationRepository;
@@ -43,6 +45,7 @@ public class ConfigurationService {
    * @return The generated ID of the specified configuration if it is added to the database
    * @throws IllegalArgumentException If the specified configuration is invalid
    */
+  @Transactional
   public Long add(Configuration configuration) {
     if (!configuration.isValid()) {
       throw new IllegalArgumentException("Configuration is invalid");
@@ -61,6 +64,7 @@ public class ConfigurationService {
    *         specified configuration or false otherwise
    * @throws IllegalArgumentException If the specified configuration is invalid
    */
+  @Transactional
   public boolean update(Long id, Configuration config) {
     Optional<Configuration> existingConfig = this.configurationRepository.findById(id);
     if (!config.isValid()) {
@@ -85,6 +89,7 @@ public class ConfigurationService {
    * @return True if the configuration with the specified ID is found and deleted or false
    *         otherwise
    */
+  @Transactional
   public boolean delete(Long id) {
     Optional<Configuration> configuration = this.configurationRepository.findById(id);
     if (configuration.isPresent()) {

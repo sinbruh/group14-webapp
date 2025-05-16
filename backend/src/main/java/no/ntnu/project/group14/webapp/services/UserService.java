@@ -5,6 +5,7 @@ import no.ntnu.project.group14.webapp.models.User;
 import no.ntnu.project.group14.webapp.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * The UserService class represents the service class for the user entity.
@@ -13,7 +14,9 @@ import org.springframework.stereotype.Service;
  * @version v1.0 (2024.05.22)
  */
 @Service
+@Transactional(readOnly = true)
 public class UserService {
+
   @Autowired
   private UserRepository userRepository;
 
@@ -53,6 +56,7 @@ public class UserService {
    * @return The generated ID of the specified user if it is added to the database
    * @throws IllegalArgumentException If the specified user is invalid
    */
+  @Transactional
   public Long add(User user) {
     if (!user.isValid()) {
       throw new IllegalArgumentException("User is invalid");
@@ -71,6 +75,7 @@ public class UserService {
    *         user or false otherwise
    * @throws IllegalArgumentException If the specified user is invalid
    */
+  @Transactional
   public boolean update(Long id, User user) {
     Optional<User> existingUser = this.userRepository.findById(id);
     if (!user.isValid()) {
@@ -99,6 +104,7 @@ public class UserService {
    * @param id The specified ID
    * @return True if the user with the specified ID is found and deleted or false otherwise
    */
+  @Transactional
   public boolean delete(Long id) {
     Optional<User> user = this.userRepository.findById(id);
     if (user.isPresent()) {

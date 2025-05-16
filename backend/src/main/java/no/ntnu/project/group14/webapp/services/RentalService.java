@@ -5,6 +5,7 @@ import no.ntnu.project.group14.webapp.models.Rental;
 import no.ntnu.project.group14.webapp.repositories.RentalRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * The RentalService class represents the service class for the rental entity.
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
  * @version v1.0 (2024.05.22)
  */
 @Service
+@Transactional(readOnly = true)
 public class RentalService {
   @Autowired
   private RentalRepository rentalRepository;
@@ -43,6 +45,7 @@ public class RentalService {
    * @return The generated ID of the specified rental if it is added to the database
    * @throws IllegalArgumentException If the specified rental is invalid
    */
+  @Transactional
   public Long add(Rental rental) {
     if (!rental.isValid()) {
       throw new IllegalArgumentException("Rental is invalid");
@@ -61,6 +64,7 @@ public class RentalService {
    *         rental or false otherwise
    * @throws IllegalArgumentException If the specified rental is invalid
    */
+  @Transactional
   public boolean update(Long id, Rental rental) {
     Optional<Rental> existingRental = this.rentalRepository.findById(id);
     if (!rental.isValid()) {
@@ -81,6 +85,7 @@ public class RentalService {
    * @param id The specified ID
    * @return True if the rental with the specified ID is found and deleted or false otherwise
    */
+  @Transactional
   public boolean delete(Long id) {
     Optional<Rental> rental = this.rentalRepository.findById(id);
     if (rental.isPresent()) {

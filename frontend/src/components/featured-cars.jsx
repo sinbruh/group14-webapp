@@ -1,13 +1,28 @@
-import Image from "next/image"
-import Link from "next/link"
-import { Fuel, Settings, Users } from "lucide-react"
-import { ChevronRight } from "lucide-react"
+import { useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { Fuel, Settings, Users } from "lucide-react";
+import { ChevronRight } from "lucide-react";
 
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
+import { CarModal } from "@/components/carModal";
 
 export function FeaturedCars() {
+    const [selectedCar, setSelectedCar] = useState(null);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const openModal = (car) => {
+        setSelectedCar(car);
+        setIsModalOpen(true);
+    };
+
+    const closeModal = () => {
+        setSelectedCar(null);
+        setIsModalOpen(false);
+    };
+
     const featuredCars = [
         {
             id: 1,
@@ -61,7 +76,7 @@ export function FeaturedCars() {
             },
             isNew: true,
         },
-    ]
+    ];
 
     return (
         <section className="w-full py-12 md:py-24 lg:py-32">
@@ -116,8 +131,11 @@ export function FeaturedCars() {
                                 </div>
                             </CardContent>
                             <CardFooter className="p-4 pt-0">
-                                <Button asChild className="w-full bg-emerald-600 hover:bg-emerald-700">
-                                    <Link href={`/cars/${car.id}`}>View Details</Link>
+                                <Button
+                                    className="w-full bg-emerald-600 text-white hover:bg-emerald-700"
+                                    onClick={() => openModal(car)}
+                                >
+                                    View Details
                                 </Button>
                             </CardFooter>
                         </Card>
@@ -132,6 +150,10 @@ export function FeaturedCars() {
                     </Button>
                 </div>
             </div>
+
+            {isModalOpen && selectedCar && (
+                <CarModal car={selectedCar} isOpen={isModalOpen} onClose={closeModal} />
+            )}
         </section>
-    )
+    );
 }

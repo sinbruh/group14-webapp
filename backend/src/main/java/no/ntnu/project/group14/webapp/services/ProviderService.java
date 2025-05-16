@@ -5,6 +5,7 @@ import no.ntnu.project.group14.webapp.models.Provider;
 import no.ntnu.project.group14.webapp.repositories.ProviderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * The ProviderService class represents the service class for the provider entity.
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
  * @version v1.0 (2024.05.22)
  */
 @Service
+@Transactional(readOnly = true)
 public class ProviderService {
   @Autowired
   private ProviderRepository providerRepository;
@@ -43,6 +45,7 @@ public class ProviderService {
    * @return The generated ID of the specified provider if it is added to the database
    * @throws IllegalArgumentException If the specified provider is invalid
    */
+  @Transactional
   public Long add(Provider provider) {
     if (!provider.isValid()) {
       throw new IllegalArgumentException("Provider is invalid");
@@ -61,6 +64,7 @@ public class ProviderService {
    *         provider or false otherwise
    * @throws IllegalArgumentException If the specified provider is invalid
    */
+  @Transactional
   public boolean update(Long id, Provider provider) {
     Optional<Provider> existingProvider = this.providerRepository.findById(id);
     if (!provider.isValid()) {
@@ -84,6 +88,7 @@ public class ProviderService {
    * @param id The specified ID
    * @return True if the provider with the specified ID is found and deleted or false otherwise
    */
+  @Transactional
   public boolean delete(Long id) {
     Optional<Provider> provider = this.providerRepository.findById(id);
     if (provider.isPresent()) {
