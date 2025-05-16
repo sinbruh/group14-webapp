@@ -75,7 +75,7 @@ public class CarController {
     if (sessionUser == null || (sessionUser != null && !sessionUser.isAdmin())) {
       for (Car car : cars) {
         for (Configuration config : car.getConfigurations()) {
-          Iterator<Provider> it = config.getProviders().iterator();
+          Iterator<Provider> it = config.getRentalObjects().iterator();
           while (it.hasNext()) {
             if (!it.next().isVisible()) {
               it.remove();
@@ -127,7 +127,7 @@ public class CarController {
       Car existingCar = car.get();
       if (sessionUser == null || (sessionUser != null && !sessionUser.isAdmin())) {
         for (Configuration config : existingCar.getConfigurations()) {
-          Iterator<Provider> it = config.getProviders().iterator();
+          Iterator<Provider> it = config.getRentalObjects().iterator();
           if (it.hasNext()) {
             if (!it.next().isVisible()) {
               it.remove();

@@ -1,6 +1,8 @@
 package no.ntnu.project.group14.webapp.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -44,9 +46,10 @@ public class Configuration {
   @Schema(description = "Extra features in the configuration")
   @OneToMany(mappedBy = "configuration")
   private Set<ExtraFeature> extraFeatures = new LinkedHashSet<>();
-  @Schema(description = "Providers of the configuration")
+  @JsonManagedReference
+  @Schema(description = "Rental objects distributing the configuration")
   @OneToMany(mappedBy = "configuration")
-  private Set<Provider> providers = new LinkedHashSet<>();
+  private Set<Provider> rentalObjects = new LinkedHashSet<>();
 
   /**
    * Constructs an instance of the Configuration class.
@@ -199,21 +202,12 @@ public class Configuration {
   }
 
   /**
-   * Getter for providers.
+   * Getter for rental objects.
    *
-   * @return Providers
+   * @return Rental objects
    */
-  public Set<Provider> getProviders() {
-    return this.providers;
-  }
-
-  /**
-   * Setter for providers.
-   *
-   * @param providers The specified providers
-   */
-  public void setProviders(Set<Provider> providers) {
-    this.providers = providers;
+  public Set<Provider> getRentalObjects() {
+    return this.rentalObjects;
   }
 
   /**

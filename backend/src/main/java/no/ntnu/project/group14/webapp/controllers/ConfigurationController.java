@@ -77,7 +77,7 @@ public class ConfigurationController {
     User sessionUser = this.userService.getSessionUser();
     if (sessionUser == null || (sessionUser != null && !sessionUser.isAdmin())) {
       for (Configuration config : configurations) {
-        Iterator<Provider> it = config.getProviders().iterator();
+        Iterator<Provider> it = config.getRentalObjects().iterator();
         if (it.hasNext()) {
           if (!it.next().isVisible()) {
             it.remove();
@@ -128,7 +128,7 @@ public class ConfigurationController {
     if (configuration.isPresent()) {
       Configuration existingConfiguration = configuration.get();
       if (sessionUser == null || (sessionUser != null & !sessionUser.isAdmin())) {
-        Iterator<Provider> it = existingConfiguration.getProviders().iterator();
+        Iterator<Provider> it = existingConfiguration.getRentalObjects().iterator();
         if (it.hasNext()) {
           if (!it.next().isVisible()) {
             it.remove();
