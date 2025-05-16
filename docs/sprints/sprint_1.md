@@ -19,3 +19,26 @@ researching database transactions in the backend.
 
 Once we have identified areas that need improvement in the backend, we can create issues and distribute the backend
 work between each team member so that everyone has something to do on the backend.
+
+# Review
+
+Goals completed:
+
+* Set up a containerized development environment using docker.
+* Implement a basic frontend.
+* Set up a deployment server.
+* Set up a CI/CD pipeline.
+
+Not completeted:
+
+* Review backend. Reason: Have reviewed the database, backend is next
+
+## Retrospective
+Good: 
+
+* Worked individually when we had time.
+* Good planning of work.
+
+Bad:
+
+* Could have a little worked more.
