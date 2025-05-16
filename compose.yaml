@@ -3,6 +3,7 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
+    image: ghcr.io/sinbruh/group14-webapp/backend:latest
     environment:
       - JWT_SECRET_KEY=${JWT_SECRET_KEY}
       - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/webapp
@@ -44,6 +45,7 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile
+    image: ghcr.io/sinbruh/group14-webapp/frontend:latest
     environment:
       - NODE_ENV=production
     ports:
