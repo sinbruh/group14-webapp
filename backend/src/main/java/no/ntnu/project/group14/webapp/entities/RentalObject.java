@@ -1,6 +1,7 @@
 package no.ntnu.project.group14.webapp.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Column;
@@ -39,6 +40,12 @@ public class RentalObject {
   @Column(name = "visible")
   @Schema(description = "Rental object visibility in UI")
   private boolean visible;
+
+  @ManyToOne
+  @JsonManagedReference
+  @JoinColumn(name = "provider_id")
+  @Schema(description = "Provider distributing rental object")
+  private Provider provider;
 
   @ManyToOne
   @JsonBackReference
@@ -123,6 +130,15 @@ public class RentalObject {
    */
   public void setVisible(boolean visible) {
     this.visible = visible;
+  }
+
+  /**
+   * Getter for provider.
+   * 
+   * @return Provider
+   */
+  public Provider getProvider() {
+    return this.provider;
   }
 
   /**
