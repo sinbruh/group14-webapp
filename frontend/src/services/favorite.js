@@ -1,4 +1,4 @@
-import { asyncApiRequest } from '@/tools/request';
+import { asyncApiRequest } from '@/services/request';
 import { create } from 'zustand';
 
 export async function sendFavoriteRequest(providerID) {

@@ -1,5 +1,5 @@
-import {getCookie} from "@/tools/cookies";
-import {HttpResponseError} from "@/tools/HttpResponseError";
+import {getCookie} from "@/services/cookies";
+import {HttpResponseError} from "@/services/HttpResponseError";
 
 
 export function asyncApiRequest(method, url, requestBody = null, returnPlainText = false) {

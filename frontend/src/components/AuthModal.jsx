@@ -1,10 +1,11 @@
-"use client";
-
 import { useState } from "react";
+import { isAdmin, isUser, sendAuthenticationRequest } from "@/services/authentication";
+import { useRouter } from "next/navigation";
 
 export default function AuthModal() {
     const [isLoginOpen, setIsLoginOpen] = useState(false);
     const [isSignupOpen, setIsSignupOpen] = useState(false);
+    const router = useRouter();
 
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -13,14 +14,18 @@ export default function AuthModal() {
                 e.target.email.value,
                 e.target.password.value,
                 (userData) => {
-                    setIsLoginOpen(false);
+                    if (isAdmin()) {
+                        router.push("/AdminPage");
+                    } else if (isUser()) {
+                        setIsLoginOpen(false);
+                    }
                 },
                 (error) => {
-                    alert('Login failed: ', ${error});
+                    alert("Login failed: " + error);
                 }
             );
         } catch (err) {
-            console.error('Error during login:', ${err});
+            console.error(`Error during login: ${err}`);
         }
     };
 
