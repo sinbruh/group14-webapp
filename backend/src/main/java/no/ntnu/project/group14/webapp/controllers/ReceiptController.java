@@ -4,9 +4,10 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import java.util.Optional;
-import no.ntnu.project.group14.webapp.models.Receipt;
-import no.ntnu.project.group14.webapp.models.Rental;
-import no.ntnu.project.group14.webapp.models.User;
+
+import no.ntnu.project.group14.webapp.entities.Receipt;
+import no.ntnu.project.group14.webapp.entities.Rental;
+import no.ntnu.project.group14.webapp.entities.User;
 import no.ntnu.project.group14.webapp.services.AccessUserService;
 import no.ntnu.project.group14.webapp.services.ReceiptService;
 import no.ntnu.project.group14.webapp.services.RentalService;

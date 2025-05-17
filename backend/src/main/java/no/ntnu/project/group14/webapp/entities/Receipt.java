@@ -1,4 +1,4 @@
-package no.ntnu.project.group14.webapp.models;
+package no.ntnu.project.group14.webapp.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;

@@ -5,9 +5,10 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import java.util.Optional;
-import no.ntnu.project.group14.webapp.models.Configuration;
-import no.ntnu.project.group14.webapp.models.ExtraFeature;
-import no.ntnu.project.group14.webapp.models.User;
+
+import no.ntnu.project.group14.webapp.entities.Configuration;
+import no.ntnu.project.group14.webapp.entities.ExtraFeature;
+import no.ntnu.project.group14.webapp.entities.User;
 import no.ntnu.project.group14.webapp.services.AccessUserService;
 import no.ntnu.project.group14.webapp.services.ConfigurationService;
 import no.ntnu.project.group14.webapp.services.ExtraFeatureService;

@@ -1,8 +1,9 @@
 package no.ntnu.project.group14.webapp.repositories;
 
-import no.ntnu.project.group14.webapp.models.Provider;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
+
+import no.ntnu.project.group14.webapp.entities.Provider;
 
 /**
  * The ProviderRepository class represents the repository class for the provider entity.

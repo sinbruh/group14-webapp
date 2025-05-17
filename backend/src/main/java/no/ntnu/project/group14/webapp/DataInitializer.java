@@ -1,14 +1,14 @@
 package no.ntnu.project.group14.webapp;
 
 import no.ntnu.project.group14.webapp.dto.UserUpdatePasswordDto;
-import no.ntnu.project.group14.webapp.models.Car;
-import no.ntnu.project.group14.webapp.models.Configuration;
-import no.ntnu.project.group14.webapp.models.ExtraFeature;
-import no.ntnu.project.group14.webapp.models.Provider;
-import no.ntnu.project.group14.webapp.models.Receipt;
-import no.ntnu.project.group14.webapp.models.Rental;
-import no.ntnu.project.group14.webapp.models.Role;
-import no.ntnu.project.group14.webapp.models.User;
+import no.ntnu.project.group14.webapp.entities.Car;
+import no.ntnu.project.group14.webapp.entities.Configuration;
+import no.ntnu.project.group14.webapp.entities.ExtraFeature;
+import no.ntnu.project.group14.webapp.entities.Provider;
+import no.ntnu.project.group14.webapp.entities.Receipt;
+import no.ntnu.project.group14.webapp.entities.Rental;
+import no.ntnu.project.group14.webapp.entities.Role;
+import no.ntnu.project.group14.webapp.entities.User;
 import no.ntnu.project.group14.webapp.repositories.RoleRepository;
 import no.ntnu.project.group14.webapp.services.AccessUserService;
 import no.ntnu.project.group14.webapp.services.CarService;

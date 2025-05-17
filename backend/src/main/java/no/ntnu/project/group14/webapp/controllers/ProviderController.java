@@ -7,9 +7,10 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import java.util.LinkedHashSet;
 import java.util.Optional;
 import java.util.Set;
-import no.ntnu.project.group14.webapp.models.Configuration;
-import no.ntnu.project.group14.webapp.models.Provider;
-import no.ntnu.project.group14.webapp.models.User;
+
+import no.ntnu.project.group14.webapp.entities.Configuration;
+import no.ntnu.project.group14.webapp.entities.Provider;
+import no.ntnu.project.group14.webapp.entities.User;
 import no.ntnu.project.group14.webapp.services.AccessUserService;
 import no.ntnu.project.group14.webapp.services.ConfigurationService;
 import no.ntnu.project.group14.webapp.services.ProviderService;

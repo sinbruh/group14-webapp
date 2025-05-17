@@ -2,10 +2,11 @@ package no.ntnu.project.group14.webapp.dto;
 
 import java.sql.Date;
 import java.util.Set;
-import no.ntnu.project.group14.webapp.models.Provider;
-import no.ntnu.project.group14.webapp.models.Receipt;
-import no.ntnu.project.group14.webapp.models.Rental;
-import no.ntnu.project.group14.webapp.models.Role;
+
+import no.ntnu.project.group14.webapp.entities.Provider;
+import no.ntnu.project.group14.webapp.entities.Receipt;
+import no.ntnu.project.group14.webapp.entities.Rental;
+import no.ntnu.project.group14.webapp.entities.Role;
 
 /**
  * The UserDto class represents the data transfer object (DTO) for receiving user data.

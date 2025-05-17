@@ -4,11 +4,13 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
-import no.ntnu.project.group14.webapp.models.Role;
-import no.ntnu.project.group14.webapp.models.User;
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
+import no.ntnu.project.group14.webapp.entities.Role;
+import no.ntnu.project.group14.webapp.entities.User;
 
 
 /**

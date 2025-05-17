@@ -1,7 +1,8 @@
 package no.ntnu.project.group14.webapp.services;
 
 import java.util.Optional;
-import no.ntnu.project.group14.webapp.models.Provider;
+
+import no.ntnu.project.group14.webapp.entities.Provider;
 import no.ntnu.project.group14.webapp.repositories.ProviderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
