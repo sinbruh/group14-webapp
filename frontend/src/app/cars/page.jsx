@@ -1,18 +1,18 @@
 "use client";
-import Link from "next/link"
-import Image from "next/image"
-import { Car, ChevronDown, Filter, Fuel, Search, Settings, Users } from "lucide-react"
-
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
-import { Checkbox } from "@/components/ui/checkbox"
-import { Slider } from "@/components/ui/slider"
-import {useState} from "react";
-import {CarModal, carModal} from "@/components/carModal";
+import Link from "next/link";
+import Image from "next/image";
+import { useState } from "react";
+import { Car, ChevronDown, Filter, Fuel, Search, Settings, Users } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Slider } from "@/components/ui/slider";
+import { CarModal } from "@/components/carModal";
+import AuthModal from "@/components/AuthModal";
 
 export default function CarsPage() {
     const [selectedCar, setSelectedCar] = useState(null);
@@ -26,114 +26,42 @@ export default function CarsPage() {
     const closeModal = () => {
         setSelectedCar(null);
         setIsModalOpen(false);
-    }
+    };
 
     const cars = [
-        {
-            id: 1,
-            name: "Toyota Camry",
-            category: "Sedan",
-            price: 45,
+        { id: 1, name: "Toyota Camry", category: "Sedan", price: 45,
             image: "/placeholder.svg?height=200&width=300",
-            features: {
-                seats: 5,
-                transmission: "Automatic",
-                fuel: "Hybrid",
-            },
-            isNew: true,
-        },
-        {
-            id: 2,
-            name: "Honda CR-V",
-            category: "SUV",
-            price: 65,
+            features: { seats: 5, transmission: "Automatic", fuel: "Hybrid" },
+            isNew: true },
+        { id: 2, name: "Honda CR-V", category: "SUV", price: 65,
             image: "/placeholder.svg?height=200&width=300",
-            features: {
-                seats: 5,
-                transmission: "Automatic",
-                fuel: "Gasoline",
-            },
-            isNew: false,
-        },
-        {
-            id: 3,
-            name: "BMW 3 Series",
-            category: "Luxury",
-            price: 95,
+            features: { seats: 5, transmission: "Automatic", fuel: "Gasoline" },
+            isNew: false },
+        { id: 3, name: "BMW 3 Series", category: "Luxury", price: 95,
             image: "/placeholder.svg?height=200&width=300",
-            features: {
-                seats: 5,
-                transmission: "Automatic",
-                fuel: "Gasoline",
-            },
-            isNew: false,
-        },
-        {
-            id: 4,
-            name: "Tesla Model 3",
-            category: "Electric",
-            price: 85,
+            features: { seats: 5, transmission: "Automatic", fuel: "Gasoline" },
+            isNew: false },
+        { id: 4, name: "Tesla Model 3", category: "Electric", price: 85,
             image: "/placeholder.svg?height=200&width=300",
-            features: {
-                seats: 5,
-                transmission: "Automatic",
-                fuel: "Electric",
-            },
-            isNew: true,
-        },
-        {
-            id: 5,
-            name: "Ford Mustang",
-            category: "Sports",
-            price: 110,
+            features: { seats: 5, transmission: "Automatic", fuel: "Electric" },
+            isNew: true },
+        { id: 5, name: "Ford Mustang", category: "Sports", price: 110,
             image: "/placeholder.svg?height=200&width=300",
-            features: {
-                seats: 4,
-                transmission: "Automatic",
-                fuel: "Gasoline",
-            },
-            isNew: false,
-        },
-        {
-            id: 6,
-            name: "Chevrolet Suburban",
-            category: "SUV",
-            price: 120,
+            features: { seats: 4, transmission: "Automatic", fuel: "Gasoline" },
+            isNew: false },
+        { id: 6, name: "Chevrolet Suburban", category: "SUV", price: 120,
             image: "/placeholder.svg?height=200&width=300",
-            features: {
-                seats: 8,
-                transmission: "Automatic",
-                fuel: "Gasoline",
-            },
-            isNew: false,
-        },
-        {
-            id: 7,
-            name: "Audi A4",
-            category: "Luxury",
-            price: 90,
+            features: { seats: 8, transmission: "Automatic", fuel: "Gasoline" },
+            isNew: false },
+        { id: 7, name: "Audi A4", category: "Luxury", price: 90,
             image: "/placeholder.svg?height=200&width=300",
-            features: {
-                seats: 5,
-                transmission: "Automatic",
-                fuel: "Gasoline",
-            },
-            isNew: false,
-        },
-        {
-            id: 8,
-            name: "Nissan Leaf",
-            category: "Electric",
-            price: 70,
+            features: { seats: 5, transmission: "Automatic", fuel: "Gasoline" },
+            isNew: false },
+        { id: 8, name: "Nissan Leaf", category: "Electric", price: 70,
             image: "/placeholder.svg?height=200&width=300",
-            features: {
-                seats: 5,
-                transmission: "Automatic",
-                fuel: "Electric",
-            },
-            isNew: false,
-        },
-    ]
+            features: { seats: 5, transmission: "Automatic", fuel: "Electric" },
+            isNew: false },
+    ];
 
     return (
         <div className="flex flex-col min-h-screen">
@@ -157,14 +85,10 @@ export default function CarsPage() {
                     </Link>
                 </nav>
                 <div className="flex items-center gap-4">
-                    <Link className="text-sm font-medium hover:underline underline-offset-4" href="/login">
-                        Log In
-                    </Link>
-                    <Button asChild size="sm">
-                        <Link href="/register">Sign Up</Link>
-                    </Button>
+                    <AuthModal />
                 </div>
             </header>
+
             <main className="flex-1">
                 <section className="w-full py-12 md:py-24 lg:py-32 bg-emerald-50">
                     <div className="container px-4 md:px-6">
@@ -178,7 +102,11 @@ export default function CarsPage() {
                             <div className="w-full max-w-sm">
                                 <div className="relative">
                                     <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500" />
-                                    <Input type="search" placeholder="Search cars..." className="w-full bg-white pl-8 rounded-full" />
+                                    <Input
+                                        type="search"
+                                        placeholder="Search cars..."
+                                        className="w-full bg-white pl-8 rounded-full"
+                                    />
                                 </div>
                             </div>
                         </div>
@@ -374,7 +302,9 @@ export default function CarsPage() {
                                                         height={200}
                                                         className="w-full object-cover h-48"
                                                     />
-                                                    {car.isNew && <Badge className="absolute top-2 right-2 bg-emerald-600">New</Badge>}
+                                                    {car.isNew && (
+                                                        <Badge className="absolute top-2 right-2 bg-emerald-600">New</Badge>
+                                                    )}
                                                 </div>
                                             </CardHeader>
                                             <CardContent className="p-4">

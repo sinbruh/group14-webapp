@@ -1,6 +1,7 @@
 "use client";
 import Link from "next/link";
 import { Car } from "lucide-react";
+import AuthModal from "@/components/AuthModal";
 
 export default function ContactPage() {
     return (
@@ -25,18 +26,13 @@ export default function ContactPage() {
                     </Link>
                 </nav>
                 <div className="flex items-center gap-4">
-                    <Link className="text-sm font-medium hover:underline underline-offset-4" href="/login">
-                        Log In
-                    </Link>
-                    <button className="px-4 py-2 bg-emerald-600 text-white rounded hover:bg-emerald-700">
-                        <Link href="/register">Sign Up</Link>
-                    </button>
+                    <AuthModal />
                 </div>
             </header>
             <main className="container mx-auto px-4 py-8">
                 <h1 className="text-4xl font-bold text-emerald-600 mb-4">Contact Us</h1>
                 <p className="text-lg text-gray-600 leading-relaxed">
-                    Have questions or need assistance? We're here to help! Reach out to us through any of the methods below.
+                    Have questions or need assistance\? We\'re here to help\! Reach out to us through any of the methods below.
                 </p>
                 <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="p-6 bg-gray-100 rounded-lg shadow">

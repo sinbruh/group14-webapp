@@ -1,6 +1,7 @@
 "use client";
 import Link from "next/link";
 import { Car } from "lucide-react";
+import AuthModal from "@/components/AuthModal";
 
 export default function AboutPage() {
     return (
@@ -25,31 +26,27 @@ export default function AboutPage() {
                     </Link>
                 </nav>
                 <div className="flex items-center gap-4">
-                    <Link className="text-sm font-medium hover:underline underline-offset-4" href="/login">
-                        Log In
-                    </Link>
-                    <button className="px-4 py-2 bg-emerald-600 text-white rounded hover:bg-emerald-700">
-                        <Link href="/register">Sign Up</Link>
-                    </button>
+                    <AuthModal />
                 </div>
             </header>
             <main className="container mx-auto px-4 py-8">
                 <h1 className="text-4xl font-bold text-emerald-600 mb-4">About Us</h1>
                 <p className="text-lg text-gray-600 leading-relaxed">
-                    Welcome to RentalRoulette! We are committed to providing the best car rental experience for our customers.
-                    Our mission is to make car rentals simple, affordable, and accessible for everyone. Whether you're
-                    planning a road trip or need a car for daily use, RentalRoulette has got you covered.
+                    Welcome to RentalRoulette\! We are committed to providing the best car rental experience
+                    for our customers. Our mission is to make car rentals simple, affordable, and accessible
+                    for everyone. Whether you\`re planning a road trip or need a car for daily use,
+                    RentalRoulette has got you covered.
                 </p>
                 <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="p-6 bg-gray-100 rounded-lg shadow">
                         <h2 className="text-2xl font-semibold mb-2">Our Mission</h2>
                         <p className="text-gray-600">
-                            To provide reliable and affordable car rental services while ensuring customer satisfaction
-                            and convenience.
+                            To provide reliable and affordable car rental services while ensuring customer
+                            satisfaction and convenience.
                         </p>
                     </div>
                     <div className="p-6 bg-gray-100 rounded-lg shadow">
-                        <h2 className="text-2xl font-semibold mb-2">Why Choose Us?</h2>
+                        <h2 className="text-2xl font-semibold mb-2">Why Choose Us\?</h2>
                         <ul className="list-disc list-inside text-gray-600">
                             <li>Wide range of vehicles to choose from</li>
                             <li>Affordable pricing</li>
