@@ -9,26 +9,18 @@ export default function AuthModal() {
     const handleLogin = async (e) => {
         e.preventDefault();
         try {
-            const response = await fetch("/api/authenticate", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    email: e.target.email.value,
-                    password: e.target.email.value
-                }),
-            });
-
-            if (response.ok) {
-                const data = await response.json();
-                alert("Login successful");
-                localStorage.setItem("token", data.token);
-            } else {
-                const error = await response.text();
-                alert("Login failed: " + error);
-            }
-        } catch (error) {
-            console.error("Error during login:", error);
-            alert("Login failed");
+            await sendAuthenticationRequest(
+                e.target.email.value,
+                e.target.password.value,
+                (userData) => {
+                    setIsLoginOpen(false);
+                },
+                (error) => {
+                    alert('Login failed: ', ${error});
+                }
+            );
+        } catch (err) {
+            console.error('Error during login:', ${err});
         }
     };
 
