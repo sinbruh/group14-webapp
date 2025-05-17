@@ -13,10 +13,10 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
+// TODO Update JavaDoc for Rental
 /**
  * The RentalObject class represents the entity for rental objects. Rental objects represents the
- * product being distributed to the users in the application. Each rental object for example has a
- * price among other attributes.
+ * product being distributed in the application.
  */
 @Entity
 @Table(name = "rental_object")
@@ -68,9 +68,9 @@ public class RentalObject {
   /**
    * Constructor for the RentalObject class.
    * 
-   * @param price The specified price
+   * @param price     The specified price
    * @param available The specified availability
-   * @param visible The specified visibility
+   * @param visible   The specified visibility
    */
   public RentalObject(double price, boolean available, boolean visible) {
     this.price = price;
