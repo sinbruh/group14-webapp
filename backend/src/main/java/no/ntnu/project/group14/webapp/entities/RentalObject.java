@@ -1,6 +1,5 @@
 package no.ntnu.project.group14.webapp.entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -48,10 +47,17 @@ public class RentalObject {
   private Provider provider;
 
   @ManyToOne
-  @JsonBackReference
+  @JsonManagedReference
   @JoinColumn(name = "configuration_id")
   @Schema(description = "Configuration being distributed in rental object")
   private Configuration configuration;
+
+  /**
+   * Constructor for the RentalObject class. This default constructor is required by JPA.
+   */
+  public RentalObject() {
+    // Intentionally left blank
+  }
 
   /**
    * Constructor for the RentalObject class. In this constructor, availability and visibility are
