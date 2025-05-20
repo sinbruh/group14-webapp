@@ -1,6 +1,5 @@
 package no.ntnu.project.group14.webapp.entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -61,7 +60,7 @@ public class Configuration {
   private Set<ExtraFeature> extraFeatures = new LinkedHashSet<>();
 
   @OneToMany(mappedBy = "configuration")
-  @JsonBackReference
+  @JsonManagedReference
   @Schema(description = "Rental objects distributing configuration")
   private Set<RentalObject> rentalObjects = new LinkedHashSet<>();
 
