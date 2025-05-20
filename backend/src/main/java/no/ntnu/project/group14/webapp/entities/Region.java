@@ -4,6 +4,7 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Column;
@@ -12,6 +13,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 /**
@@ -32,6 +34,11 @@ public class Region {
   @Column(name = "name")
   @Schema(description = "Region name")
   private String name;
+
+  @OneToMany(mappedBy = "region")
+  @JsonManagedReference
+  @Schema(description = "Locations in region")
+  private Set<Location> locations = new LinkedHashSet<>();
 
   @ManyToMany(mappedBy = "regions")
   @JsonBackReference
@@ -70,6 +77,24 @@ public class Region {
    */
   public String getName() {
     return this.name;
+  }
+
+  /**
+   * Getter for locations.
+   * 
+   * @return Locations
+   */
+  public Set<Location> getLocations() {
+    return this.locations;
+  }
+
+  /**
+   * Getter for providers.
+   * 
+   * @return Providers
+   */
+  public Set<Provider> getProviders() {
+    return this.providers;
   }
 
   /**
