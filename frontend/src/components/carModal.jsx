@@ -51,70 +51,18 @@ export function CarModal({ car, isOpen, onClose }) {
             "Dual-Zone Climate Control",
         ],
         specifications: {
-            seats: car.features.seats,
+            seats: car.configuration.numberOfSeats,
             doors: 4,
-            transmission: car.features.transmission,
-            fuel: car.features.fuel,
+            transmission: car.configuration.transmissionType,
+            fuel: car.configuration.fuelType,
             mileage: "Unlimited",
             luggage: "3 Large Bags",
             year: 2023,
         },
         images: [
-            car.image,
-            "/placeholder.svg?height=400&width=600",
-            "/placeholder.svg?height=400&width=600",
-            "/placeholder.svg?height=400&width=600",
-            "/placeholder.svg?height=400&width=600",
+            `/carsWEBP/${car.id}.webp`,
         ],
-        similar: [
-            {
-                id: 2,
-                name: "Honda Accord",
-                category: "Sedan",
-                price: 48,
-                image: "/placeholder.svg?height=200&width=300",
-            },
-            {
-                id: 3,
-                name: "Nissan Altima",
-                category: "Sedan",
-                price: 42,
-                image: "/placeholder.svg?height=200&width=300",
-            },
-            {
-                id: 4,
-                name: "Hyundai Sonata",
-                category: "Sedan",
-                price: 40,
-                image: "/placeholder.svg?height=200&width=300",
-            },
-        ],
-        providers: [
-            {
-                id: 1,
-                name: "EasyCar Rentals",
-                locations: ["New York City", "Los Angeles", "Chicago"],
-                priceMultiplier: 1.0,
-            },
-            {
-                id: 2,
-                name: "Premium Auto",
-                locations: ["New York City", "Miami", "San Francisco"],
-                priceMultiplier: 1.2,
-            },
-            {
-                id: 3,
-                name: "Budget Wheels",
-                locations: ["Chicago", "Dallas", "Atlanta"],
-                priceMultiplier: 0.85,
-            },
-            {
-                id: 4,
-                name: "Luxury Drive",
-                locations: ["New York City", "Los Angeles", "Las Vegas"],
-                priceMultiplier: 1.5,
-            },
-        ],
+        providers: car.configuration.providers,
     };
 
     const [selectedProvider, setSelectedProvider] = React.useState(1);
@@ -307,11 +255,12 @@ export function CarModal({ car, isOpen, onClose }) {
                                                         <SelectValue placeholder="Select location" />
                                                     </SelectTrigger>
                                                     <SelectContent>
-                                                        {provider?.locations.map((location) => (
-                                                            <SelectItem key={location} value={location}>
-                                                                {location}
-                                                            </SelectItem>
-                                                        ))}
+                                                        <SelectItem> Hei </SelectItem>
+                                                        {/*{provider?.locations.map((location) => (*/}
+                                                        {/*    <SelectItem key={location} value={location}>*/}
+                                                        {/*        {location}*/}
+                                                        {/*    </SelectItem>*/}
+                                                        {/*))}*/}
                                                     </SelectContent>
                                                 </Select>
                                             </div>
