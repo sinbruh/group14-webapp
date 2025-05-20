@@ -9,11 +9,19 @@ import { Button } from "@/components/ui/button"
 import { Calendar } from "@/components/ui/calendar"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 
-export function DatePickerWithRange({ className }) {
-    const [date, setDate] = React.useState({
+export function DatePickerWithRange({ className, value, onChange }) {
+    const [date, setDate] = React.useState(value || {
         from: new Date(),
         to: new Date(new Date().setDate(new Date().getDate() + 7)),
     })
+
+    // Handle date changes
+    const handleSelect = (newDate) => {
+        setDate(newDate);
+        if (onChange) {
+            onChange(newDate);
+        }
+    }
 
     return (
         <div className={cn("grid gap-2", className)}>
@@ -47,7 +55,7 @@ export function DatePickerWithRange({ className }) {
                         mode="range"
                         defaultMonth={date?.from}
                         selected={date}
-                        onSelect={setDate}
+                        onSelect={handleSelect}
                         numberOfMonths={2}
                     />
                 </PopoverContent>
