@@ -10,26 +10,27 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 /**
- * The Car class represents the entity class for the car entity.
- *
- * <p>The class uses JPA with annotations for ORM operations.</p>
- *
- * @author Group 4
- * @version v1.0 (2024.05.22)
+ * The Car class represents the entity for cars. Each car is further specified by a set of one or
+ * more {@link Configuration configurations}.
  */
 @Entity(name = "car")
-@Schema(description = "A car entity, representing a specific car")
+@Schema(description = "Car entity representing car")
 public class Car {
-  @Schema(description = "Unique ID")
+
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Schema(description = "Unique ID")
   private Long id;
+
   @Schema(description = "Car make")
   private String make;
+
   @Schema(description = "Car model")
   private String model;
+
   @Schema(description = "Car model release year")
   private int year;
+
   @Schema(description = "Car configurations")
   @OneToMany(mappedBy = "car")
   private Set<Configuration> configurations = new LinkedHashSet<>();
@@ -66,30 +67,12 @@ public class Car {
   }
 
   /**
-   * Setter for ID.
-   *
-   * @param id The specified ID
-   */
-  public void setId(Long id) {
-    this.id = id;
-  }
-
-  /**
    * Getter for make.
    *
    * @return Make
    */
   public String getMake() {
     return this.make;
-  }
-
-  /**
-   * Setter for make.
-   *
-   * @param make The specified make
-   */
-  public void setMake(String make) {
-    this.make = make;
   }
 
   /**
@@ -102,15 +85,6 @@ public class Car {
   }
 
   /**
-   * Setter for model.
-   *
-   * @param model The specified model
-   */
-  public void setModel(String model) {
-    this.model = model;
-  }
-
-  /**
    * Getter for year.
    *
    * @return Year
@@ -120,30 +94,12 @@ public class Car {
   }
 
   /**
-   * Setter for year.
-   *
-   * @param year The specified year
-   */
-  public void setYear(int year) {
-    this.year = year;
-  }
-
-  /**
    * Getter for configurations.
    *
    * @return Configurations
    */
   public Set<Configuration> getConfigurations() {
     return this.configurations;
-  }
-
-  /**
-   * Setter for configurations.
-   *
-   * @param configurations The specified configurations
-   */
-  public void setConfigurations(Set<Configuration> configurations) {
-    this.configurations = configurations;
   }
 
   /**
