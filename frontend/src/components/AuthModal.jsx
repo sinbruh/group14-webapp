@@ -1,11 +1,13 @@
 import { useState } from "react";
-import { isAdmin, isUser, sendAuthenticationRequest } from "@/services/authentication";
+import { isAdmin, isUser, sendAuthenticationRequest, useStore } from "@/services/authentication";
 import { useRouter } from "next/navigation";
+import { asyncApiRequest } from "@/services/request";
 
 export default function AuthModal() {
     const [isLoginOpen, setIsLoginOpen] = useState(false);
     const [isSignupOpen, setIsSignupOpen] = useState(false);
     const router = useRouter();
+    const setUser = useStore((state) => state.setUser);
 
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -14,9 +16,10 @@ export default function AuthModal() {
                 e.target.email.value,
                 e.target.password.value,
                 (userData) => {
-                    if (isAdmin()) {
-                        router.push("/AdminPage");
-                    } else if (isUser()) {
+                    // Store user data in Zustand store
+                    setUser(userData);
+
+                    if (isUser()) {
                         setIsLoginOpen(false);
                     }
                 },
@@ -32,30 +35,22 @@ export default function AuthModal() {
     const handleSignup = async (e) => {
         e.preventDefault();
         try {
-            const response = await fetch("/api/register", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    firstName: e.target.firstName.value,
-                    lastName: e.target.lastName.value,
-                    email: e.target.email.value,
-                    phoneNumber: e.target.phoneNumber.value,
-                    password: e.target.password.value,
-                    dateOfBirth: e.target.dateOfBirth.value
-                }),
-            });
+            const requestBody = {
+                firstName: e.target.firstName.value,
+                lastName: e.target.lastName.value,
+                email: e.target.email.value,
+                phoneNumber: e.target.phoneNumber.value,
+                password: e.target.password.value,
+                dateOfBirth: Math.floor(new Date(e.target.dateOfBirth.value).getTime() / 1000)
+            };
 
-            if (response.ok) {
-                const data = await response.json();
-                alert("Signup successful");
-                localStorage.setItem("token", data.token);
-            } else {
-                const error = await response.text();
-                alert("Signup failed: " + error);
-            }
+            const data = await asyncApiRequest("POST", "/api/register", requestBody);
+            alert("Signup successful");
+            localStorage.setItem("token", data.token);
+            setIsSignupOpen(false);
         } catch (error) {
             console.error("Error during signup:", error);
-            alert("Signup failed");
+            alert("Signup failed: " + error.message);
         }
     };
 
@@ -63,13 +58,13 @@ export default function AuthModal() {
         <div>
             <button
                 onClick={() => setIsLoginOpen(true)}
-                className="bg-gradient-to-r from-emerald-500 to-emerald-700 text-white px-4 py-2 rounded-md shadow-sm hover:from-emerald-600 hover:to-emerald-800 text-sm transition-all duration-200"
+                className="bg-emerald-600 text-white px-4 py-2 rounded-md shadow-sm hover:bg-emerald-700 text-sm transition-all duration-200"
             >
                 Log In
             </button>
             <button
                 onClick={() => setIsSignupOpen(true)}
-                className="bg-gradient-to-r from-blue-500 to-blue-700 text-white px-4 py-2 rounded-md shadow-sm hover:from-blue-600 hover:to-blue-800 text-sm transition-all duration-200 ml-2"
+                className="bg-blue-600 text-white px-4 py-2 rounded-md shadow-sm hover:bg-blue-700 text-sm transition-all duration-200 ml-2"
             >
                 Sign Up
             </button>
@@ -88,11 +83,13 @@ export default function AuthModal() {
                         <form onSubmit={handleLogin} className="space-y-4">
                             <input
                                 type="email"
+                                name="email"
                                 placeholder="Email"
                                 className="w-full border rounded-md p-2 focus:ring-2 focus:ring-emerald-500"
                             />
                             <input
                                 type="password"
+                                name="password"
                                 placeholder="Password"
                                 className="w-full border rounded-md p-2 focus:ring-2 focus:ring-emerald-500"
                             />
@@ -121,31 +118,37 @@ export default function AuthModal() {
                         <form onSubmit={handleSignup} className="space-y-4">
                             <input
                                 type="text"
+                                name="firstName"
                                 placeholder="First Name"
                                 className="w-full border rounded-md p-2 focus:ring-2 focus:ring-blue-500"
                             />
                             <input
                                 type="text"
+                                name="lastName"
                                 placeholder="Last Name"
                                 className="w-full border rounded-md p-2 focus:ring-2 focus:ring-blue-500"
                             />
                             <input
                                 type="email"
+                                name="email"
                                 placeholder="Email"
                                 className="w-full border rounded-md p-2 focus:ring-2 focus:ring-blue-500"
                             />
                             <input
                                 type="tel"
+                                name="phoneNumber"
                                 placeholder="Phone Number"
                                 className="w-full border rounded-md p-2 focus:ring-2 focus:ring-blue-500"
                             />
                             <input
                                 type="password"
+                                name="password"
                                 placeholder="Password"
                                 className="w-full border rounded-md p-2 focus:ring-2 focus:ring-blue-500"
                             />
                             <input
                                 type="date"
+                                name="dateOfBirth"
                                 placeholder="Date of Birth"
                                 className="w-full border rounded-md p-2 focus:ring-2 focus:ring-blue-500"
                             />

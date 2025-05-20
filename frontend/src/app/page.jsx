@@ -17,7 +17,7 @@ import { DatePickerWithRange } from "@/components/date-range-picker";
 import { FeaturedCars } from "@/components/featured-cars";
 import { Testimonials } from "@/components/testimonials";
 import { SpecialOffers } from "@/components/special-offers";
-import AuthModal from "@/components/AuthModal";
+import Navbar from "@/components/Navbar";
 import { useRouter } from "next/navigation";
 
 export default function Home() {
@@ -29,41 +29,7 @@ export default function Home() {
 
   return (
     <div className="flex flex-col min-h-screen">
-      <header className="px-4 lg:px-6 h-16 flex items-center justify-between border-b">
-        <Link className="flex items-center gap-2 font-semibold" href="/">
-          <Car className="h-6 w-6 text-emerald-600" />
-          <span>RentalRoulette</span>
-        </Link>
-        <nav className="hidden md:flex gap-6">
-          <Link
-            className="text-sm font-medium hover:underline underline-offset-4"
-            href="/"
-          >
-            Home
-          </Link>
-          <Link
-            className="text-sm font-medium hover:underline underline-offset-4"
-            href="/cars"
-          >
-            Cars
-          </Link>
-          <Link
-            className="text-sm font-medium hover:underline underline-offset-4"
-            href="/about"
-          >
-            About
-          </Link>
-          <Link
-            className="text-sm font-medium hover:underline underline-offset-4"
-            href="/contact"
-          >
-            Contact
-          </Link>
-        </nav>
-        <div className="flex items-center gap-4">
-          <AuthModal />
-        </div>
-      </header>
+      <Navbar />
       <main className="flex-1">
         <section className="w-full py-12 md:py-24 lg:py-32 bg-gradient-to-b from-emerald-50 to-white">
           <div className="container px-4 md:px-6">
@@ -216,9 +182,9 @@ export default function Home() {
           </div>
         </section>
 
-        <FeaturedCars />
+        {/*<FeaturedCars />*/}
 
-        <SpecialOffers />
+        {/*<SpecialOffers />*/}
 
         <section className="w-full py-12 md:py-24 lg:py-32 bg-gray-50">
           <div className="container px-4 md:px-6">
