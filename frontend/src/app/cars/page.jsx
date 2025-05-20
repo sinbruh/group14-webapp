@@ -1,8 +1,8 @@
 "use client";
 import Link from "next/link";
 import Image from "next/image";
-import { useState } from "react";
-import { Car, ChevronDown, Filter, Fuel, Search, Settings, Users } from "lucide-react";
+import { useState, useEffect } from "react";
+import { ChevronDown, Filter, Fuel, Search, Settings, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
@@ -12,7 +12,9 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { Checkbox } from "@/components/ui/checkbox";
 import { Slider } from "@/components/ui/slider";
 import { CarModal } from "@/components/carModal";
-import AuthModal from "@/components/AuthModal";
+import Navbar from "@/components/Navbar";
+import { fetchAllCars} from "@/services/car";
+import {flattenCars} from "@/lib/utils";
 
 export default function CarsPage() {
     const [selectedCar, setSelectedCar] = useState(null);
@@ -28,66 +30,29 @@ export default function CarsPage() {
         setIsModalOpen(false);
     };
 
-    const cars = [
-        { id: 1, name: "Toyota Camry", category: "Sedan", price: 45,
-            image: "/placeholder.svg?height=200&width=300",
-            features: { seats: 5, transmission: "Automatic", fuel: "Hybrid" },
-            isNew: true },
-        { id: 2, name: "Honda CR-V", category: "SUV", price: 65,
-            image: "/placeholder.svg?height=200&width=300",
-            features: { seats: 5, transmission: "Automatic", fuel: "Gasoline" },
-            isNew: false },
-        { id: 3, name: "BMW 3 Series", category: "Luxury", price: 95,
-            image: "/placeholder.svg?height=200&width=300",
-            features: { seats: 5, transmission: "Automatic", fuel: "Gasoline" },
-            isNew: false },
-        { id: 4, name: "Tesla Model 3", category: "Electric", price: 85,
-            image: "/placeholder.svg?height=200&width=300",
-            features: { seats: 5, transmission: "Automatic", fuel: "Electric" },
-            isNew: true },
-        { id: 5, name: "Ford Mustang", category: "Sports", price: 110,
-            image: "/placeholder.svg?height=200&width=300",
-            features: { seats: 4, transmission: "Automatic", fuel: "Gasoline" },
-            isNew: false },
-        { id: 6, name: "Chevrolet Suburban", category: "SUV", price: 120,
-            image: "/placeholder.svg?height=200&width=300",
-            features: { seats: 8, transmission: "Automatic", fuel: "Gasoline" },
-            isNew: false },
-        { id: 7, name: "Audi A4", category: "Luxury", price: 90,
-            image: "/placeholder.svg?height=200&width=300",
-            features: { seats: 5, transmission: "Automatic", fuel: "Gasoline" },
-            isNew: false },
-        { id: 8, name: "Nissan Leaf", category: "Electric", price: 70,
-            image: "/placeholder.svg?height=200&width=300",
-            features: { seats: 5, transmission: "Automatic", fuel: "Electric" },
-            isNew: false },
-    ];
+
+
+    const [cars, setCars] = useState([]);
+
+    useEffect(() => {
+        const loadCars = async () => {
+            try {
+                let carsData = await fetchAllCars();
+                carsData = flattenCars(carsData)
+
+                setCars(carsData);
+                console.log('Cars loaded:', carsData);
+            } catch (error) {
+                console.error('Error loading cars:', error);
+            }
+        };
+
+        loadCars();
+    }, []);
 
     return (
         <div className="flex flex-col min-h-screen">
-            <header className="px-4 lg:px-6 h-16 flex items-center justify-between border-b">
-                <Link className="flex items-center gap-2 font-semibold" href="/">
-                    <Car className="h-6 w-6 text-emerald-600" />
-                    <span>RentalRoulette</span>
-                </Link>
-                <nav className="hidden md:flex gap-6">
-                    <Link className="text-sm font-medium hover:underline underline-offset-4" href="/">
-                        Home
-                    </Link>
-                    <Link className="text-sm font-medium hover:underline underline-offset-4 text-emerald-600" href="/cars">
-                        Cars
-                    </Link>
-                    <Link className="text-sm font-medium hover:underline underline-offset-4" href="/about">
-                        About
-                    </Link>
-                    <Link className="text-sm font-medium hover:underline underline-offset-4" href="/contact">
-                        Contact
-                    </Link>
-                </nav>
-                <div className="flex items-center gap-4">
-                    <AuthModal />
-                </div>
-            </header>
+            <Navbar />
 
             <main className="flex-1">
                 <section className="w-full py-12 md:py-24 lg:py-32 bg-emerald-50">
@@ -292,12 +257,12 @@ export default function CarsPage() {
                                 </div>
                                 <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                                     {cars.map((car) => (
-                                        <Card key={car.id} className="overflow-hidden">
+                                        <Card key={`${car.id}/${car.configuration.id}`} className="overflow-hidden">
                                             <CardHeader className="p-0">
                                                 <div className="relative">
                                                     <Image
-                                                        src={car.image || "/placeholder.svg"}
-                                                        alt={car.name}
+                                                        src={`/carsLowResWEBP/${car.id}.webp`}
+                                                        alt={car.make + " " + car.model}
                                                         width={300}
                                                         height={200}
                                                         className="w-full object-cover h-48"
@@ -310,26 +275,26 @@ export default function CarsPage() {
                                             <CardContent className="p-4">
                                                 <div className="flex justify-between items-start">
                                                     <div>
-                                                        <h3 className="font-bold">{car.name}</h3>
-                                                        <p className="text-sm text-gray-500">{car.category}</p>
+                                                        <h3 className="font-bold">{car.make + " " + car.model}</h3>
+                                                        <p className="text-sm text-gray-500">{car.category || ""}</p>
                                                     </div>
                                                     <div className="text-right">
-                                                        <span className="font-bold text-lg">${car.price}</span>
+                                                        <span className="font-bold text-lg">${car.price || ""}</span>
                                                         <p className="text-xs text-gray-500">per day</p>
                                                     </div>
                                                 </div>
                                                 <div className="grid grid-cols-3 gap-2 mt-4 text-sm">
                                                     <div className="flex flex-col items-center gap-1">
                                                         <Users className="h-4 w-4 text-gray-500" />
-                                                        <span>{car.features.seats} Seats</span>
+                                                        <span>{car.configuration.numberOfSeats} Seats</span>
                                                     </div>
                                                     <div className="flex flex-col items-center gap-1">
                                                         <Settings className="h-4 w-4 text-gray-500" />
-                                                        <span>{car.features.transmission}</span>
+                                                        <span>{car.configuration.transmissionType}</span>
                                                     </div>
                                                     <div className="flex flex-col items-center gap-1">
                                                         <Fuel className="h-4 w-4 text-gray-500" />
-                                                        <span>{car.features.fuel}</span>
+                                                        <span>{car.configuration.fuelType}</span>
                                                     </div>
                                                 </div>
                                             </CardContent>
