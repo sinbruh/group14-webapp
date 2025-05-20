@@ -1,14 +1,14 @@
 "use client";
 import Image from "next/image";
-import { Check, Fuel, MapPin, Settings, Star, Users } from "lucide-react";
+import {Check, Fuel, MapPin, Settings, Star, Users} from "lucide-react";
 import * as React from "react";
 
-import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent } from "@/components/ui/dialog";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Separator } from "@/components/ui/separator";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { DatePickerWithRange } from "@/components/date-range-picker";
+import {Button} from "@/components/ui/button";
+import {Dialog, DialogTitle, DialogContent} from "@/components/ui/dialog";
+import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/tabs";
+import {Separator} from "@/components/ui/separator";
+import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select";
+import {DatePickerWithRange} from "@/components/date-range-picker";
 
 /**
  * @typedef {Object} Car
@@ -31,7 +31,7 @@ import { DatePickerWithRange } from "@/components/date-range-picker";
  *   onClose: () => void
  * }} props
  */
-export function CarModal({ car, isOpen, onClose }) {
+export function CarModal({car, isOpen, onClose}) {
     const carDetails = {
         ...car,
         deposit: 200,
@@ -62,7 +62,7 @@ export function CarModal({ car, isOpen, onClose }) {
         images: [
             `/carsWEBP/${car.id}.webp`,
         ],
-        providers: car.configuration.providers,
+        providers: car.configuration.rentalObjects,
     };
 
     const [selectedProvider, setSelectedProvider] = React.useState(1);
@@ -78,29 +78,29 @@ export function CarModal({ car, isOpen, onClose }) {
 
     return (
         <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
+            <DialogTitle className="text-2xl font-bold"> {carDetails.make + " " + carDetails.model} </DialogTitle>
             <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto p-0">
                 <div className="p-6">
-                    <h1 className="text-2xl font-bold mb-2">{carDetails.name}</h1>
                     <div className="flex flex-wrap items-center gap-x-4 gap-y-2 mb-6">
                         <div className="flex items-center">
-                            <Star className="h-4 w-4 text-yellow-400 fill-yellow-400" />
+                            <Star className="h-4 w-4 text-yellow-400 fill-yellow-400"/>
                             <span className="ml-1 font-medium">{carDetails.rating}</span>
                             <span className="ml-1 text-gray-500">({carDetails.reviews} reviews)</span>
                         </div>
                         <div className="flex items-center">
-                            <MapPin className="h-4 w-4 text-gray-500" />
+                            <MapPin className="h-4 w-4 text-gray-500"/>
                             <span className="ml-1">{carDetails.location}</span>
                         </div>
                         <div className="flex items-center">
-                            <Users className="h-4 w-4 text-gray-500" />
+                            <Users className="h-4 w-4 text-gray-500"/>
                             <span className="ml-1">{carDetails.specifications.seats} Seats</span>
                         </div>
                         <div className="flex items-center">
-                            <Settings className="h-4 w-4 text-gray-500" />
+                            <Settings className="h-4 w-4 text-gray-500"/>
                             <span className="ml-1">{carDetails.specifications.transmission}</span>
                         </div>
                         <div className="flex items-center">
-                            <Fuel className="h-4 w-4 text-gray-500" />
+                            <Fuel className="h-4 w-4 text-gray-500"/>
                             <span className="ml-1">{carDetails.specifications.fuel}</span>
                         </div>
                     </div>
@@ -113,24 +113,13 @@ export function CarModal({ car, isOpen, onClose }) {
                             height={400}
                             className="w-full h-64 object-cover rounded-lg"
                         />
-                        <div className="grid grid-cols-2 gap-2">
-                            {carDetails.images.slice(1, 5).map((image, index) => (
-                                <Image
-                                    key={index}
-                                    src={image || "/placeholder.svg"}
-                                    alt={`${carDetails.name} view ${index + 2}`}
-                                    width={300}
-                                    height={200}
-                                    className="w-full h-[120px] object-cover rounded-lg"
-                                />
-                            ))}
-                        </div>
                     </div>
 
                     <div className="grid gap-6 lg:grid-cols-[1fr_300px]">
                         <div>
                             <Tabs defaultValue="description" className="mb-6">
-                                <TabsList className="w-full justify-start border-b rounded-none h-auto p-0 bg-transparent">
+                                <TabsList
+                                    className="w-full justify-start border-b rounded-none h-auto p-0 bg-transparent">
                                     <TabsTrigger
                                         value="description"
                                         className="rounded-none data-[state=active]:border-b-2 data-[state=active]:border-emerald-600 data-[state=active]:shadow-none bg-transparent px-4 py-2"
@@ -157,7 +146,7 @@ export function CarModal({ car, isOpen, onClose }) {
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                                         {carDetails.features.map((feature, index) => (
                                             <div key={index} className="flex items-center gap-2">
-                                                <Check className="h-4 w-4 text-emerald-600" />
+                                                <Check className="h-4 w-4 text-emerald-600"/>
                                                 <span>{feature}</span>
                                             </div>
                                         ))}
@@ -175,7 +164,8 @@ export function CarModal({ car, isOpen, onClose }) {
                                         </div>
                                         <div className="flex justify-between py-2 border-b">
                                             <span className="text-gray-500">Transmission</span>
-                                            <span className="font-medium">{carDetails.specifications.transmission}</span>
+                                            <span
+                                                className="font-medium">{carDetails.specifications.transmission}</span>
                                         </div>
                                         <div className="flex justify-between py-2 border-b">
                                             <span className="text-gray-500">Fuel Type</span>
@@ -206,7 +196,7 @@ export function CarModal({ car, isOpen, onClose }) {
                                         <span className="text-gray-500"> / day</span>
                                     </div>
                                     <div className="flex items-center">
-                                        <Star className="h-4 w-4 text-yellow-400 fill-yellow-400" />
+                                        <Star className="h-4 w-4 text-yellow-400 fill-yellow-400"/>
                                         <span className="ml-1 font-medium">{carDetails.rating}</span>
                                     </div>
                                 </div>
@@ -215,23 +205,24 @@ export function CarModal({ car, isOpen, onClose }) {
                                 <form className="space-y-4">
                                     <div className="space-y-2">
                                         <label className="text-sm font-medium">Pick-up & Return Date</label>
-                                        <DatePickerWithRange className="w-full" />
+                                        <DatePickerWithRange className="w-full"/>
                                     </div>
                                     <div className="space-y-4">
                                         <div className="space-y-2">
                                             <label className="text-sm font-medium">Provider</label>
                                             <div className="flex items-center gap-2 rounded-md border p-2">
-                                                <Settings className="h-4 w-4 text-gray-500" />
+                                                <Settings className="h-4 w-4 text-gray-500"/>
                                                 <Select
                                                     value={selectedProvider.toString()}
                                                     onValueChange={(value) => setSelectedProvider(Number(value))}
                                                 >
                                                     <SelectTrigger className="border-0 p-0 shadow-none focus:ring-0">
-                                                        <SelectValue placeholder="Select provider" />
+                                                        <SelectValue placeholder="Select provider"/>
                                                     </SelectTrigger>
                                                     <SelectContent>
                                                         {carDetails.providers.map((provider) => (
-                                                            <SelectItem key={provider.id} value={provider.id.toString()}>
+                                                            <SelectItem key={provider.id}
+                                                                        value={provider.id.toString()}>
                                                                 {provider.name} (
                                                                 {provider.priceMultiplier === 1
                                                                     ? "Standard"
@@ -249,10 +240,10 @@ export function CarModal({ car, isOpen, onClose }) {
                                         <div className="space-y-2">
                                             <label className="text-sm font-medium">Pick-up Location</label>
                                             <div className="flex items-center gap-2 rounded-md border p-2">
-                                                <MapPin className="h-4 w-4 text-gray-500" />
+                                                <MapPin className="h-4 w-4 text-gray-500"/>
                                                 <Select>
                                                     <SelectTrigger className="border-0 p-0 shadow-none focus:ring-0">
-                                                        <SelectValue placeholder="Select location" />
+                                                        <SelectValue placeholder="Select location"/>
                                                     </SelectTrigger>
                                                     <SelectContent>
                                                         <SelectItem> Hei </SelectItem>
@@ -266,7 +257,7 @@ export function CarModal({ car, isOpen, onClose }) {
                                             </div>
                                         </div>
                                     </div>
-                                    <Separator />
+                                    <Separator/>
                                     <div className="space-y-2">
                                         <div className="flex justify-between">
                                             <span>Base Rate (3 days)</span>
