@@ -1,34 +1,12 @@
 "use client";
 import Link from "next/link";
-import { Car } from "lucide-react";
-import AuthModal from "@/components/AuthModal";
+import Navbar from "@/components/Navbar";
 
 export default function AboutPage() {
+
     return (
         <div className="flex flex-col min-h-screen">
-            <header className="px-4 lg:px-6 h-16 flex items-center justify-between border-b">
-                <Link className="flex items-center gap-2 font-semibold" href="/">
-                    <Car className="h-6 w-6 text-emerald-600" />
-                    <span>RentalRoulette</span>
-                </Link>
-                <nav className="hidden md:flex gap-6">
-                    <Link className="text-sm font-medium hover:underline underline-offset-4" href="/">
-                        Home
-                    </Link>
-                    <Link className="text-sm font-medium hover:underline underline-offset-4" href="/cars">
-                        Cars
-                    </Link>
-                    <Link className="text-sm font-medium hover:underline underline-offset-4 text-emerald-600" href="/about">
-                        About
-                    </Link>
-                    <Link className="text-sm font-medium hover:underline underline-offset-4" href="/contact">
-                        Contact
-                    </Link>
-                </nav>
-                <div className="flex items-center gap-4">
-                    <AuthModal />
-                </div>
-            </header>
+            <Navbar />
             <main className="container mx-auto px-4 py-8">
                 <h1 className="text-4xl font-bold text-emerald-600 mb-4">About Us</h1>
                 <p className="text-lg text-gray-600 leading-relaxed">
