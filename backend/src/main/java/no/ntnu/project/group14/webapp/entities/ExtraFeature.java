@@ -1,49 +1,50 @@
 package no.ntnu.project.group14.webapp.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 
 /**
- * The ExtraFeature class represents the entity class for the extra feature entity.
- *
- * <p>The class uses JPA with annotations for ORM operations.</p>
- *
- * @author Group 4
- * @version v1.0 (2024.05.22)
+ * The ExtraFeature class represents the entity for extra features. Extra features represent
+ * features {@link Configuration configurations} can have in addition to their base features.
  */
-@Entity(name = "extra_feature")
-@Schema(
-    description = "An extra feature entity, representing a specific configuration extra feature "
-                + "that can be added to a car configuration"
-)
+@Entity
+@Table(name = "extra_feature")
+@Schema(description = "Extra feature entity representing extra configuration features")
 public class ExtraFeature {
-  @Schema(description = "Unique ID")
+
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "extra_feature_id")
+  @Schema(description = "Unique ID")
   private Long id;
+
+  @Column(name = "name")
   @Schema(description = "Extra feature name")
   private String name;
-  @Schema(description = "Configuration the extra feature belongs to")
-  @JsonIgnore
+
   @ManyToOne
+  @JsonBackReference
+  @JoinColumn(name = "configuration_id")
+  @Schema(description = "Configuration providing extra feature")
   private Configuration configuration;
 
   /**
-   * Constructs an instance of the ExtraFeature class.
-   *
-   * <p>Empty constructor needed for JPA.</p>
+   * Constructor for the ExtraFeature class. This default constructor is required by JPA.
    */
   public ExtraFeature() {
     // Intentionally left blank
   }
 
   /**
-   * Constructs an instance of the ExtraFeature class.
+   * Constructor for the ExtraFeature
    *
    * @param name The specified name
    */
@@ -61,30 +62,12 @@ public class ExtraFeature {
   }
 
   /**
-   * Setter for ID.
-   *
-   * @param id The specified ID
-   */
-  public void setId(Long id) {
-    this.id = id;
-  }
-
-  /**
    * Getter for name.
    *
    * @return Name
    */
   public String getName() {
     return this.name;
-  }
-
-  /**
-   * Setter for name.
-   *
-   * @param name The specified name
-   */
-  public void setName(String name) {
-    this.name = name;
   }
 
   /**
@@ -97,20 +80,11 @@ public class ExtraFeature {
   }
 
   /**
-   * Setter for configuration.
+   * Checks if extra feature is valid.
    *
-   * @param configuration The specified configuration
-   */
-  public void setConfiguration(Configuration configuration) {
-    this.configuration = configuration;
-  }
-
-  /**
-   * Returns true if the extra feature is valid or false otherwise.
-   *
-   * @return True if the extra feature is valid or false otherwise
+   * @return True if extra feature is valid or false otherwise
    */
   public boolean isValid() {
-    return !this.name.isBlank();
+    return this.name != null && !this.name.isBlank();
   }
 }

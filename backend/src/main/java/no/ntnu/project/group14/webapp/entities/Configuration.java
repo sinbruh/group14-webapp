@@ -51,16 +51,17 @@ public class Configuration {
   @ManyToOne
   @JsonManagedReference
   @JoinColumn(name = "car_id")
-  @Schema(description = "Car the configuration belongs to")
+  @Schema(description = "Car providing configuration")
   private Car car;
 
   @OneToMany(mappedBy = "configuration")
-  @Schema(description = "Extra features in the configuration")
+  @JsonManagedReference
+  @Schema(description = "Extra features in configuration")
   private Set<ExtraFeature> extraFeatures = new LinkedHashSet<>();
 
   @OneToMany(mappedBy = "configuration")
   @JsonManagedReference
-  @Schema(description = "Rental objects distributing the configuration")
+  @Schema(description = "Rental objects distributing configuration")
   private Set<RentalObject> rentalObjects = new LinkedHashSet<>();
 
   /**
