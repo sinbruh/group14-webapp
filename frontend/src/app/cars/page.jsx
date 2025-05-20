@@ -2,7 +2,8 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useState, useEffect } from "react";
-import { ChevronDown, Filter, Fuel, Search, Settings, Users } from "lucide-react";
+import { ChevronDown, Filter, Fuel, Search, Settings, Users, MapPin, Car as CarIcon } from "lucide-react";
+import { useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
@@ -11,14 +12,33 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Slider } from "@/components/ui/slider";
+import { DatePickerWithRange } from "@/components/date-range-picker";
 import { CarModal } from "@/components/carModal";
 import Navbar from "@/components/Navbar";
 import { fetchAllCars} from "@/services/car";
 import {flattenCars} from "@/lib/utils";
 
 export default function CarsPage() {
+    const searchParams = useSearchParams();
+
+    // Get search parameters from URL
+    const pickupParam = searchParams.get("pickup");
+    const dropoffParam = searchParams.get("dropoff");
+    const fromParam = searchParams.get("from");
+    const toParam = searchParams.get("to");
+    const typeParam = searchParams.get("type");
+
     const [selectedCar, setSelectedCar] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [pickupLocation, setPickupLocation] = useState(pickupParam || "");
+    const [dropoffLocation, setDropoffLocation] = useState(dropoffParam || "");
+    const [dateRange, setDateRange] = useState({ 
+        from: fromParam ? new Date(fromParam) : undefined, 
+        to: toParam ? new Date(toParam) : undefined 
+    });
+    const [carType, setCarType] = useState(typeParam || "");
+    const [filteredCars, setFilteredCars] = useState([]);
+    const [isFiltering, setIsFiltering] = useState(false);
 
     const openModal = (car) => {
         setSelectedCar(car);
@@ -30,7 +50,20 @@ export default function CarsPage() {
         setIsModalOpen(false);
     };
 
-
+    const handleSearch = () => {
+        setIsFiltering(true);
+        // Basic filtering logic - can be expanded later
+        const filtered = cars.filter(car => {
+            let match = true;
+            if (carType && car.category) {
+                match = match && car.category.toLowerCase().includes(carType.toLowerCase());
+            }
+            return match;
+        });
+        setFilteredCars(filtered);
+        console.log("Search criteria:", { pickupLocation, dropoffLocation, dateRange, carType });
+        console.log("Filtered cars:", filtered.length);
+    };
 
     const [cars, setCars] = useState([]);
 
@@ -41,6 +74,23 @@ export default function CarsPage() {
                 carsData = flattenCars(carsData)
 
                 setCars(carsData);
+
+                // If we have search parameters, filter the cars
+                if (pickupParam || dropoffParam || fromParam || toParam || typeParam) {
+                    const filtered = carsData.filter(car => {
+                        let match = true;
+                        if (typeParam && car.category) {
+                            match = match && car.category.toLowerCase().includes(typeParam.toLowerCase());
+                        }
+                        return match;
+                    });
+                    setFilteredCars(filtered);
+                    setIsFiltering(true);
+                    console.log("Filtered cars based on URL params:", filtered.length);
+                } else {
+                    setFilteredCars(carsData); // Initialize filteredCars with all cars
+                }
+
                 console.log('Cars loaded:', carsData);
             } catch (error) {
                 console.error('Error loading cars:', error);
@@ -48,7 +98,7 @@ export default function CarsPage() {
         };
 
         loadCars();
-    }, []);
+    }, [pickupParam, dropoffParam, fromParam, toParam, typeParam]);
 
     return (
         <div className="flex flex-col min-h-screen">
@@ -64,15 +114,68 @@ export default function CarsPage() {
                                     Browse our extensive selection of vehicles to find the perfect match for your needs.
                                 </p>
                             </div>
-                            <div className="w-full max-w-sm">
-                                <div className="relative">
-                                    <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500" />
-                                    <Input
-                                        type="search"
-                                        placeholder="Search cars..."
-                                        className="w-full bg-white pl-8 rounded-full"
-                                    />
-                                </div>
+                            <div className="w-full max-w-3xl mx-auto">
+                                <Card className="p-4 shadow-lg">
+                                    <CardContent className="p-0">
+                                        <div className="mt-4">
+                                            <div className="flex flex-col md:flex-row flex-wrap gap-2">
+                                                <div className="flex items-center gap-2 rounded-md border p-2 flex-1 min-w-[200px]">
+                                                    <MapPin className="h-4 w-4 text-gray-500" />
+                                                    <Select onValueChange={setPickupLocation} defaultValue={pickupLocation}>
+                                                        <SelectTrigger className="border-0 p-0 shadow-none focus:ring-0">
+                                                            <SelectValue placeholder="Pickup Location" />
+                                                        </SelectTrigger>
+                                                        <SelectContent>
+                                                            <SelectItem value="nyc">New York City</SelectItem>
+                                                            <SelectItem value="la">Los Angeles</SelectItem>
+                                                            <SelectItem value="chicago">Chicago</SelectItem>
+                                                            <SelectItem value="miami">Miami</SelectItem>
+                                                        </SelectContent>
+                                                    </Select>
+                                                </div>
+                                                <div className="flex items-center gap-2 rounded-md border p-2 flex-1 min-w-[200px]">
+                                                    <MapPin className="h-4 w-4 text-gray-500" />
+                                                    <Select onValueChange={setDropoffLocation} defaultValue={dropoffLocation}>
+                                                        <SelectTrigger className="border-0 p-0 shadow-none focus:ring-0">
+                                                            <SelectValue placeholder="Drop-off Location" />
+                                                        </SelectTrigger>
+                                                        <SelectContent>
+                                                            <SelectItem value="same">Same as pickup</SelectItem>
+                                                            <SelectItem value="nyc">New York City</SelectItem>
+                                                            <SelectItem value="la">Los Angeles</SelectItem>
+                                                            <SelectItem value="chicago">Chicago</SelectItem>
+                                                            <SelectItem value="miami">Miami</SelectItem>
+                                                        </SelectContent>
+                                                    </Select>
+                                                </div>
+                                                <div className="rounded-md border p-2 flex-1 min-w-[200px]">
+                                                    <DatePickerWithRange className="border-0 p-0 shadow-none" value={dateRange} onChange={setDateRange} />
+                                                </div>
+                                                <div className="flex items-center gap-2 rounded-md border p-2 flex-1 min-w-[200px]">
+                                                    <CarIcon className="h-4 w-4 text-gray-500" />
+                                                    <Select onValueChange={setCarType} defaultValue={carType}>
+                                                        <SelectTrigger className="border-0 p-0 shadow-none focus:ring-0">
+                                                            <SelectValue placeholder="Car Type" />
+                                                        </SelectTrigger>
+                                                        <SelectContent>
+                                                            <SelectItem value="economy">Economy</SelectItem>
+                                                            <SelectItem value="compact">Compact</SelectItem>
+                                                            <SelectItem value="midsize">Midsize</SelectItem>
+                                                            <SelectItem value="suv">SUV</SelectItem>
+                                                            <SelectItem value="luxury">Luxury</SelectItem>
+                                                        </SelectContent>
+                                                    </Select>
+                                                </div>
+                                            </div>
+                                            <div className="mt-2">
+                                                <Button className="w-full bg-emerald-600 hover:bg-emerald-700" onClick={handleSearch}>
+                                                    <Search className="mr-2 h-4 w-4" />
+                                                    Search Cars
+                                                </Button>
+                                            </div>
+                                        </div>
+                                    </CardContent>
+                                </Card>
                             </div>
                         </div>
                     </div>
@@ -214,7 +317,7 @@ export default function CarsPage() {
                                     <div className="flex items-center justify-between">
                                         <div>
                                             <h2 className="text-2xl font-bold">Available Cars</h2>
-                                            <p className="text-sm text-gray-500">Showing {cars.length} results</p>
+                                            <p className="text-sm text-gray-500">Showing {isFiltering ? filteredCars.length : cars.length} results</p>
                                         </div>
                                         <div className="flex items-center gap-2">
                                             <Button variant="outline" size="sm" className="lg:hidden">
@@ -256,7 +359,7 @@ export default function CarsPage() {
                                     </div>
                                 </div>
                                 <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                                    {cars.map((car) => (
+                                    {(isFiltering ? filteredCars : cars).map((car) => (
                                         <Card key={`${car.id}/${car.configuration.id}`} className="overflow-hidden">
                                             <CardHeader className="p-0">
                                                 <div className="relative">
