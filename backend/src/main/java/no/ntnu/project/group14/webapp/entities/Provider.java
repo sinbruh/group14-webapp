@@ -1,15 +1,21 @@
 package no.ntnu.project.group14.webapp.entities;
 
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
@@ -36,7 +42,17 @@ public class Provider {
   @OneToMany(mappedBy = "provider")
   @JsonBackReference
   @Schema(description = "Rental objects distributed by provider")
-  private Set<RentalObject> rentalObjects;
+  private Set<RentalObject> rentalObjects = new LinkedHashSet<>();
+
+  @ManyToMany(fetch = FetchType.EAGER)
+  @JsonManagedReference
+  @JoinTable(
+    name = "provider_region",
+    joinColumns = @JoinColumn(name = "provider_id"),
+    inverseJoinColumns = @JoinColumn(name = "region_id")
+  )
+  @Schema(description = "Provider operating regions")
+  private Set<Region> regions = new LinkedHashSet<>();
 
   /**
    * Constructor for the Provider class. This default constructor is required by JPA.
