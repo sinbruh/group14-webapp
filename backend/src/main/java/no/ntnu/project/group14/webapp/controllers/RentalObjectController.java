@@ -151,7 +151,7 @@ public class RentalObjectController {
     ),
     @ApiResponse(
       responseCode = "404",
-      description = "Signals error"
+      description = "Signals error and contains error message"
     )
   })
   @PostMapping("/provider/{providerId}/configuration/{configurationId}")
@@ -213,7 +213,7 @@ public class RentalObjectController {
    *         <li><p><b>401 UNAUTHORIZED</b> if user is not authenticated</p></li>
    *         <li><p><b>403 FORBIDDEN</b> if user is deactivated or not admin (<i>body:</i> error
    *         message)</p></li>
-   *         <li><p><b>404 NOT FONUD</b> if rental object does not exist</p></li>
+   *         <li><p><b>404 NOT FOUND</b> if rental object does not exist</p></li>
    */
   @Operation(
     summary = "Update rental object",

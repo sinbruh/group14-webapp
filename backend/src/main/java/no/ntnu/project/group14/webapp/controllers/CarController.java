@@ -177,7 +177,7 @@ public class CarController {
    *         <li><p><b>401 UNAUTHORIZED</b> if user is not authenticated</p></li>
    *         <li><p><b>403 FORBIDDEN</b> if user is deactivated or not admin (<i>body:</i> error
    *         message)</p></li>
-   *         <li><p><b>404 NOT FONUD</b> if car does not exist</p></li>
+   *         <li><p><b>404 NOT FOUND</b> if car does not exist</p></li>
    */
   @Operation(
     summary = "Update car",

@@ -107,6 +107,33 @@ public class Provider {
   }
 
   /**
+   * Getter for regions.
+   * 
+   * @return Regions
+   */
+  public Set<Region> getRegions() {
+    return this.regions;
+  }
+
+  /**
+   * Adds the specified region to the provider operating regions.
+   * 
+   * @param region The specified region
+   */
+  public void addRegion(Region region) {
+    this.regions.add(region);
+  }
+
+  /**
+   * Removes the specified region from the provider operating regions.
+   * 
+   * @param region The specified region
+   */
+  public void removeRegion(Region region) {
+    this.regions.remove(region);
+  }
+
+  /**
    * Checks if provider is valid.
    *
    * @return True if provider is valid or false otherwise
