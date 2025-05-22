@@ -1,5 +1,7 @@
 package no.ntnu.project.group14.webapp.entities;
 
+import java.util.Set;
+
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
@@ -11,9 +13,9 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
-// TODO Update JavaDoc for Rental
 /**
  * The RentalObject class represents the entity for rental objects. Rental objects represents the
  * product being distributed in the application.
@@ -40,6 +42,11 @@ public class RentalObject {
   @Column(name = "visible")
   @Schema(description = "Rental object visibility in UI")
   private boolean visible;
+
+  @OneToMany(mappedBy = "rentalObject")
+  @JsonManagedReference
+  @Schema(description = "Rentals renting rental object")
+  private Set<Rental> rentals;
 
   @ManyToOne
   @JsonManagedReference
@@ -137,6 +144,15 @@ public class RentalObject {
    */
   public void setVisible(boolean visible) {
     this.visible = visible;
+  }
+
+  /**
+   * Getter for rentals.
+   * 
+   * @return Rentals
+   */
+  public Set<Rental> getRentals() {
+    return this.rentals;
   }
 
   /**

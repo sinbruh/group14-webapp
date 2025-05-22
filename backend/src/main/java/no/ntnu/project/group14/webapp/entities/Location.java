@@ -1,5 +1,7 @@
 package no.ntnu.project.group14.webapp.entities;
 
+import java.util.Set;
+
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -10,9 +12,9 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
-// TODO Update JavaDoc for rentals
 /**
  * The Location class represents the entity for locations. Locations are included in zero or more
  * rentals.
@@ -31,6 +33,16 @@ public class Location {
   @Column(name = "name")
   @Schema(description = "Location name")
   private String name;
+
+  @OneToMany(mappedBy = "pickUpLocation")
+  @JsonBackReference
+  @Schema(description = "Rentals using location as pick up location")
+  private Set<Rental> pickUpRentals;
+
+  @OneToMany(mappedBy = "dropOffLocation")
+  @JsonBackReference
+  @Schema(description = "Rentals using location as drop off location")
+  private Set<Rental> dropOffRentals;
 
   @ManyToOne
   @JsonBackReference
@@ -70,6 +82,24 @@ public class Location {
    */
   public String getName() {
     return this.name;
+  }
+
+  /**
+   * Getter for pick up rentals.
+   * 
+   * @return Pick up rentals
+   */
+  public Set<Rental> getPickUpRentals() {
+    return this.pickUpRentals;
+  }
+
+  /**
+   * Getter for drop off rentals.
+   * 
+   * @return Drop off rentals
+   */
+  public Set<Rental> getDropOffRentals() {
+    return this.dropOffRentals;
   }
 
   /**
