@@ -68,6 +68,11 @@ public class User {
   @Schema(description = "User rentals")
   private Set<Rental> rentals = new LinkedHashSet<>();
 
+  @OneToMany(mappedBy = "user")
+  @JsonManagedReference
+  @Schema(description = "Reviews placed by user")
+  private Set<Review> reviews = new LinkedHashSet<>();
+
   @ManyToMany(fetch = FetchType.EAGER)
   @JsonManagedReference
   @JoinTable(
@@ -263,6 +268,15 @@ public class User {
    */
   public Set<Rental> getRentals() {
     return this.rentals;
+  }
+
+  /**
+   * Getter for reviews.
+   * 
+   * @return Reviews
+   */
+  public Set<Review> getReviews() {
+    return this.reviews;
   }
 
   /**

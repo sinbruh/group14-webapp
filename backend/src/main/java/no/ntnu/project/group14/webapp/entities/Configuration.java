@@ -66,6 +66,11 @@ public class Configuration {
   @Schema(description = "Rental objects distributing configuration")
   private Set<RentalObject> rentalObjects = new LinkedHashSet<>();
 
+  @OneToMany(mappedBy = "configuration")
+  @JsonManagedReference
+  @Schema(description = "Reviews placed on configuration")
+  private Set<Review> reviews = new LinkedHashSet<>();
+
   @ManyToMany(mappedBy = "favorites")
   @JsonBackReference
   @Schema(description = "Users favorited configuration")
@@ -163,6 +168,15 @@ public class Configuration {
    */
   public Set<RentalObject> getRentalObjects() {
     return this.rentalObjects;
+  }
+
+  /**
+   * Getter for reviews.
+   * 
+   * @return Reviews
+   */
+  public Set<Review> getReviews() {
+    return this.reviews;
   }
 
   /**
