@@ -3,16 +3,14 @@ package no.ntnu.project.group14.webapp.dto;
 import java.sql.Date;
 import java.util.Set;
 
-import no.ntnu.project.group14.webapp.entities.Provider;
-import no.ntnu.project.group14.webapp.entities.Receipt;
+import no.ntnu.project.group14.webapp.entities.Configuration;
 import no.ntnu.project.group14.webapp.entities.Rental;
+import no.ntnu.project.group14.webapp.entities.Review;
 import no.ntnu.project.group14.webapp.entities.Role;
+import no.ntnu.project.group14.webapp.entities.User;
 
 /**
- * The UserDto class represents the data transfer object (DTO) for receiving user data.
- *
- * @author Group 4
- * @version v1.0 (2024.05.22)
+ * The UserDto class represents the data transfer object (DTO) for receiving {@link User user} data.
  */
 public class UserDto {
   private Long id;
@@ -22,39 +20,49 @@ public class UserDto {
   private int phoneNumber;
   private Date dateOfBirth;
   private boolean active;
-  private Set<Role> roles;
   private Set<Rental> rentals;
-  private Set<Receipt> receipts;
-  private Set<Provider> favorites;
+  private Set<Review> reviews;
+  private Set<Role> roles;
+  private Set<Configuration> favorites;
 
   /**
-   * Constructs an instance of the UserDto class.
+   * Constructor for the UserDto class.
    *
    * @param id          The specified ID
    * @param firstName   The specified first name
    * @param lastName    The specified last name
    * @param email       The specified email
    * @param phoneNumber The specified phone number
-   * @param dateLong    The specified long value for the date of birth
+   * @param dateOfBirth The specified date of birth
    * @param active      The specified active status
-   * @param roles       The specified roles
    * @param rentals     The specified rentals
-   * @param receipts    The specified receipts
+   * @param reviews     The specified reviews
+   * @param roles       The specified roles
    * @param favorites   The specified favorites
    */
-  public UserDto(Long id, String firstName, String lastName, String email, int phoneNumber,
-                 long dateLong, boolean active, Set<Role> roles, Set<Rental> rentals,
-                 Set<Receipt> receipts, Set<Provider> favorites) {
+  public UserDto(
+    Long id,
+    String firstName,
+    String lastName,
+    String email,
+    int phoneNumber,
+    Date dateOfBirth,
+    boolean active,
+    Set<Rental> rentals,
+    Set<Review> reviews,
+    Set<Role> roles,
+    Set<Configuration> favorites
+  ) {
     this.id = id;
     this.firstName = firstName;
     this.lastName = lastName;
     this.email = email;
     this.phoneNumber = phoneNumber;
-    this.dateOfBirth = new Date(dateLong);
+    this.dateOfBirth = dateOfBirth;
     this.active = active;
-    this.roles = roles;
     this.rentals = rentals;
-    this.receipts = receipts;
+    this.reviews = reviews;
+    this.roles = roles;
     this.favorites = favorites;
   }
 
@@ -68,30 +76,12 @@ public class UserDto {
   }
 
   /**
-   * Setter for ID.
-   *
-   * @param id The specified ID
-   */
-  public void setId(Long id) {
-    this.id = id;
-  }
-
-  /**
    * Getter for first name.
    *
    * @return First name
    */
   public String getFirstName() {
     return this.firstName;
-  }
-
-  /**
-   * Setter for first name.
-   *
-   * @param firstName The specified first name
-   */
-  public void setFirstName(String firstName) {
-    this.firstName = firstName;
   }
 
   /**
@@ -104,30 +94,12 @@ public class UserDto {
   }
 
   /**
-   * Setter for last name.
-   *
-   * @param lastName The specified last name
-   */
-  public void setLastName(String lastName) {
-    this.lastName = lastName;
-  }
-
-  /**
    * Getter for email.
    *
    * @return Email
    */
   public String getEmail() {
     return this.email;
-  }
-
-  /**
-   * Setter for email.
-   *
-   * @param email The specified email
-   */
-  public void setEmail(String email) {
-    this.email = email;
   }
 
   /**
@@ -140,30 +112,12 @@ public class UserDto {
   }
 
   /**
-   * Setter for phone number.
-   *
-   * @param phoneNumber The specified phone number
-   */
-  public void setPhoneNumber(int phoneNumber) {
-    this.phoneNumber = phoneNumber;
-  }
-
-  /**
    * Getter for date of birth.
    *
    * @return Date of birth
    */
   public Date getDateOfBirth() {
     return this.dateOfBirth;
-  }
-
-  /**
-   * Setter fordate of birth.
-   *
-   * @param dateLong The specified long value for the date of birth
-   */
-  public void setDateOfBirth(long dateLong) {
-    this.dateOfBirth = new Date(dateLong);
   }
 
   /**
@@ -176,14 +130,22 @@ public class UserDto {
   }
 
   /**
-   * Setter for active status.
+   * Getter for rentals.
    *
-   * @param active The specified active status
+   * @return Rentals
    */
-  public void setActive(boolean active) {
-    this.active = active;
+  public Set<Rental> getRentals() {
+    return this.rentals;
   }
 
+  /**
+   * Getter for reviews.
+   * 
+   * @return Reviews
+   */
+  public Set<Review> getReviews() {
+    return this.reviews;
+  }
   /**
    * Getter for roles.
    *
@@ -194,65 +156,11 @@ public class UserDto {
   }
 
   /**
-   * Setter for roles.
-   *
-   * @param roles The specified roles
-   */
-  public void setRoles(Set<Role> roles) {
-    this.roles = roles;
-  }
-
-  /**
-   * Getter for rentals.
-   *
-   * @return Rentals
-   */
-  public Set<Rental> getRentals() {
-    return this.rentals;
-  }
-
-  /**
-   * Setter for rentals.
-   *
-   * @param rentals The specified rentals
-   */
-  public void setRentals(Set<Rental> rentals) {
-    this.rentals = rentals;
-  }
-
-  /**
-   * Getter for receipts.
-   *
-   * @return Receipts
-   */
-  public Set<Receipt> getReceipts() {
-    return this.receipts;
-  }
-
-  /**
-   * Setter for receipts.
-   *
-   * @param receipts The specified receipts
-   */
-  public void setReceipts(Set<Receipt> receipts) {
-    this.receipts = receipts;
-  }
-
-  /**
    * Getter for favorites.
    *
    * @return Favorites
    */
-  public Set<Provider> getFavorites() {
+  public Set<Configuration> getFavorites() {
     return this.favorites;
-  }
-
-  /**
-   * Setter for favorites.
-   *
-   * @param favorites The specified favorites
-   */
-  public void setFavorites(Set<Provider> favorites) {
-    this.favorites = favorites;
   }
 }

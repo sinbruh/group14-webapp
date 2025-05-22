@@ -102,7 +102,7 @@ public class User {
    * @param email           The specified email
    * @param phoneNumber     The specified phone number
    * @param password        The specified password
-   * @param unixDateOfBirth The specified date of birth as a UNIX timestamp
+   * @param dateOfBirth     The specified date of birth
    */
   public User(
     String firstName,
@@ -110,14 +110,14 @@ public class User {
     String email,
     int phoneNumber,
     String password,
-    long unixDateOfBirth
+    Date dateOfBirth
   ) {
     this.firstName = firstName;
     this.lastName = lastName;
     this.email = email;
     this.phoneNumber = phoneNumber;
     this.password = password;
-    this.dateOfBirth = new Date(unixDateOfBirth);
+    this.dateOfBirth = dateOfBirth;
   }
 
   /**
@@ -231,10 +231,10 @@ public class User {
   /**
    * Setter for date of birth.
    *
-   * @param dateOfBirth The specified date of birth as a UNIX timestamp
+   * @param dateOfBirth The specified date of birth
    */
-  public void setDateOfBirth(long unixDateOfBirth) {
-    this.dateOfBirth = new Date(unixDateOfBirth);
+  public void setDateOfBirth(Date dateOfBirth) {
+    this.dateOfBirth = dateOfBirth;
   }
 
   /**
@@ -282,6 +282,16 @@ public class User {
     return this.roles;
   }
 
+  // TODO Subject for removal
+  /**
+   * Setter for roles.
+   * 
+   * @param roles The specified roles
+   */
+  public void setRoles(Set<Role> roles) {
+    this.roles = roles;
+  }
+
   /**
    * Getter for favorites.
    *
@@ -289,6 +299,16 @@ public class User {
    */
   public Set<Configuration> getFavorites() {
     return this.favorites;
+  }
+
+  // TODO Subject for removal
+  /**
+   * Setter for favorites.
+   * 
+   * @param favorites The specified favorites
+   */
+  public void setFavorites(Set<Configuration> favorites) {
+    this.favorites = favorites;
   }
 
   /**

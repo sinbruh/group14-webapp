@@ -11,11 +11,11 @@ import no.ntnu.project.group14.webapp.dto.AuthenticationResponse;
 import no.ntnu.project.group14.webapp.dto.UserDto;
 import no.ntnu.project.group14.webapp.dto.UserUpdateDto;
 import no.ntnu.project.group14.webapp.dto.UserUpdatePasswordDto;
-import no.ntnu.project.group14.webapp.entities.Provider;
+import no.ntnu.project.group14.webapp.entities.Configuration;
 import no.ntnu.project.group14.webapp.entities.User;
 import no.ntnu.project.group14.webapp.security.JwtUtil;
 import no.ntnu.project.group14.webapp.services.AccessUserService;
-import no.ntnu.project.group14.webapp.services.ProviderService;
+import no.ntnu.project.group14.webapp.services.ConfigurationService;
 import no.ntnu.project.group14.webapp.services.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -52,7 +52,7 @@ public class UserController {
   @Autowired
   private UserService userService;
   @Autowired
-  private ProviderService providerService;
+  private ConfigurationService configurationService;
   @Autowired
   private JwtUtil jwtUtil;
 
@@ -96,8 +96,8 @@ public class UserController {
       for (User user : users) {
         UserDto userDataObj = new UserDto(user.getId(), user.getFirstName(), user.getLastName(),
                                           user.getEmail(), user.getPhoneNumber(),
-                                          user.getDateOfBirth().getTime(), user.isActive(),
-                                          user.getRoles(), user.getRentals(), user.getReceipts(),
+                                          user.getDateOfBirth(), user.isActive(),
+                                          user.getRentals(), user.getReviews(), user.getRoles(),
                                           user.getFavorites());
         userData.add(userDataObj);
       }
@@ -165,9 +165,9 @@ public class UserController {
           UserDto userData = new UserDto(foundUser.getId(), foundUser.getFirstName(),
                                          foundUser.getLastName(), foundUser.getEmail(),
                                          foundUser.getPhoneNumber(),
-                                         foundUser.getDateOfBirth().getTime(),
-                                         foundUser.isActive(), foundUser.getRoles(),
-                                         foundUser.getRentals(), foundUser.getReceipts(),
+                                         foundUser.getDateOfBirth(),
+                                         foundUser.isActive(), foundUser.getRentals(),
+                                         foundUser.getReviews(), foundUser.getRoles(),
                                          foundUser.getFavorites());
           logger.info("User found, sending user data...");
           response = new ResponseEntity<>(userData, HttpStatus.OK);
@@ -465,19 +465,19 @@ public class UserController {
         description = "Could not favorite provider with specified provider ID"
       )
   })
-  @PutMapping("/favorite/{providerId}")
-  public ResponseEntity<String> toggleFavorite(@PathVariable Long providerId) {
+  @PutMapping("/favorite/{configurationId}")
+  public ResponseEntity<String> toggleFavorite(@PathVariable Long configurationId) {
     ResponseEntity<String> response;
     User sessionUser = this.accessUserService.getSessionUser();
     if (sessionUser != null) {
-      Optional<Provider> provider = this.providerService.getOne(providerId);
-      if (provider.isPresent()) {
-        Provider foundProvider = provider.get();
-        Set<Provider> favorites = sessionUser.getFavorites();
-        if (!favorites.contains(foundProvider)) {
-          sessionUser.addFavorite(foundProvider);
+      Optional<Configuration> configuration = this.configurationService.get(configurationId);
+      if (configuration.isPresent()) {
+        Configuration foundConfiguration = configuration.get();
+        Set<Configuration> favorites = sessionUser.getFavorites();
+        if (!favorites.contains(foundConfiguration)) {
+          sessionUser.addFavorite(foundConfiguration);
         } else {
-          sessionUser.removeFavorite(foundProvider);
+          sessionUser.removeFavorite(foundConfiguration);
         }
         try {
           this.userService.update(sessionUser.getId(), sessionUser);

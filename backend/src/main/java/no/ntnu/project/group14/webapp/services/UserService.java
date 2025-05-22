@@ -92,7 +92,6 @@ public class UserService {
       existingUserObj.setDateOfBirth(user.getDateOfBirth());
       existingUserObj.setActive(user.isActive());
       existingUserObj.setRoles(user.getRoles());
-      existingUserObj.setReceipts(user.getReceipts());
       existingUserObj.setFavorites(user.getFavorites());
       this.userRepository.save(existingUserObj);
     }
