@@ -82,6 +82,15 @@ public class Car {
   }
 
   /**
+   * Setter for make.
+   * 
+   * @param make The specified make
+   */
+  public void setMake(String make) {
+    this.make = make;
+  }
+
+  /**
    * Getter for model.
    *
    * @return Model
@@ -91,12 +100,30 @@ public class Car {
   }
 
   /**
+   * Setter for model.
+   * 
+   * @param model The specified model
+   */
+  public void setModel(String model) {
+    this.model = model;
+  }
+
+  /**
    * Getter for year.
    *
    * @return Year
    */
   public int getYear() {
     return this.year;
+  }
+
+  /**
+   * Setter for year.
+   * 
+   * @param year The specified year
+   */
+  public void setYear(int year) {
+    this.year = year;
   }
 
   /**

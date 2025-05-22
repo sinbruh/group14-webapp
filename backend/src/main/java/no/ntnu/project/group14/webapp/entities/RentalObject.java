@@ -105,6 +105,15 @@ public class RentalObject {
   }
 
   /**
+   * Setter for price.
+   * 
+   * @param price The specified price
+   */
+  public void setPrice(double price) {
+    this.price = price;
+  }
+
+  /**
    * Checks if rental object is available.
    * 
    * @return True if rental object is available or false otherwise

@@ -109,12 +109,30 @@ public class Configuration {
   }
 
   /**
+   * Setter for name.
+   * 
+   * @param name The specified name
+   */
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  /**
    * Getter for fuel type.
    *
    * @return Fuel type
    */
   public String getFuelType() {
     return this.fuelType;
+  }
+
+  /**
+   * Setter for fuel type.
+   * 
+   * @param fuelType Fuel type
+   */
+  public void setFuelType(String fuelType) {
+    this.fuelType = fuelType;
   }
 
   /**
@@ -127,12 +145,30 @@ public class Configuration {
   }
 
   /**
+   * Setter for transmission type.
+   * 
+   * @param transmissionType The specified transmission type
+   */
+  public void setTransmissionType(String transmissionType) {
+    this.transmissionType = transmissionType;
+  }
+
+  /**
    * Getter for number of seats.
    *
    * @return Number of seats
    */
   public int getNumberOfSeats() {
     return this.numberOfSeats;
+  }
+
+  /**
+   * Setter for number of seats.
+   * 
+   * @param numberOfSeats The specified number of seats
+   */
+  public void setNumberOfSeats(int numberOfSeats) {
+    this.numberOfSeats = numberOfSeats;
   }
 
   /**

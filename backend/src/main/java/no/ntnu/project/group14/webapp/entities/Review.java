@@ -82,12 +82,30 @@ public class Review {
   }
 
   /**
+   * Setter for rating.
+   * 
+   * @param rating The specified rating
+   */
+  public void setRating(int rating) {
+    this.rating = rating;
+  }
+
+  /**
    * Getter for text.
    * 
    * @return Text
    */
   public String getText() {
     return this.text;
+  }
+
+  /**
+   * Setter for text.
+   * 
+   * @param text The specified text
+   */
+  public void setText(String text) {
+    this.text = text;
   }
 
   /**

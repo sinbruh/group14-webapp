@@ -84,6 +84,15 @@ public class Provider {
   }
 
   /**
+   * Setter for name.
+   * 
+   * @param name The specified name
+   */
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  /**
    * Getter for rental objects.
    * 
    * @return Rental objects

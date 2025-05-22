@@ -90,12 +90,30 @@ public class Rental {
   }
 
   /**
+   * Setter for start time.
+   * 
+   * @param startTime The specified start time
+   */
+  public void setStartTime(long startTime) {
+    this.startTime = startTime;
+  }
+
+  /**
    * Getter for end time.
    *
    * @return End time
    */
   public long getEndTime() {
     return this.endTime;
+  }
+
+  /**
+   * Setter for end time.
+   * 
+   * @param endTime The specified end time
+   */
+  public void setEndTime(long endTime) {
+    this.endTime = endTime;
   }
 
   /**

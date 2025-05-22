@@ -75,6 +75,15 @@ public class Region {
   }
 
   /**
+   * Setter for name.
+   * 
+   * @param name The specified name
+   */
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  /**
    * Getter for locations.
    * 
    * @return Locations
