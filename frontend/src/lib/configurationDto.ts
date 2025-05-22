@@ -1,9 +1,9 @@
 export interface ConfigurationDto {
-  name: string;
   make: string;
   model: string;
-  numberOfSeats: number;
+  name: string;
   fuelType: string;
   transmissionType: string;
+  numberOfSeats: number;
   price: number;
 }
