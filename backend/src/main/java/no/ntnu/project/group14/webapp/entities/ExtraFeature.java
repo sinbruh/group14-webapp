@@ -90,6 +90,15 @@ public class ExtraFeature {
   }
 
   /**
+   * Setter for configuration.
+   * 
+   * @param configuration The specified configuration
+   */
+  public void setConfiguration(Configuration configuration) {
+    this.configuration = configuration;
+  }
+
+  /**
    * Checks if extra feature is valid.
    *
    * @return True if extra feature is valid or false otherwise

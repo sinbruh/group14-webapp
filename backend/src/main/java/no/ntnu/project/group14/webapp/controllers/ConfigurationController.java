@@ -163,8 +163,10 @@ public class ConfigurationController {
    * 
    * @param carId         The specified car ID
    * @param configuration The specified configuration
-   * @return <p><b>201 CREATED</b> if configuration is valid (<i>body:</i> generated ID of added configuration)</p>
-   *         <li><p><b>400 BAD REQUEST</b> if configuration is invalid (<i>body:</i> error message)</p></li>
+   * @return <p><b>201 CREATED</b> if configuration is valid (<i>body:</i> generated ID of added
+   *         configuration)</p>
+   *         <li><p><b>400 BAD REQUEST</b> if configuration is invalid (<i>body:</i> error
+   *         message)</p></li>
    *         <li><p><b>401 UNAUTHORIZED</b> if user is not authenticated</p></li>
    *         <li><p><b>403 FORBIDDEN</b> if user is deactivated or not admin</p></li>
    *         <li><p><b>404 NOT FOUND</b> if car does not exist</p></li>
@@ -210,10 +212,12 @@ public class ConfigurationController {
         configuration.setCar(car.get());
         try {
           this.configurationService.add(configuration);
-          this.logger.info("[POST] Valid configuration, sending generated ID of added configuration...");
+          this.logger.info(
+            "[POST] Valid configuration, sending generated ID of added configuration..."
+          );
           response = ResponseEntity.created(null).body(configuration.getId());
         } catch (IllegalArgumentException e) {
-          this.logger.error("[POST] Invalid configuration, sending error message");
+          this.logger.error("[POST] Invalid configuration, sending error message...");
           response = ResponseEntity.badRequest().body(e.getMessage());
         }
       } else {
@@ -234,19 +238,22 @@ public class ConfigurationController {
   }
 
   /**
-   * Endpoint for updating the configuration with the specified ID with the specified update configuration.
+   * Endpoint for updating the configuration with the specified ID with the specified update
+   * configuration.
    * 
-   * @param id The specified ID
+   * @param id            The specified ID
    * @param configuration The specified update configuration
    * @return <p><b>200 OK</b> if configuration exists and update configuration is valid</p>
-   *         <li><p><b>400 BAD REQUEST</b> if update configuration is invalid (<i>body:</i> error message)</p></li>
+   *         <li><p><b>400 BAD REQUEST</b> if update configuration is invalid (<i>body:</i> error
+   *         message)</p></li>
    *         <li><p><b>401 UNAUTHORIZED</b> if user is not authenticated</p></li>
    *         <li><p><b>403 FORBIDDEN</b> if user is deactivated or not admin</p></li>
    *         <li><p><b>404 NOT FONUD</b> if configuration does not exist</p></li>
    */
   @Operation(
     summary = "Update configuration",
-    description = "Updates the configuration with the specified ID with the specified update configuration"
+    description = "Updates the configuration with the specified ID with the specified update "
+                + "configuration"
   )
   @ApiResponses(value = {
     @ApiResponse(
@@ -282,7 +289,10 @@ public class ConfigurationController {
     if (sessionUser != null && sessionUser.isAdmin()) {
       try {
         if (this.configurationService.update(id, configuration)) {
-          this.logger.info("[PUT] Configuration exists and valid update configuration, sending success response...");
+          this.logger.info(
+            "[PUT] Configuration exists and valid update configuration, sending success "
+          + "response..."
+          );
           response = ResponseEntity.ok().build();
         } else {
           this.logger.error("[PUT] Configuration does not exist, sending error response...");
