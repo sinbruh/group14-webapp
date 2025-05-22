@@ -18,8 +18,6 @@ import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 /**
  * The User class represents the entity for users. Users can have zero or more
  * {@link Rental rentals}.
@@ -64,17 +62,14 @@ public class User {
   private boolean active = true;
 
   @OneToMany(mappedBy = "user")
-  @JsonManagedReference
   @Schema(description = "User rentals")
   private Set<Rental> rentals = new LinkedHashSet<>();
 
   @OneToMany(mappedBy = "user")
-  @JsonManagedReference
   @Schema(description = "Reviews placed by user")
   private Set<Review> reviews = new LinkedHashSet<>();
 
   @ManyToMany(fetch = FetchType.EAGER)
-  @JsonManagedReference
   @JoinTable(
     name = "user_role",
     joinColumns = @JoinColumn(name = "user_id"),
@@ -84,7 +79,6 @@ public class User {
   private Set<Role> roles = new LinkedHashSet<>();
 
   @ManyToMany(fetch = FetchType.EAGER)
-  @JsonManagedReference
   @JoinTable(
     name = "favorite",
     joinColumns = @JoinColumn(name = "user_id"),

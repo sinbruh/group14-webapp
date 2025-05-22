@@ -3,9 +3,6 @@ package no.ntnu.project.group14.webapp.entities;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -40,12 +37,10 @@ public class Provider {
   private String name;
 
   @OneToMany(mappedBy = "provider")
-  @JsonBackReference
   @Schema(description = "Rental objects distributed by provider")
   private Set<RentalObject> rentalObjects = new LinkedHashSet<>();
 
   @ManyToMany(fetch = FetchType.EAGER)
-  @JsonManagedReference
   @JoinTable(
     name = "provider_region",
     joinColumns = @JoinColumn(name = "provider_id"),

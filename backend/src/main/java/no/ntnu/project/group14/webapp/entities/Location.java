@@ -2,8 +2,6 @@ package no.ntnu.project.group14.webapp.entities;
 
 import java.util.Set;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -34,21 +32,18 @@ public class Location {
   @Schema(description = "Location name")
   private String name;
 
+  @ManyToOne
+  @JoinColumn(name = "region_id")
+  @Schema(description = "Region containing location")
+  private Region region;
+
   @OneToMany(mappedBy = "pickUpLocation")
-  @JsonBackReference
   @Schema(description = "Rentals using location as pick up location")
   private Set<Rental> pickUpRentals;
 
   @OneToMany(mappedBy = "dropOffLocation")
-  @JsonBackReference
   @Schema(description = "Rentals using location as drop off location")
   private Set<Rental> dropOffRentals;
-
-  @ManyToOne
-  @JsonBackReference
-  @JoinColumn(name = "region_id")
-  @Schema(description = "Region containing location")
-  private Region region;
 
   /**
    * Constructor for the Location class. This default constructor is required by JPA.
@@ -85,6 +80,15 @@ public class Location {
   }
 
   /**
+   * Getter for region.
+   * 
+   * @return Region
+   */
+  public Region getRegion() {
+    return this.region;
+  }
+
+  /**
    * Getter for pick up rentals.
    * 
    * @return Pick up rentals
@@ -100,15 +104,6 @@ public class Location {
    */
   public Set<Rental> getDropOffRentals() {
     return this.dropOffRentals;
-  }
-
-  /**
-   * Getter for region.
-   * 
-   * @return Region
-   */
-  public Region getRegion() {
-    return this.region;
   }
 
   /**

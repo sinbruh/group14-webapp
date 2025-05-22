@@ -1,6 +1,5 @@
 package no.ntnu.project.group14.webapp.entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -30,8 +29,7 @@ public class Role {
   private String name;
 
   @ManyToMany(mappedBy = "roles")
-  @JsonBackReference
-  @Schema(description = "Users that have this role")
+  @Schema(description = "Users with role")
   private Set<User> users = new LinkedHashSet<>();
 
   /**
@@ -83,6 +81,6 @@ public class Role {
    * @return True if role is valid or false otherwise
    */
   public boolean isValid() {
-    return !this.name.isBlank();
+    return this.name != null && !this.name.isBlank();
   }
 }

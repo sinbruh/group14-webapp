@@ -2,9 +2,6 @@ package no.ntnu.project.group14.webapp.entities;
 
 import java.util.Set;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -43,22 +40,19 @@ public class RentalObject {
   @Schema(description = "Rental object visibility in UI")
   private boolean visible;
 
-  @OneToMany(mappedBy = "rentalObject")
-  @JsonManagedReference
-  @Schema(description = "Rentals renting rental object")
-  private Set<Rental> rentals;
-
   @ManyToOne
-  @JsonManagedReference
   @JoinColumn(name = "provider_id")
   @Schema(description = "Provider distributing rental object")
   private Provider provider;
 
   @ManyToOne
-  @JsonBackReference
   @JoinColumn(name = "configuration_id")
   @Schema(description = "Configuration being distributed in rental object")
   private Configuration configuration;
+
+  @OneToMany(mappedBy = "rentalObject")
+  @Schema(description = "Rentals renting rental object")
+  private Set<Rental> rentals;
 
   /**
    * Constructor for the RentalObject class. This default constructor is required by JPA.
@@ -147,15 +141,6 @@ public class RentalObject {
   }
 
   /**
-   * Getter for rentals.
-   * 
-   * @return Rentals
-   */
-  public Set<Rental> getRentals() {
-    return this.rentals;
-  }
-
-  /**
    * Getter for provider.
    * 
    * @return Provider
@@ -171,6 +156,15 @@ public class RentalObject {
    */
   public Configuration getConfiguration() {
     return this.configuration;
+  }
+
+  /**
+   * Getter for rentals.
+   * 
+   * @return Rentals
+   */
+  public Set<Rental> getRentals() {
+    return this.rentals;
   }
 
   /**
