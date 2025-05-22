@@ -12,7 +12,7 @@ export function Testimonials() {
       rating: 5,
       comment:
         "The service was exceptional! The car was clean, well-maintained, and the pickup process was quick and easy.",
-      image: "/placeholder.svg?height=60&width=60",
+      image: "/persons/sarah.jpg",
     },
     {
       id: 2,
@@ -20,8 +20,8 @@ export function Testimonials() {
       location: "San Francisco, CA",
       rating: 5,
       comment:
-        "I've rented from many companies, but RentalRoulette offers the best value and customer service by far.",
-      image: "/placeholder.svg?height=60&width=60",
+        "I've rented from many car companies, but RentalRoulette offers the best value and customer service by far.",
+      image: "/persons/chen.jpg",
     },
     {
       id: 3,
@@ -30,7 +30,7 @@ export function Testimonials() {
       rating: 4,
       comment:
         "Great selection of vehicles and competitive prices. The app makes booking and managing rentals so convenient.",
-      image: "/placeholder.svg?height=60&width=60",
+      image: "/persons/emily.jpg",
     },
   ];
 

@@ -1,6 +1,7 @@
 "use client";
 import Link from "next/link";
 import { CalendarDays, Car, MapPin, Search, Star, Users } from "lucide-react";
+import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -17,53 +18,32 @@ import { DatePickerWithRange } from "@/components/date-range-picker";
 import { FeaturedCars } from "@/components/featured-cars";
 import { Testimonials } from "@/components/testimonials";
 import { SpecialOffers } from "@/components/special-offers";
-import AuthModal from "@/components/AuthModal";
+import Navbar from "@/components/Navbar";
 import { useRouter } from "next/navigation";
 
 export default function Home() {
   const router = useRouter();
+  const [pickupLocation, setPickupLocation] = useState("");
+  const [dropoffLocation, setDropoffLocation] = useState("");
+  const [dateRange, setDateRange] = useState({ from: undefined, to: undefined });
+  const [carType, setCarType] = useState("");
 
   const handleRedirectToCars = () => {
-    router.push("/cars");
+    // Build query string with selected values
+    const params = new URLSearchParams();
+    if (pickupLocation) params.append("pickup", pickupLocation);
+    if (dropoffLocation) params.append("dropoff", dropoffLocation);
+    if (dateRange.from) params.append("from", dateRange.from.toISOString());
+    if (dateRange.to) params.append("to", dateRange.to.toISOString());
+    if (carType) params.append("type", carType);
+
+    // Redirect to cars page with query parameters
+    router.push(`/cars?${params.toString()}`);
   };
 
   return (
     <div className="flex flex-col min-h-screen">
-      <header className="px-4 lg:px-6 h-16 flex items-center justify-between border-b">
-        <Link className="flex items-center gap-2 font-semibold" href="/">
-          <Car className="h-6 w-6 text-emerald-600" />
-          <span>RentalRoulette</span>
-        </Link>
-        <nav className="hidden md:flex gap-6">
-          <Link
-            className="text-sm font-medium hover:underline underline-offset-4"
-            href="/"
-          >
-            Home
-          </Link>
-          <Link
-            className="text-sm font-medium hover:underline underline-offset-4"
-            href="/cars"
-          >
-            Cars
-          </Link>
-          <Link
-            className="text-sm font-medium hover:underline underline-offset-4"
-            href="/about"
-          >
-            About
-          </Link>
-          <Link
-            className="text-sm font-medium hover:underline underline-offset-4"
-            href="/contact"
-          >
-            Contact
-          </Link>
-        </nav>
-        <div className="flex items-center gap-4">
-          <AuthModal />
-        </div>
-      </header>
+      <Navbar />
       <main className="flex-1">
         <section className="w-full py-12 md:py-24 lg:py-32 bg-gradient-to-b from-emerald-50 to-white">
           <div className="container px-4 md:px-6">
@@ -94,18 +74,11 @@ export default function Home() {
               <div className="mx-auto w-full max-w-[500px] lg:max-w-none">
                 <Card className="p-4 shadow-lg">
                   <CardContent className="p-0">
-                    <Tabs defaultValue="rental" className="w-full">
-                      <TabsList className="grid w-full grid-cols-2">
-                        <TabsTrigger value="rental">Car Rental</TabsTrigger>
-                        <TabsTrigger value="airport">
-                          Airport Transfer
-                        </TabsTrigger>
-                      </TabsList>
-                      <TabsContent value="rental" className="mt-4 space-y-4">
+                    <div className="mt-4 space-y-4">
                         <div className="grid gap-4">
                           <div className="flex items-center gap-2 rounded-md border p-2">
                             <MapPin className="h-4 w-4 text-gray-500" />
-                            <Select>
+                            <Select onValueChange={setPickupLocation}>
                               <SelectTrigger className="border-0 p-0 shadow-none focus:ring-0">
                                 <SelectValue placeholder="Pickup Location" />
                               </SelectTrigger>
@@ -121,7 +94,7 @@ export default function Home() {
                           </div>
                           <div className="flex items-center gap-2 rounded-md border p-2">
                             <MapPin className="h-4 w-4 text-gray-500" />
-                            <Select>
+                            <Select onValueChange={setDropoffLocation}>
                               <SelectTrigger className="border-0 p-0 shadow-none focus:ring-0">
                                 <SelectValue placeholder="Drop-off Location" />
                               </SelectTrigger>
@@ -139,11 +112,11 @@ export default function Home() {
                             </Select>
                           </div>
                           <div className="rounded-md border p-2">
-                            <DatePickerWithRange className="border-0 p-0 shadow-none" />
+                            <DatePickerWithRange className="border-0 p-0 shadow-none" value={dateRange} onChange={setDateRange} />
                           </div>
                           <div className="flex items-center gap-2 rounded-md border p-2">
                             <Car className="h-4 w-4 text-gray-500" />
-                            <Select>
+                            <Select onValueChange={setCarType}>
                               <SelectTrigger className="border-0 p-0 shadow-none focus:ring-0">
                                 <SelectValue placeholder="Car Type" />
                               </SelectTrigger>
@@ -161,54 +134,7 @@ export default function Home() {
                             Search Cars
                           </Button>
                         </div>
-                      </TabsContent>
-                      <TabsContent value="airport" className="mt-4 space-y-4">
-                        <div className="grid gap-4">
-                          <div className="flex items-center gap-2 rounded-md border p-2">
-                            <MapPin className="h-4 w-4 text-gray-500" />
-                            <Input
-                              className="border-0 p-0 shadow-none focus-visible:ring-0"
-                              placeholder="Airport"
-                            />
-                          </div>
-                          <div className="flex items-center gap-2 rounded-md border p-2">
-                            <MapPin className="h-4 w-4 text-gray-500" />
-                            <Input
-                              className="border-0 p-0 shadow-none focus-visible:ring-0"
-                              placeholder="Destination"
-                            />
-                          </div>
-                          <div className="rounded-md border p-2">
-                            <div className="flex items-center gap-2">
-                              <CalendarDays className="h-4 w-4 text-gray-500" />
-                              <Input
-                                className="border-0 p-0 shadow-none focus-visible:ring-0"
-                                type="date"
-                                placeholder="Date"
-                              />
-                            </div>
-                          </div>
-                          <div className="flex items-center gap-2 rounded-md border p-2">
-                            <Users className="h-4 w-4 text-gray-500" />
-                            <Select>
-                              <SelectTrigger className="border-0 p-0 shadow-none focus:ring-0">
-                                <SelectValue placeholder="Passengers" />
-                              </SelectTrigger>
-                              <SelectContent>
-                                <SelectItem value="1">1 Passenger</SelectItem>
-                                <SelectItem value="2">2 Passengers</SelectItem>
-                                <SelectItem value="3">3 Passengers</SelectItem>
-                                <SelectItem value="4">4+ Passengers</SelectItem>
-                              </SelectContent>
-                            </Select>
-                          </div>
-                          <Button className="w-full bg-emerald-600 hover:bg-emerald-700">
-                            <Search className="mr-2 h-4 w-4" />
-                            Find Transfer
-                          </Button>
-                        </div>
-                      </TabsContent>
-                    </Tabs>
+                    </div>
                   </CardContent>
                 </Card>
               </div>
@@ -216,9 +142,9 @@ export default function Home() {
           </div>
         </section>
 
-        <FeaturedCars />
+        {/*<FeaturedCars />*/}
 
-        <SpecialOffers />
+        {/*<SpecialOffers />*/}
 
         <section className="w-full py-12 md:py-24 lg:py-32 bg-gray-50">
           <div className="container px-4 md:px-6">
