@@ -112,7 +112,8 @@ public class CarController {
    * @return <p><b>201 CREATED</b> if car is valid (<i>body:</i> generated ID of added car)</p>
    *         <li><p><b>400 BAD REQUEST</b> if car is invalid (<i>body:</i> error message)</p></li>
    *         <li><p><b>401 UNAUTHORIZED</b> if user is not authenticated</p></li>
-   *         <li><p><b>403 FORBIDDEN</b> if user is deactivated or not admin</p></li>
+   *         <li><p><b>403 FORBIDDEN</b> if user is deactivated or not admin (<i>body:</i> error
+   *         message)</p></li>
    */
   @Operation(
     summary = "Add car",
@@ -174,7 +175,8 @@ public class CarController {
    *         <li><p><b>400 BAD REQUEST</b> if update car is invalid (<i>body:</i> error
    *         message)</p></li>
    *         <li><p><b>401 UNAUTHORIZED</b> if user is not authenticated</p></li>
-   *         <li><p><b>403 FORBIDDEN</b> if user is deactivated or not admin</p></li>
+   *         <li><p><b>403 FORBIDDEN</b> if user is deactivated or not admin (<i>body:</i> error
+   *         message)</p></li>
    *         <li><p><b>404 NOT FONUD</b> if car does not exist</p></li>
    */
   @Operation(
@@ -244,7 +246,8 @@ public class CarController {
    * @param id The specified ID
    * @return <p><b>200 OK</b> if car exists</b></p>
    *         <li><p><b>401 UNAUTHORIZED</b> if user is not authenticated</p></li>
-   *         <li><p><b>403 FORBIDDEN</b> if user is deactivated or not admin</p></li>
+   *         <li><p><b>403 FORBIDDEN</b> if user is deactivated or not admin (<i>body:</i> error
+   *         message)</p></li>
    *         <li><p><b>404 NOT FOUND</b> if car does not exist</p></li>
    */
   @Operation(

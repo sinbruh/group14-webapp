@@ -111,14 +111,18 @@ public class ExtraFeatureController {
   }
 
   /**
-   * Endpoint for adding the specified extra feature to the configuration with the specified configuration ID.
+   * Endpoint for adding the specified extra feature to the configuration with the specified
+   * configuration ID.
    * 
    * @param configurationId The specified configuration ID
    * @param extraFeature    The specified extra feature
-   * @return <p><b>201 CREATED</b> if extra feature is valid (<i>body:</i> generated ID of added extra feature)</p>
-   *         <li><p><b>400 BAD REQUEST</b> if extra feature is invalid (<i>body:</i> error message)</p></li>
+   * @return <p><b>201 CREATED</b> if extra feature is valid (<i>body:</i> generated ID of added
+   *         extra feature)</p>
+   *         <li><p><b>400 BAD REQUEST</b> if extra feature is invalid (<i>body:</i> error
+   *         message)</p></li>
    *         <li><p><b>401 UNAUTHORIZED</b> if user is not authenticated</p></li>
-   *         <li><p><b>403 FORBIDDEN</b> if user is deactivated or not admin</p></li>
+   *         <li><p><b>403 FORBIDDEN</b> if user is deactivated or not admin (<i>body:</i> error
+   *         message)</p></li>
    *         <li><p><b>404 NOT FOUND</b> if configuration does not exist</p></li>
    */
   @Operation(
@@ -149,7 +153,7 @@ public class ExtraFeatureController {
   })
   @PostMapping("/configuration/{configurationId}")
   public ResponseEntity<Object> add(
-    @Parameter(description = "ID of car to add extra feature to")
+    @Parameter(description = "ID of configuration to add extra feature to")
     @PathVariable Long configurationId,
     @Parameter(description = "Extra feature to add")
     @RequestBody ExtraFeature extraFeature
@@ -162,7 +166,9 @@ public class ExtraFeatureController {
         extraFeature.setConfiguration(configuration.get());
         try {
           this.extraFeatureService.add(extraFeature);
-          this.logger.info("[POST] Valid extra feature, sending generated ID of added extra feature...");
+          this.logger.info(
+            "[POST] Valid extra feature, sending generated ID of added extra feature..."
+          );
           response = ResponseEntity.created(null).body(extraFeature.getId());
         } catch (IllegalArgumentException e) {
           this.logger.error("[POST] Invalid extra feature, sending error message...");
@@ -186,19 +192,23 @@ public class ExtraFeatureController {
   }
 
   /**
-   * Endpoint for updating the extra feature with the specified ID with the specified update extra feature.
+   * Endpoint for updating the extra feature with the specified ID with the specified update extra
+   * feature.
    * 
    * @param id           The specified ID
    * @param extraFeature The specified update extra feature
    * @return <p><b>200 OK</b> if extra feature exists and update extra feature is valid</p>
-   *         <li><p><b>400 BAD REQUEST</b> if update extra feature is invalid (<i>body:</i> error message)</p></li>
+   *         <li><p><b>400 BAD REQUEST</b> if update extra feature is invalid (<i>body:</i> error
+   *         message)</p></li>
    *         <li><p><b>401 UNAUTHORIZED</b> if user is not authenticated</p></li>
-   *         <li><p><b>403 FORBIDDEN</b> if user is deactivated or not admin</p></li>
+   *         <li><p><b>403 FORBIDDEN</b> if user is deactivated or not admin (<i>body:</i> error
+   *         message)</p></li>
    *         <li><p><b>404 NOT FONUD</b> if extra feature does not exist</p></li>
    */
   @Operation(
     summary = "Update extra feature",
-    description = "Updates the extra feature with the specified ID with the specified update extra feature"
+    description = "Updates the extra feature with the specified ID with the specified update "
+                + "extra feature"
   )
   @ApiResponses(value = {
     @ApiResponse(
@@ -234,7 +244,10 @@ public class ExtraFeatureController {
     if (sessionUser != null && sessionUser.isAdmin()) {
       try {
         if (this.extraFeatureService.update(id, extraFeature)) {
-          this.logger.info("[PUT] Extra feature exists and valid update extra feature, sending success response...");
+          this.logger.info(
+            "[PUT] Extra feature exists and valid update extra feature, sending success "
+          + "response..."
+          );
           response = ResponseEntity.ok().build();
         } else {
           this.logger.error("[PUT] Extra feature does not exist, sending error response...");
@@ -263,7 +276,8 @@ public class ExtraFeatureController {
    * @param id The specified ID
    * @return <p><b>200 OK</b> if extra feature exists</b></p>
    *         <li><p><b>401 UNAUTHORIZED</b> if user is not authenticated</p></li>
-   *         <li><p><b>403 FORBIDDEN</b> if user is deactivated or not admin</p></li>
+   *         <li><p><b>403 FORBIDDEN</b> if user is deactivated or not admin (<i>body:</i> error
+   *         message)</p></li>
    *         <li><p><b>404 NOT FOUND</b> if extra feature does not exist</p></li>
    */
   @Operation(

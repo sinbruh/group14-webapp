@@ -165,12 +165,30 @@ public class RentalObject {
   }
 
   /**
+   * Setter for provider.
+   * 
+   * @param provider The specified provider
+   */
+  public void setProvider(Provider provider) {
+    this.provider = provider;
+  }
+
+  /**
    * Getter for configuration.
    * 
    * @return Configuration
    */
   public Configuration getConfiguration() {
     return this.configuration;
+  }
+
+  /**
+   * Setter for configuration.
+   * 
+   * @param configuration The specified configuration
+   */
+  public void setConfiguration(Configuration configuration) {
+    this.configuration = configuration;
   }
 
   /**

@@ -1,23 +1,7 @@
 package no.ntnu.project.group14.webapp.controllers;
 
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
-
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
-import no.ntnu.project.group14.webapp.dto.ConfigurationDto;
-import no.ntnu.project.group14.webapp.entities.Car;
-import no.ntnu.project.group14.webapp.entities.Configuration;
-import no.ntnu.project.group14.webapp.entities.RentalObject;
-import no.ntnu.project.group14.webapp.entities.User;
-import no.ntnu.project.group14.webapp.services.AccessUserService;
-import no.ntnu.project.group14.webapp.services.CarService;
-import no.ntnu.project.group14.webapp.services.ConfigurationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,107 +18,76 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
-/**
- * The ConfigurationController class represents the REST controller for
- * {@link Configuration configurations}.
- */
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import no.ntnu.project.group14.webapp.entities.Configuration;
+import no.ntnu.project.group14.webapp.entities.Provider;
+import no.ntnu.project.group14.webapp.entities.RentalObject;
+import no.ntnu.project.group14.webapp.entities.User;
+import no.ntnu.project.group14.webapp.services.AccessUserService;
+import no.ntnu.project.group14.webapp.services.ConfigurationService;
+import no.ntnu.project.group14.webapp.services.RentalObjectService;
+import no.ntnu.project.group14.webapp.services.ProviderService;
+
 @RestController
 @CrossOrigin
-@RequestMapping("/api/configurations")
-public class ConfigurationController {
+@RequestMapping("/api/rentalobjects")
+public class RentalObjectController {
+
+  @Autowired
+  private RentalObjectService rentalObjectService;
+
+  @Autowired
+  private ProviderService providerService;
 
   @Autowired
   private ConfigurationService configurationService;
 
   @Autowired
-  private CarService carService;
-
-  @Autowired
   private AccessUserService accessUserService;
 
-  private final Logger logger = LoggerFactory.getLogger(ConfigurationController.class);
+  private final Logger logger = LoggerFactory.getLogger(RentalObjectController.class);
 
   /**
-   * Endpoint for getting all configuraitons for search. The configuraitons are sent in the form of
-   * {@link ConfigurationDto DTOs} containing only required data.
-   *
-   * @return <p><b>200 OK</b> (<i>body:</i> all configurations)</p>
-   */
-  @Operation(
-      summary = "Get configurations",
-      description = "Gets all configurations"
-  )
-  @ApiResponses(value = {
-    @ApiResponse(
-      responseCode = "200",
-      description = "Signals success and contains all configuraitons"
-    )
-  })
-  @GetMapping("/search")
-  public Iterable<ConfigurationDto> getSearch() {
-    Iterable<Configuration> configurations = this.configurationService.getAll();
-    List<ConfigurationDto> dtos = new ArrayList<>();
-    for (Configuration configuration : configurations) {
-      double price = 9999;
-      // Search for rental object with lowest price
-      for (RentalObject rentalObject : configuration.getRentalObjects()) {
-        double rentalPrice = rentalObject.getPrice();
-        if (rentalPrice < price) {
-          price = rentalPrice;
-        }
-      }
-      ConfigurationDto dto = new ConfigurationDto(
-        configuration.getCar().getMake(),
-        configuration.getCar().getModel(),
-        configuration.getName(),
-        configuration.getFuelType(),
-        configuration.getTransmissionType(),
-        configuration.getNumberOfSeats(),
-        price
-      );
-      dtos.add(dto);
-    }
-    this.logger.info("[GET] Sending all configuration data...");
-    return dtos;
-  }
-
-  /**
-   * Endpoint for getting all configurations.
+   * Endpoint for getting all rental objects.
    * 
-   * @return <p><b>200 OK</b> (<i>body:</i> all configurations)</p>
+   * @return <p><b>200 OK</b> (<i>body:</i> all rental objects)</p>
    */
   @Operation(
-    summary = "Get configurations",
-    description = "Gets all configurations"
+    summary = "Get rental objects",
+    description = "Gets all rental objects"
   )
   @ApiResponses(value = {
     @ApiResponse(
       responseCode = "200",
-      description = "Signals success and contains all configurations"
+      description = "Signals success and contains all rental objects"
     )
   })
   @GetMapping
-  public Iterable<Configuration> getAll() {
-    Iterable<Configuration> configurations = this.configurationService.getAll();
-    this.logger.info("[GET] Sending all configurations...");
-    return configurations;
+  public Iterable<RentalObject> getAll() {
+    Iterable<RentalObject> rentalObjects = this.rentalObjectService.getAll();
+    this.logger.info("[GET] Sending all rental objects...");
+    return rentalObjects;
   }
 
   /**
-   * Endpoint for getting the configuration with the specified ID.
+   * Endpoint for getting the rental object with the specified ID.
    * 
    * @param id The specified ID
-   * @return <p><b>200 OK</b> if configuration exists (<i>body:</i> configuration)</p>
-   *         <li><b>404 NOT FOUND</b> if configuration does not exist</li>
+   * @return <p><b>200 OK</b> if rental object exists (<i>body:</i> rental object)</p>
+   *         <li><b>404 NOT FOUND</b> if rental object does not exist</li>
    */
   @Operation(
-    summary = "Get configuration",
-    description = "Gets the configuration with the specified ID"
+    summary = "Get rental object",
+    description = "Gets the rental object with the specified ID"
   )
   @ApiResponses(value = {
     @ApiResponse(
       responseCode = "200",
-      description = "Signals success and contains configuration"
+      description = "Signals success and contains rental object"
     ),
     @ApiResponse(
       responseCode = "404",
@@ -143,43 +96,46 @@ public class ConfigurationController {
   })
   @GetMapping("/{id}")
   public ResponseEntity<Object> get(
-    @Parameter(description = "ID of configuration to get")
+    @Parameter(description = "ID of rental object to get")
     @PathVariable Long id
   ) {
     ResponseEntity<Object> response;
-    Optional<Configuration> configuration = this.configurationService.get(id);
-    if (configuration.isPresent()) {
-      this.logger.info("[GET] Configuration exists, sending configuration...");
-      response = ResponseEntity.ok().body(configuration.get());
+    Optional<RentalObject> rentalObject = this.rentalObjectService.get(id);
+    if (rentalObject.isPresent()) {
+      this.logger.info("[GET] Rental object exists, sending rental object...");
+      response = ResponseEntity.ok().body(rentalObject.get());
     } else {
-      this.logger.error("[GET] Configuration does not exist, sending error response...");
+      this.logger.error("[GET] Rental object does not exist, sending error response...");
       response = ResponseEntity.notFound().build();
     }
     return response;
   }
 
   /**
-   * Endpoint for adding the specified configuration to the car with the specified car ID.
+   * Endpoint for adding the specified rental object to the provider with the specified provider ID
+   * and the configuration with the specified configuration ID.
    * 
-   * @param carId         The specified car ID
-   * @param configuration The specified configuration
-   * @return <p><b>201 CREATED</b> if configuration is valid (<i>body:</i> generated ID of added
-   *         configuration)</p>
-   *         <li><p><b>400 BAD REQUEST</b> if configuration is invalid (<i>body:</i> error
+   * @param providerId      The specified provider ID
+   * @param configurationId The specified configuration ID
+   * @param rentalObject    The specified rental object
+   * @return <p><b>201 CREATED</b> if rental object is valid (<i>body:</i> generated ID of added
+   *         rental object)</p>
+   *         <li><p><b>400 BAD REQUEST</b> if rental object is invalid (<i>body:</i> error
    *         message)</p></li>
    *         <li><p><b>401 UNAUTHORIZED</b> if user is not authenticated</p></li>
    *         <li><p><b>403 FORBIDDEN</b> if user is deactivated or not admin (<i>body:</i> error
    *         message)</p></li>
-   *         <li><p><b>404 NOT FOUND</b> if car does not exist</p></li>
+   *         <li><p><b>404 NOT FOUND</b> if provider or configuation do not exist (<i>body:</i>
+   *         error message)</p></li>
    */
   @Operation(
-    summary = "Add configuration",
-    description = "Adds the specified configuration"
+    summary = "Add rental object",
+    description = "Adds the specified rental object"
   )
   @ApiResponses(value = {
     @ApiResponse(
       responseCode = "201",
-      description = "Signals success and contains generated ID of added configuration"
+      description = "Signals success and contains generated ID of added rental object"
     ),
     @ApiResponse(
       responseCode = "400",
@@ -198,32 +154,39 @@ public class ConfigurationController {
       description = "Signals error"
     )
   })
-  @PostMapping("/car/{carId}")
+  @PostMapping("/provider/{providerId}/configuration/{configurationId}")
   public ResponseEntity<Object> add(
-    @Parameter(description = "ID of car to add configuration to")
-    @PathVariable Long carId,
-    @Parameter(description = "Configuration to add")
-    @RequestBody Configuration configuration
+    @Parameter(description = "ID of provider to add rental object to")
+    @PathVariable Long providerId,
+    @Parameter(description = "ID of configuration to add rental object to")
+    @PathVariable Long configurationId,
+    @Parameter(description = "Rental object to add")
+    @RequestBody RentalObject rentalObject
   ) {
     ResponseEntity<Object> response;
     User sessionUser = this.accessUserService.getSessionUser();
     if (sessionUser != null && sessionUser.isActive() && sessionUser.isAdmin()) {
-      Optional<Car> car = this.carService.get(carId);
-      if (car.isPresent()) {
-        configuration.setCar(car.get());
+      Optional<Provider> provider = this.providerService.get(providerId);
+      Optional<Configuration> configuration = this.configurationService.get(configurationId);
+      if (provider.isPresent() && configuration.isPresent()) {
+        rentalObject.setProvider(provider.get());
+        rentalObject.setConfiguration(configuration.get());
         try {
-          this.configurationService.add(configuration);
+          this.rentalObjectService.add(rentalObject);
           this.logger.info(
-            "[POST] Valid configuration, sending generated ID of added configuration..."
+            "[POST] Valid rental object, sending generated ID of added rental object..."
           );
-          response = ResponseEntity.created(null).body(configuration.getId());
+          response = ResponseEntity.created(null).body(rentalObject.getId());
         } catch (IllegalArgumentException e) {
-          this.logger.error("[POST] Invalid configuration, sending error message...");
+          this.logger.error("[POST] Invalid rental object, sending error message...");
           response = ResponseEntity.badRequest().body(e.getMessage());
         }
+      } else if (!provider.isPresent()) {
+        this.logger.error("[POST] Provider does not exist, sending error message...");
+        response = ResponseEntity.status(404).body("Provider does not exist");
       } else {
-        this.logger.error("[POST] Car does not exist, sending error response...");
-        response = ResponseEntity.notFound().build();
+        this.logger.error("[POST] Configuration does not exist, sending error message...");
+        response = ResponseEntity.status(404).body("Configuration does not exist");
       }
     } else if (sessionUser == null) {
       this.logger.error("[POST] User not authenticated, sending error response...");
@@ -239,23 +202,23 @@ public class ConfigurationController {
   }
 
   /**
-   * Endpoint for updating the configuration with the specified ID with the specified update
-   * configuration.
+   * Endpoint for updating the rental object with the specified ID with the specified update
+   * rental object.
    * 
-   * @param id            The specified ID
-   * @param configuration The specified update configuration
-   * @return <p><b>200 OK</b> if configuration exists and update configuration is valid</p>
-   *         <li><p><b>400 BAD REQUEST</b> if update configuration is invalid (<i>body:</i> error
+   * @param id           The specified ID
+   * @param rentalObject The specified update rental object
+   * @return <p><b>200 OK</b> if rental object exists and update rental object is valid</p>
+   *         <li><p><b>400 BAD REQUEST</b> if update rental object is invalid (<i>body:</i> error
    *         message)</p></li>
    *         <li><p><b>401 UNAUTHORIZED</b> if user is not authenticated</p></li>
    *         <li><p><b>403 FORBIDDEN</b> if user is deactivated or not admin (<i>body:</i> error
    *         message)</p></li>
-   *         <li><p><b>404 NOT FONUD</b> if configuration does not exist</p></li>
+   *         <li><p><b>404 NOT FONUD</b> if rental object does not exist</p></li>
    */
   @Operation(
-    summary = "Update configuration",
-    description = "Updates the configuration with the specified ID with the specified update "
-                + "configuration"
+    summary = "Update rental object",
+    description = "Updates the rental object with the specified ID with the specified update "
+                + "rental object"
   )
   @ApiResponses(value = {
     @ApiResponse(
@@ -281,27 +244,27 @@ public class ConfigurationController {
   })
   @PutMapping("/{id}")
   public ResponseEntity<Object> update(
-    @Parameter(description = "ID of configuration to update")
+    @Parameter(description = "ID of rental object to update")
     @PathVariable Long id,
-    @Parameter(description = "Update configuration")
-    @RequestBody Configuration configuration
+    @Parameter(description = "Update rental object")
+    @RequestBody RentalObject rentalObject
   ) {
     ResponseEntity<Object> response;
     User sessionUser = this.accessUserService.getSessionUser();
     if (sessionUser != null && sessionUser.isAdmin()) {
       try {
-        if (this.configurationService.update(id, configuration)) {
+        if (this.rentalObjectService.update(id, rentalObject)) {
           this.logger.info(
-            "[PUT] Configuration exists and valid update configuration, sending success "
+            "[PUT] Rental object exists and valid update rental object, sending success "
           + "response..."
           );
           response = ResponseEntity.ok().build();
         } else {
-          this.logger.error("[PUT] Configuration does not exist, sending error response...");
+          this.logger.error("[PUT] Rental object does not exist, sending error response...");
           response = ResponseEntity.notFound().build();
         }
       } catch (IllegalArgumentException e) {
-        this.logger.error("[PUT] Invalid update configuration, sending error message...");
+        this.logger.error("[PUT] Invalid update rental object, sending error message...");
         response = ResponseEntity.badRequest().body(e.getMessage());
       }
     } else if (sessionUser == null) {
@@ -318,18 +281,18 @@ public class ConfigurationController {
   }
 
   /**
-   * Endpoint for deleting the configuration with the specified ID.
+   * Endpoint for deleting the rental object with the specified ID.
    * 
    * @param id The specified ID
-   * @return <p><b>200 OK</b> if configuration exists</b></p>
+   * @return <p><b>200 OK</b> if rental object exists</b></p>
    *         <li><p><b>401 UNAUTHORIZED</b> if user is not authenticated</p></li>
    *         <li><p><b>403 FORBIDDEN</b> if user is deactivated or not admin (<i>body:</i> error
    *         message)</p></li>
-   *         <li><p><b>404 NOT FOUND</b> if configuration does not exist</p></li>
+   *         <li><p><b>404 NOT FOUND</b> if rental object does not exist</p></li>
    */
   @Operation(
-    summary = "Delete configuration",
-    description = "Deletes the configuration with the specified ID"
+    summary = "Delete rental object",
+    description = "Deletes the rental object with the specified ID"
   )
   @ApiResponses(value = {
     @ApiResponse(
@@ -351,17 +314,17 @@ public class ConfigurationController {
   })
   @DeleteMapping("/{id}")
   public ResponseEntity<Object> delete(
-    @Parameter(description = "ID of configuration to delete")
+    @Parameter(description = "ID of rental object to delete")
     @PathVariable Long id
   ) {
     ResponseEntity<Object> response;
     User sessionUser = this.accessUserService.getSessionUser();
     if (sessionUser != null && sessionUser.isAdmin()) {
-      if (this.configurationService.delete(id)) {
-        this.logger.info("[DELETE] Configuration exists, sending success response...");
+      if (this.rentalObjectService.delete(id)) {
+        this.logger.info("[DELETE] Rental object exists, sending success response...");
         response = ResponseEntity.ok().build();
       } else {
-        this.logger.error("[DELETE] Configuration does not exist, sending error response...");
+        this.logger.error("[DELETE] Rental object does not exist, sending error response...");
         response = ResponseEntity.notFound().build();
       }
     } else if (sessionUser == null) {
