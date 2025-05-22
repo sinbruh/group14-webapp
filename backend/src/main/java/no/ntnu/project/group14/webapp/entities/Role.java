@@ -10,6 +10,8 @@ import jakarta.persistence.ManyToMany;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 /**
  * The Role class represents the entity for roles. Roles represent user roles and each
  * {@link User user} has one or more role.
@@ -29,6 +31,7 @@ public class Role {
   private String name;
 
   @ManyToMany(mappedBy = "roles")
+  @JsonBackReference
   @Schema(description = "Users with role")
   private Set<User> users = new LinkedHashSet<>();
 

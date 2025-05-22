@@ -3,6 +3,8 @@ package no.ntnu.project.group14.webapp.entities;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -33,10 +35,12 @@ public class Region {
   private String name;
 
   @OneToMany(mappedBy = "region")
+  @JsonBackReference
   @Schema(description = "Locations in region")
   private Set<Location> locations = new LinkedHashSet<>();
 
   @ManyToMany(mappedBy = "regions")
+  @JsonBackReference
   @Schema(description = "Providers operating in region")
   private Set<Provider> providers = new LinkedHashSet<>();
 

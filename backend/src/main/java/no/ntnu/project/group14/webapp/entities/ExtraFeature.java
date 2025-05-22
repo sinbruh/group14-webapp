@@ -1,5 +1,7 @@
 package no.ntnu.project.group14.webapp.entities;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -30,6 +32,7 @@ public class ExtraFeature {
   private String name;
 
   @ManyToOne
+  @JsonManagedReference
   @JoinColumn(name = "configuration_id")
   @Schema(description = "Configuration providing extra feature")
   private Configuration configuration;

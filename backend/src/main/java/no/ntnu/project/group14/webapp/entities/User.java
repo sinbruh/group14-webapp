@@ -18,6 +18,9 @@ import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 /**
  * The User class represents the entity for users. Users can have zero or more
  * {@link Rental rentals}.
@@ -59,17 +62,20 @@ public class User {
 
   @Column(name = "active_status")
   @Schema(description = "User active status")
-  private boolean active = true;
+  private boolean active;
 
   @OneToMany(mappedBy = "user")
+  @JsonBackReference
   @Schema(description = "User rentals")
   private Set<Rental> rentals = new LinkedHashSet<>();
 
   @OneToMany(mappedBy = "user")
+  @JsonBackReference
   @Schema(description = "Reviews placed by user")
   private Set<Review> reviews = new LinkedHashSet<>();
 
   @ManyToMany(fetch = FetchType.EAGER)
+  @JsonManagedReference
   @JoinTable(
     name = "user_role",
     joinColumns = @JoinColumn(name = "user_id"),
@@ -79,6 +85,7 @@ public class User {
   private Set<Role> roles = new LinkedHashSet<>();
 
   @ManyToMany(fetch = FetchType.EAGER)
+  @JsonManagedReference
   @JoinTable(
     name = "favorite",
     joinColumns = @JoinColumn(name = "user_id"),
@@ -97,12 +104,12 @@ public class User {
   /**
    * Constructor for the User class.
    *
-   * @param firstName       The specified first name
-   * @param lastName        The specfifed last name
-   * @param email           The specified email
-   * @param phoneNumber     The specified phone number
-   * @param password        The specified password
-   * @param dateOfBirth     The specified date of birth
+   * @param firstName   The specified first name
+   * @param lastName    The specfifed last name
+   * @param email       The specified email
+   * @param phoneNumber The specified phone number
+   * @param password    The specified password
+   * @param dateOfBirth The specified date of birth
    */
   public User(
     String firstName,
@@ -118,6 +125,7 @@ public class User {
     this.phoneNumber = phoneNumber;
     this.password = password;
     this.dateOfBirth = dateOfBirth;
+    this.active = true;
   }
 
   /**

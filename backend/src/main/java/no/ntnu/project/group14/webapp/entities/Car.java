@@ -12,6 +12,8 @@ import jakarta.persistence.Table;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 /**
  * The Car class represents the entity for cars. Each car is further specified by a set of one or
  * more {@link Configuration configurations}.
@@ -40,6 +42,7 @@ public class Car {
   private int year;
 
   @OneToMany(mappedBy = "car")
+  @JsonBackReference
   @Schema(description = "Car configurations")
   private Set<Configuration> configurations = new LinkedHashSet<>();
 

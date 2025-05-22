@@ -1,5 +1,7 @@
 package no.ntnu.project.group14.webapp.entities;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -34,21 +36,25 @@ public class Rental {
   private long endTime;
 
   @ManyToOne
+  @JsonManagedReference
   @JoinColumn(name = "pickup_location_id")
   @Schema(description = "Rental pick up location")
   private Location pickUpLocation;
 
   @ManyToOne
+  @JsonManagedReference
   @JoinColumn(name = "dropoff_location_id")
   @Schema(description = "Rental drop off location")
   private Location dropOffLocation;
 
   @ManyToOne
+  @JsonManagedReference
   @JoinColumn(name = "rental_object_id")
   @Schema(description = "Rental object rented")
   private RentalObject rentalObject;
 
   @ManyToOne
+  @JsonManagedReference
   @JoinColumn(name = "user_id")
   @Schema(description = "User renting rental object")
   private User user;

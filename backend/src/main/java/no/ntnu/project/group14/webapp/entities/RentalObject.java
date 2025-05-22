@@ -2,6 +2,9 @@ package no.ntnu.project.group14.webapp.entities;
 
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -41,16 +44,19 @@ public class RentalObject {
   private boolean visible;
 
   @ManyToOne
+  @JsonManagedReference
   @JoinColumn(name = "provider_id")
   @Schema(description = "Provider distributing rental object")
   private Provider provider;
 
   @ManyToOne
+  @JsonManagedReference
   @JoinColumn(name = "configuration_id")
   @Schema(description = "Configuration being distributed in rental object")
   private Configuration configuration;
 
   @OneToMany(mappedBy = "rentalObject")
+  @JsonBackReference
   @Schema(description = "Rentals renting rental object")
   private Set<Rental> rentals;
 

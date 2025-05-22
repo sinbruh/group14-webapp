@@ -15,6 +15,9 @@ import jakarta.persistence.Table;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 /**
  * The Configuration class represents the entity for configurations. Configurations represent the
  * different variations of a {@link Car car}. Each configuration is provided in the application
@@ -48,23 +51,28 @@ public class Configuration {
   private int numberOfSeats;
 
   @ManyToOne
+  @JsonManagedReference
   @JoinColumn(name = "car_id")
   @Schema(description = "Car providing configuration")
   private Car car;
 
   @OneToMany(mappedBy = "configuration")
+  @JsonBackReference
   @Schema(description = "Extra features in configuration")
   private Set<ExtraFeature> extraFeatures = new LinkedHashSet<>();
 
   @OneToMany(mappedBy = "configuration")
+  @JsonBackReference
   @Schema(description = "Rental objects distributing configuration")
   private Set<RentalObject> rentalObjects = new LinkedHashSet<>();
 
   @OneToMany(mappedBy = "configuration")
+  @JsonBackReference
   @Schema(description = "Reviews placed on configuration")
   private Set<Review> reviews = new LinkedHashSet<>();
 
   @ManyToMany(mappedBy = "favorites")
+  @JsonBackReference
   @Schema(description = "Users favorited configuration")
   private Set<User> favoritedUsers = new LinkedHashSet<>();
 

@@ -1,5 +1,7 @@
 package no.ntnu.project.group14.webapp.entities;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -36,11 +38,13 @@ public class Review {
   public String text;
 
   @ManyToOne
+  @JsonManagedReference
   @JoinColumn(name = "user_id")
   @Schema(description = "Review author")
   private User user;
 
   @ManyToOne
+  @JsonManagedReference
   @JoinColumn(name = "configuration_id")
   @Schema(description = "Review object")
   private Configuration configuration;

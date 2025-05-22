@@ -2,6 +2,9 @@ package no.ntnu.project.group14.webapp.entities;
 
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -33,15 +36,18 @@ public class Location {
   private String name;
 
   @ManyToOne
+  @JsonManagedReference
   @JoinColumn(name = "region_id")
   @Schema(description = "Region containing location")
   private Region region;
 
   @OneToMany(mappedBy = "pickUpLocation")
+  @JsonBackReference
   @Schema(description = "Rentals using location as pick up location")
   private Set<Rental> pickUpRentals;
 
   @OneToMany(mappedBy = "dropOffLocation")
+  @JsonBackReference
   @Schema(description = "Rentals using location as drop off location")
   private Set<Rental> dropOffRentals;
 
