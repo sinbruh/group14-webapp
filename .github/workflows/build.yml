@@ -20,7 +20,7 @@ jobs:
         env:
           TAG: ${{ github.event.release.tag_name }}
         run: |
-          sed -i "s/frontend:latest/frontend:$TAG/" docker-compose.yml
-          sed -i "s/backend:latest/backend:$TAG/" docker-compose.yml
+          sed -i "s/frontend:latest/frontend:$TAG/" compose.yaml
+          sed -i "s/backend:latest/backend:$TAG/" compose.yaml
           docker compose build --no-cache
           docker compose push
