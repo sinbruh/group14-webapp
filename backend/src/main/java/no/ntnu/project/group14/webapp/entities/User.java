@@ -1,6 +1,7 @@
 package no.ntnu.project.group14.webapp.entities;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -10,88 +11,114 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+
 import java.sql.Date;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 /**
- * The User class represents the entity class for the user entity.
- *
- * <p>The class uses JPA with annotations for ORM operations.</p>
- *
- * @author Group 4
- * @version v1.0 (2024.05.22)
+ * The User class represents the entity for users. Users can have zero or more
+ * {@link Rental rentals}.
  */
-@Entity(name = "user")
-@Schema(description = "A user entity, representing a specific user")
+@Entity
+@Table(name = "user")
+@Schema(description = "User entity representing user")
 public class User {
-  @Schema(description = "Unique ID")
+
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "user_id")
+  @Schema(description = "Unique ID")
   private Long id;
-  @Schema(description = "First name of user")
+
+  @Column(name = "first_name")
+  @Schema(description = "User first name")
   private String firstName;
-  @Schema(description = "Last name of user")
+
+  @Column(name = "last_name")
+  @Schema(description = "User last name")
   private String lastName;
-  @Schema(description = "User email, primarily used when identifying user")
+
+  @Column(name = "email")
+  @Schema(description = "User email")
   private String email;
-  @Schema(description = "Phone number of user")
+
+  @Column(name = "phone_number")
+  @Schema(description = "User phone number")
   private int phoneNumber;
+
+  @Column(name = "password")
   @Schema(description = "User password")
   private String password;
-  @Schema(description = "Birth date of user")
+
+  @Column(name = "date_of_birth")
+  @Schema(description = "User date of birth")
   private Date dateOfBirth;
-  @Schema(description = "Active status of user")
+
+  @Column(name = "active_status")
+  @Schema(description = "User active status")
   private boolean active = true;
-  @Schema(description = "Roles the user has")
-  @ManyToMany(fetch = FetchType.EAGER)
-  @JoinTable(name = "user_role",
-      joinColumns = @JoinColumn(name = "user_id"),
-      inverseJoinColumns = @JoinColumn(name = "role_id")
-  )
-  private Set<Role> roles = new LinkedHashSet<>();
-  @Schema(description = "Rentals the users has")
+
   @OneToMany(mappedBy = "user")
+  @JsonManagedReference
+  @Schema(description = "User rentals")
   private Set<Rental> rentals = new LinkedHashSet<>();
-  @Schema(description = "Receipts the user has")
-  @OneToMany(mappedBy = "user")
-  private Set<Receipt> receipts = new LinkedHashSet<>();
-  @Schema(description = "Providers the user has favorited")
+
   @ManyToMany(fetch = FetchType.EAGER)
-  @JoinTable(name = "favorite",
-      joinColumns = @JoinColumn(name = "user_id"),
-      inverseJoinColumns = @JoinColumn(name = "provider_id")
+  @JsonManagedReference
+  @JoinTable(
+    name = "user_role",
+    joinColumns = @JoinColumn(name = "user_id"),
+    inverseJoinColumns = @JoinColumn(name = "role_id")
   )
-  private Set<Provider> favorites = new LinkedHashSet<>();
+  @Schema(description = "User roles")
+  private Set<Role> roles = new LinkedHashSet<>();
+
+  @ManyToMany(fetch = FetchType.EAGER)
+  @JsonManagedReference
+  @JoinTable(
+    name = "favorite",
+    joinColumns = @JoinColumn(name = "user_id"),
+    inverseJoinColumns = @JoinColumn(name = "provider_id")
+  )
+  @Schema(description = "Configurations favorited by user")
+  private Set<Configuration> favorites = new LinkedHashSet<>();
 
   /**
-   * Constructs an instance of the User class.
-   *
-   * <p>Empty constructor needed for JPA.</p>
+   * Constructor for the User class. This default constructor is required by JPA.
    */
   public User() {
     // Intentionally left blank
   }
 
   /**
-   * Constructs an instance of the User class.
+   * Constructor for the User class.
    *
-   * @param firstName   The specified first name
-   * @param lastName    The specfifed last name
-   * @param email       The specified email
-   * @param phoneNumber The specified phone number
-   * @param password    The specified password
-   * @param dateOfBirth The specified date of birth
+   * @param firstName       The specified first name
+   * @param lastName        The specfifed last name
+   * @param email           The specified email
+   * @param phoneNumber     The specified phone number
+   * @param password        The specified password
+   * @param unixDateOfBirth The specified date of birth as a UNIX timestamp
    */
-  public User(String firstName, String lastName, String email, int phoneNumber, String password,
-              Date dateOfBirth) {
+  public User(
+    String firstName,
+    String lastName,
+    String email,
+    int phoneNumber,
+    String password,
+    long unixDateOfBirth
+  ) {
     this.firstName = firstName;
     this.lastName = lastName;
     this.email = email;
     this.phoneNumber = phoneNumber;
     this.password = password;
-    this.dateOfBirth = dateOfBirth;
+    this.dateOfBirth = new Date(unixDateOfBirth);
   }
 
   /**
@@ -101,15 +128,6 @@ public class User {
    */
   public Long getId() {
     return this.id;
-  }
-
-  /**
-   * Setter for ID.
-   *
-   * @param id The specified ID
-   */
-  public void setId(Long id) {
-    this.id = id;
   }
 
   /**
@@ -214,10 +232,10 @@ public class User {
   /**
    * Setter for date of birth.
    *
-   * @param dateOfBirth The specified date of birth
+   * @param dateOfBirth The specified date of birth as a UNIX timestamp
    */
-  public void setDateOfBirth(Date dateOfBirth) {
-    this.dateOfBirth = dateOfBirth;
+  public void setDateOfBirth(long unixDateOfBirth) {
+    this.dateOfBirth = new Date(unixDateOfBirth);
   }
 
   /**
@@ -239,24 +257,6 @@ public class User {
   }
 
   /**
-   * Getter for roles.
-   *
-   * @return Roles
-   */
-  public Set<Role> getRoles() {
-    return this.roles;
-  }
-
-  /**
-   * Setter for roles.
-   *
-   * @param roles The specified roles
-   */
-  public void setRoles(Set<Role> roles) {
-    this.roles = roles;
-  }
-
-  /**
    * Getter for rentals.
    *
    * @return Rentals
@@ -266,30 +266,12 @@ public class User {
   }
 
   /**
-   * Setter for rentals.
+   * Getter for roles.
    *
-   * @param rentals The specified rentals
+   * @return Roles
    */
-  public void setRentals(Set<Rental> rentals) {
-    this.rentals = rentals;
-  }
-
-  /**
-   * Getter for receipts.
-   *
-   * @return Receipts
-   */
-  public Set<Receipt> getReceipts() {
-    return this.receipts;
-  }
-
-  /**
-   * Setter for receipts.
-   *
-   * @param receipts The specified receipts
-   */
-  public void setReceipts(Set<Receipt> receipts) {
-    this.receipts = receipts;
+  public Set<Role> getRoles() {
+    return this.roles;
   }
 
   /**
@@ -297,21 +279,12 @@ public class User {
    *
    * @return Favorites
    */
-  public Set<Provider> getFavorites() {
+  public Set<Configuration> getFavorites() {
     return this.favorites;
   }
 
   /**
-   * Setter for favorties.
-   *
-   * @param favorites The specified favorites
-   */
-  public void setFavorites(Set<Provider> favorites) {
-    this.favorites = favorites;
-  }
-
-  /**
-   * Adds the specified role to the user.
+   * Add the specified role to the user.
    *
    * @param role The specified role
    */
@@ -320,23 +293,23 @@ public class User {
   }
 
   /**
-   * Adds the specified provider to the user favorites.
+   * Add the specified configuration to the user favorites.
    *
-   * @param provider The specified provider
+   * @param configuraiton The specified configuration
    */
-  public void addFavorite(Provider provider) {
-    this.favorites.add(provider);
+  public void addFavorite(Configuration configuration) {
+    this.favorites.add(configuration);
   }
 
   /**
-   * Removes the specified provider from the user favorites.
+   * Remove the specified configuraiton from the user favorites.
    *
-   * @param provider The specified provider
+   * @param configuration The specified configuration
    */
-  public void removeFavorite(Provider provider) {
-    this.favorites.remove(provider);
+  public void removeFavorite(Configuration configuration) {
+    this.favorites.remove(configuration);
   }
-
+  
   /**
    * Checks if the user has the admin role.
    *
@@ -365,14 +338,14 @@ public class User {
   }
 
   /**
-   * Returns true if the user is valid or false otherwise.
+   * Checks if user is valid.
    *
-   * @return True if the user is valid or false otherwise
+   * @return True if user is valid or false otherwise
    */
   public boolean isValid() {
     return this.firstName != null && !this.firstName.isBlank() && this.lastName != null
-           && !this.lastName.isBlank() && this.email != null && !this.email.isBlank()
-           && this.phoneNumber > 0 && this.password != null && !this.password.isBlank()
-           && this.dateOfBirth != null;
+        && !this.lastName.isBlank() && this.email != null && !this.email.isBlank()
+        && this.phoneNumber > 0 && this.password != null && !this.password.isBlank()
+        && this.dateOfBirth != null;
   }
 }

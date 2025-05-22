@@ -10,6 +10,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
@@ -64,6 +65,11 @@ public class Configuration {
   @JsonManagedReference
   @Schema(description = "Rental objects distributing configuration")
   private Set<RentalObject> rentalObjects = new LinkedHashSet<>();
+
+  @ManyToMany(mappedBy = "favorites")
+  @JsonBackReference
+  @Schema(description = "Users favorited configuration")
+  private Set<User> favoritedUsers = new LinkedHashSet<>();
 
   /**
    * Constructor for the Configuration class. This default constructor is required by JPA.
@@ -157,6 +163,15 @@ public class Configuration {
    */
   public Set<RentalObject> getRentalObjects() {
     return this.rentalObjects;
+  }
+
+  /**
+   * Getter for favorited users.
+   * 
+   * @return Favorited users
+   */
+  public Set<User> getFavoritedUsers() {
+    return this.favoritedUsers;
   }
 
   /**

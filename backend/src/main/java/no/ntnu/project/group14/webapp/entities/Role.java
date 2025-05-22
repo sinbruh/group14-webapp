@@ -1,6 +1,6 @@
 package no.ntnu.project.group14.webapp.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -26,9 +26,9 @@ public class Role {
   private Long id;
   @Schema(description = "Role name")
   private String name;
-  @Schema(description = "Users that have this role")
-  @JsonIgnore
   @ManyToMany(mappedBy = "roles")
+  @JsonBackReference
+  @Schema(description = "Users that have this role")
   private Set<User> users = new LinkedHashSet<>();
 
   /**
