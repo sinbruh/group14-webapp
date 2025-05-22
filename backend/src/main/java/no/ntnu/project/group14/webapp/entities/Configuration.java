@@ -189,6 +189,15 @@ public class Configuration {
   }
 
   /**
+   * Setter for car.
+   * 
+   * @param car The specified car
+   */
+  public void setCar(Car car) {
+    this.car = car;
+  }
+
+  /**
    * Getter for extra features.
    *
    * @return Extra features

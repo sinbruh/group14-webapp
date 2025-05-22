@@ -133,7 +133,7 @@ public class CarController {
     ),
     @ApiResponse(
       responseCode = "403",
-      description = "Signals error"
+      description = "Signals error and contains error message"
     )
   })
   @PostMapping
@@ -159,7 +159,7 @@ public class CarController {
       this.logger.error("[POST] User is deactivated, sending error message...");
       response = ResponseEntity.status(403).body("User deactivated");
     } else {
-      this.logger.error("[POST] User not admin, sending error response...");
+      this.logger.error("[POST] User not admin, sending error message...");
       response = ResponseEntity.status(403).body("User not admin");
     }
     return response;
@@ -195,7 +195,7 @@ public class CarController {
     ),
     @ApiResponse(
       responseCode = "403",
-      description = "Signals error"
+      description = "Signals error and contains error message"
     ),
     @ApiResponse(
       responseCode = "404",
@@ -231,7 +231,7 @@ public class CarController {
       this.logger.error("[PUT] User is deactivated, sending error message...");
       response = ResponseEntity.status(403).body("User deactivated");
     } else {
-      this.logger.error("[PUT] User not admin, sending error response...");
+      this.logger.error("[PUT] User not admin, sending error message...");
       response = ResponseEntity.status(403).body("User not admin");
     }
     return response;
@@ -261,7 +261,7 @@ public class CarController {
     ),
     @ApiResponse(
       responseCode = "403",
-      description = "Signals error"
+      description = "Signals error and contains error message"
     ),
     @ApiResponse(
       responseCode = "404",
@@ -290,7 +290,7 @@ public class CarController {
       this.logger.error("[DELETE] User is deactivated, sending error message...");
       response = ResponseEntity.status(403).body("User deactivated");
     } else {
-      this.logger.error("[DELETE] User not admin, sending error response...");
+      this.logger.error("[DELETE] User not admin, sending error message...");
       response = ResponseEntity.status(403).body("User not admin");
     }
     return response;
