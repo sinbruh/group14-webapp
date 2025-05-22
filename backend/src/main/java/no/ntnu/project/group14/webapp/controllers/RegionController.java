@@ -102,9 +102,8 @@ public class RegionController {
   }
 
   /**
-   * Endpoint for adding the specified region to the car with the specified car ID.
+   * Endpoint for adding the specified region.
    * 
-   * @param carId  The specified car ID
    * @param region The specified region
    * @return <p><b>201 CREATED</b> if region is valid (<i>body:</i> generated ID of added
    *         region)</p>
@@ -138,8 +137,6 @@ public class RegionController {
   })
   @PostMapping
   public ResponseEntity<Object> add(
-    @Parameter(description = "ID of car to add region to")
-    @PathVariable Long carId,
     @Parameter(description = "Region to add")
     @RequestBody Region region
   ) {

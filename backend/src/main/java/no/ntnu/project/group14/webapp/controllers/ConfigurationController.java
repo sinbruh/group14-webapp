@@ -174,7 +174,7 @@ public class ConfigurationController {
    */
   @Operation(
     summary = "Add configuration",
-    description = "Adds the specified configuration"
+    description = "Adds the specified configuration to the car with the specified car ID"
   )
   @ApiResponses(value = {
     @ApiResponse(

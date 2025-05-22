@@ -130,7 +130,8 @@ public class RentalObjectController {
    */
   @Operation(
     summary = "Add rental object",
-    description = "Adds the specified rental object"
+    description = "Adds the specified rental object to the provider with the specified provider "
+                + "ID and the configuration with the specified configuration ID"
   )
   @ApiResponses(value = {
     @ApiResponse(
