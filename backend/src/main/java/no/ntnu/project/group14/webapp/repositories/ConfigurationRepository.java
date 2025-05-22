@@ -6,10 +6,7 @@ import org.springframework.stereotype.Repository;
 import no.ntnu.project.group14.webapp.entities.Configuration;
 
 /**
- * The ConfigurationRepository class represents the repository class for the Configuration entity.
- *
- * @author Group 4
- * @version v1.0 (2024.05.22)
+ * The ConfigurationRepository class represents the repository for configurations.
  */
 @Repository
 public interface ConfigurationRepository extends CrudRepository<Configuration, Long> {
