@@ -1,6 +1,6 @@
-package no.ntnu.project.group14.webapp.models;
+package no.ntnu.project.group14.webapp.entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import java.util.Set;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Column;
@@ -10,12 +10,12 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 /**
  * The RentalObject class represents the entity for rental objects. Rental objects represents the
- * product being distributed to the users in the application. Each rental object for example has a
- * price among other attributes.
+ * product being distributed in the application.
  */
 @Entity
 @Table(name = "rental_object")
@@ -41,10 +41,25 @@ public class RentalObject {
   private boolean visible;
 
   @ManyToOne
-  @JsonBackReference
+  @JoinColumn(name = "provider_id")
+  @Schema(description = "Provider distributing rental object")
+  private Provider provider;
+
+  @ManyToOne
   @JoinColumn(name = "configuration_id")
   @Schema(description = "Configuration being distributed in rental object")
   private Configuration configuration;
+
+  @OneToMany(mappedBy = "rentalObject")
+  @Schema(description = "Rentals renting rental object")
+  private Set<Rental> rentals;
+
+  /**
+   * Constructor for the RentalObject class. This default constructor is required by JPA.
+   */
+  public RentalObject() {
+    // Intentionally left blank
+  }
 
   /**
    * Constructor for the RentalObject class. In this constructor, availability and visibility are
@@ -61,9 +76,9 @@ public class RentalObject {
   /**
    * Constructor for the RentalObject class.
    * 
-   * @param price The specified price
+   * @param price     The specified price
    * @param available The specified availability
-   * @param visible The specified visibility
+   * @param visible   The specified visibility
    */
   public RentalObject(double price, boolean available, boolean visible) {
     this.price = price;
@@ -126,12 +141,30 @@ public class RentalObject {
   }
 
   /**
+   * Getter for provider.
+   * 
+   * @return Provider
+   */
+  public Provider getProvider() {
+    return this.provider;
+  }
+
+  /**
    * Getter for configuration.
    * 
    * @return Configuration
    */
   public Configuration getConfiguration() {
     return this.configuration;
+  }
+
+  /**
+   * Getter for rentals.
+   * 
+   * @return Rentals
+   */
+  public Set<Rental> getRentals() {
+    return this.rentals;
   }
 
   /**

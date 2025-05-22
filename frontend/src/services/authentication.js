@@ -1,6 +1,7 @@
 import { deleteCookie, getCookie, setCookie } from "./cookies";
 import { asyncApiRequest } from "./request";
 import { create } from "zustand";
+import { ConfigurationDto } from "../lib/configuration";
 
 
 export const useStore = create((set) => ({
@@ -111,6 +112,29 @@ export async function sendAuthenticationRequest(
         }
     } catch (httpError) {
         errorCallBack(httpError);
+    }
+}
+
+export async function fetchConfigurations() {
+    try {
+        const jwt = getCookie("jwt");
+        const response = await fetch("/api/configurations", {
+            method: "GET",
+            headers: {
+                Authorization: `Bearer ${jwt}`,
+                "Content-Type": "application/json",
+            },
+        });
+
+        if (!response.ok) {
+            throw new Error("Failed to fetch configurations");
+        }
+
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error("Error fetching configurations:", error);
+        throw error;
     }
 }
 

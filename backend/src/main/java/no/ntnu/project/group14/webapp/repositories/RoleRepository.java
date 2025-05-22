@@ -1,8 +1,9 @@
 package no.ntnu.project.group14.webapp.repositories;
 
-import no.ntnu.project.group14.webapp.models.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+
+import no.ntnu.project.group14.webapp.entities.Role;
 
 /**
  * The RoleRepository class represents the repository class for the role entity.
