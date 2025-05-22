@@ -2,46 +2,47 @@ package no.ntnu.project.group14.webapp.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
 /**
- * The Role class represents the entity class for the role entity.
- *
- * <p>The class uses JPA with annotations for ORM operations.</p>
- *
- * @author Group 4
- * @version v1.0 (2024.05.22)
+ * The Role class represents the entity for roles. Roles represent user roles and each
+ * {@link User user} has one or more role.
  */
 @Entity(name = "role")
-@Schema(description = "A role entity, representing a specific role that can be added to a user")
+@Schema(description = "Role entity representing user roles")
 public class Role {
-  @Schema(description = "Unique ID")
+
   @Id
-  @GeneratedValue
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "role_id")
+  @Schema(description = "Unique ID")
   private Long id;
+
+  @Column(name = "name")
   @Schema(description = "Role name")
   private String name;
+
   @ManyToMany(mappedBy = "roles")
   @JsonBackReference
   @Schema(description = "Users that have this role")
   private Set<User> users = new LinkedHashSet<>();
 
   /**
-   * Constructs an instance of the Role class.
-   *
-   * <p>Empty constructor needed for JPA.</p>
+   * Constructor for the Role class. This default constructor is required by JPA.
    */
   public Role() {
     // Intentionally left blank
   }
 
   /**
-   * Constructs an instane of the Role class.
+   * Constructor for the Role class.
    *
    * @param name The specified name
    */
@@ -59,30 +60,12 @@ public class Role {
   }
 
   /**
-   * Setter for ID.
-   *
-   * @param id The specified ID
-   */
-  public void setId(Long id) {
-    this.id = id;
-  }
-
-  /**
    * Getter for name.
    *
    * @return Name
    */
   public String getName() {
     return this.name;
-  }
-
-  /**
-   * Setter for name.
-   *
-   * @param name The specified name
-   */
-  public void setName(String name) {
-    this.name = name;
   }
 
   /**
@@ -95,18 +78,9 @@ public class Role {
   }
 
   /**
-   * Setter for users.
+   * Checks if role is valid.
    *
-   * @param users The specified users
-   */
-  public void setUsers(Set<User> users) {
-    this.users = users;
-  }
-
-  /**
-   * Returns true if the role is valid or false otherwise.
-   *
-   * @return True if the role is valid or false otherwise
+   * @return True if role is valid or false otherwise
    */
   public boolean isValid() {
     return !this.name.isBlank();
