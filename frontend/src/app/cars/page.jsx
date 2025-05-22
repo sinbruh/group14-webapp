@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Car, ChevronDown, Filter, Fuel, Search, Settings, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -13,8 +13,11 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Slider } from "@/components/ui/slider";
 import { CarModal } from "@/components/carModal";
 import AuthModal from "@/components/AuthModal";
+import { fetchConfigurations } from "@/services/authentication";
 
 export default function CarsPage() {
+    const [cars, setCars] = useState([]);
+    const [Loading, setLoading] = useState(true);
     const [selectedCar, setSelectedCar] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -28,40 +31,22 @@ export default function CarsPage() {
         setIsModalOpen(false);
     };
 
-    const cars = [
-        { id: 1, name: "Toyota Camry", category: "Sedan", price: 45,
-            image: "/placeholder.svg?height=200&width=300",
-            features: { seats: 5, transmission: "Automatic", fuel: "Hybrid" },
-            isNew: true },
-        { id: 2, name: "Honda CR-V", category: "SUV", price: 65,
-            image: "/placeholder.svg?height=200&width=300",
-            features: { seats: 5, transmission: "Automatic", fuel: "Gasoline" },
-            isNew: false },
-        { id: 3, name: "BMW 3 Series", category: "Luxury", price: 95,
-            image: "/placeholder.svg?height=200&width=300",
-            features: { seats: 5, transmission: "Automatic", fuel: "Gasoline" },
-            isNew: false },
-        { id: 4, name: "Tesla Model 3", category: "Electric", price: 85,
-            image: "/placeholder.svg?height=200&width=300",
-            features: { seats: 5, transmission: "Automatic", fuel: "Electric" },
-            isNew: true },
-        { id: 5, name: "Ford Mustang", category: "Sports", price: 110,
-            image: "/placeholder.svg?height=200&width=300",
-            features: { seats: 4, transmission: "Automatic", fuel: "Gasoline" },
-            isNew: false },
-        { id: 6, name: "Chevrolet Suburban", category: "SUV", price: 120,
-            image: "/placeholder.svg?height=200&width=300",
-            features: { seats: 8, transmission: "Automatic", fuel: "Gasoline" },
-            isNew: false },
-        { id: 7, name: "Audi A4", category: "Luxury", price: 90,
-            image: "/placeholder.svg?height=200&width=300",
-            features: { seats: 5, transmission: "Automatic", fuel: "Gasoline" },
-            isNew: false },
-        { id: 8, name: "Nissan Leaf", category: "Electric", price: 70,
-            image: "/placeholder.svg?height=200&width=300",
-            features: { seats: 5, transmission: "Automatic", fuel: "Electric" },
-            isNew: false },
-    ];
+    useEffect(() => {
+        async function loadCars() {
+            try {
+                const configurations = await fetchConfigurations();
+                setCars(configurations);
+            } catch (error) {
+                console.error("Error fetching configurations: ", error);
+            } finally {
+                setLoading(false);
+            }
+        }
+    })
+
+    if (loading) {
+        return <div className="flex justify-center items-center h-screen">Loading...</div>;
+    }
 
     return (
         <div className="flex flex-col min-h-screen">
@@ -115,255 +100,59 @@ export default function CarsPage() {
 
                 <section className="w-full py-12">
                     <div className="container px-4 md:px-6">
-                        <div className="grid gap-6 lg:grid-cols-[250px_1fr] lg:gap-12">
-                            <div className="hidden lg:block">
-                                <div className="sticky top-6">
-                                    <div className="flex items-center justify-between mb-4">
-                                        <h3 className="font-semibold text-lg">Filters</h3>
-                                        <Button variant="ghost" size="sm" className="h-8 text-sm">
-                                            Reset All
-                                        </Button>
-                                    </div>
-                                    <Accordion type="multiple" defaultValue={["category", "price", "features"]}>
-                                        <AccordionItem value="category">
-                                            <AccordionTrigger>Vehicle Type</AccordionTrigger>
-                                            <AccordionContent>
-                                                <div className="space-y-2">
-                                                    <div className="flex items-center space-x-2">
-                                                        <Checkbox id="sedan" />
-                                                        <label
-                                                            htmlFor="sedan"
-                                                            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                                                        >
-                                                            Sedan
-                                                        </label>
-                                                    </div>
-                                                    <div className="flex items-center space-x-2">
-                                                        <Checkbox id="suv" />
-                                                        <label
-                                                            htmlFor="suv"
-                                                            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                                                        >
-                                                            SUV
-                                                        </label>
-                                                    </div>
-                                                    <div className="flex items-center space-x-2">
-                                                        <Checkbox id="luxury" />
-                                                        <label
-                                                            htmlFor="luxury"
-                                                            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                                                        >
-                                                            Luxury
-                                                        </label>
-                                                    </div>
-                                                    <div className="flex items-center space-x-2">
-                                                        <Checkbox id="electric" />
-                                                        <label
-                                                            htmlFor="electric"
-                                                            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                                                        >
-                                                            Electric
-                                                        </label>
-                                                    </div>
-                                                    <div className="flex items-center space-x-2">
-                                                        <Checkbox id="sports" />
-                                                        <label
-                                                            htmlFor="sports"
-                                                            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                                                        >
-                                                            Sports
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                            </AccordionContent>
-                                        </AccordionItem>
-                                        <AccordionItem value="price">
-                                            <AccordionTrigger>Price Range</AccordionTrigger>
-                                            <AccordionContent>
-                                                <div className="space-y-4">
-                                                    <Slider defaultValue={[40, 120]} min={0} max={200} step={5} />
-                                                    <div className="flex items-center justify-between">
-                                                        <span className="text-sm">$40</span>
-                                                        <span className="text-sm">$120</span>
-                                                    </div>
-                                                </div>
-                                            </AccordionContent>
-                                        </AccordionItem>
-                                        <AccordionItem value="features">
-                                            <AccordionTrigger>Features</AccordionTrigger>
-                                            <AccordionContent>
-                                                <div className="space-y-2">
-                                                    <div className="flex items-center space-x-2">
-                                                        <Checkbox id="automatic" />
-                                                        <label
-                                                            htmlFor="automatic"
-                                                            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                                                        >
-                                                            Automatic
-                                                        </label>
-                                                    </div>
-                                                    <div className="flex items-center space-x-2">
-                                                        <Checkbox id="manual" />
-                                                        <label
-                                                            htmlFor="manual"
-                                                            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                                                        >
-                                                            Manual
-                                                        </label>
-                                                    </div>
-                                                    <div className="flex items-center space-x-2">
-                                                        <Checkbox id="gps" />
-                                                        <label
-                                                            htmlFor="gps"
-                                                            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                                                        >
-                                                            GPS
-                                                        </label>
-                                                    </div>
-                                                    <div className="flex items-center space-x-2">
-                                                        <Checkbox id="bluetooth" />
-                                                        <label
-                                                            htmlFor="bluetooth"
-                                                            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                                                        >
-                                                            Bluetooth
-                                                        </label>
-                                                    </div>
-                                                    <div className="flex items-center space-x-2">
-                                                        <Checkbox id="child-seat" />
-                                                        <label
-                                                            htmlFor="child-seat"
-                                                            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                                                        >
-                                                            Child Seat
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                            </AccordionContent>
-                                        </AccordionItem>
-                                    </Accordion>
-                                </div>
-                            </div>
-                            <div>
-                                <div className="flex flex-col gap-4 mb-6">
-                                    <div className="flex items-center justify-between">
-                                        <div>
-                                            <h2 className="text-2xl font-bold">Available Cars</h2>
-                                            <p className="text-sm text-gray-500">Showing {cars.length} results</p>
+                        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                            {cars.map((car) => (
+                                <Card key={car.name} className="overflow-hidden">
+                                    <CardHeader className="p-0">
+                                        <div className="relative">
+                                            <Image
+                                                src={car.image || "/placeholder.svg"}
+                                                alt={car.name}
+                                                width={300}
+                                                height={200}
+                                                className="w-full object-cover h-48"
+                                            />
+                                            {car.isNew && (
+                                                <Badge className="absolute top-2 right-2 bg-emerald-600">New</Badge>
+                                            )}
                                         </div>
-                                        <div className="flex items-center gap-2">
-                                            <Button variant="outline" size="sm" className="lg:hidden">
-                                                <Filter className="h-4 w-4 mr-2" />
-                                                Filters
-                                            </Button>
-                                            <Select defaultValue="recommended">
-                                                <SelectTrigger className="w-[180px]">
-                                                    <SelectValue placeholder="Sort by" />
-                                                </SelectTrigger>
-                                                <SelectContent>
-                                                    <SelectItem value="recommended">Recommended</SelectItem>
-                                                    <SelectItem value="price-low">Price: Low to High</SelectItem>
-                                                    <SelectItem value="price-high">Price: High to Low</SelectItem>
-                                                    <SelectItem value="newest">Newest First</SelectItem>
-                                                </SelectContent>
-                                            </Select>
+                                    </CardHeader>
+                                    <CardContent className="p-4">
+                                        <div className="flex justify-between items-start">
+                                            <div>
+                                                <h3 className="font-bold">{car.name}</h3>
+                                                <p className="text-sm text-gray-500">{car.make} - {car.model}</p>
+                                            </div>
+                                            <div className="text-right">
+                                                <span className="font-bold text-lg">${car.price}</span>
+                                                <p className="text-xs text-gray-500">per day</p>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div className="flex flex-wrap gap-2">
-                                        <Badge variant="outline" className="rounded-full">
-                                            Sedan
-                                            <Button variant="ghost" size="icon" className="h-4 w-4 ml-1 hover:bg-transparent">
-                                                <ChevronDown className="h-3 w-3" />
-                                            </Button>
-                                        </Badge>
-                                        <Badge variant="outline" className="rounded-full">
-                                            Price: $40 - $120
-                                            <Button variant="ghost" size="icon" className="h-4 w-4 ml-1 hover:bg-transparent">
-                                                <ChevronDown className="h-3 w-3" />
-                                            </Button>
-                                        </Badge>
-                                        <Badge variant="outline" className="rounded-full">
-                                            Automatic
-                                            <Button variant="ghost" size="icon" className="h-4 w-4 ml-1 hover:bg-transparent">
-                                                <ChevronDown className="h-3 w-3" />
-                                            </Button>
-                                        </Badge>
-                                    </div>
-                                </div>
-                                <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                                    {cars.map((car) => (
-                                        <Card key={car.id} className="overflow-hidden">
-                                            <CardHeader className="p-0">
-                                                <div className="relative">
-                                                    <Image
-                                                        src={car.image || "/placeholder.svg"}
-                                                        alt={car.name}
-                                                        width={300}
-                                                        height={200}
-                                                        className="w-full object-cover h-48"
-                                                    />
-                                                    {car.isNew && (
-                                                        <Badge className="absolute top-2 right-2 bg-emerald-600">New</Badge>
-                                                    )}
-                                                </div>
-                                            </CardHeader>
-                                            <CardContent className="p-4">
-                                                <div className="flex justify-between items-start">
-                                                    <div>
-                                                        <h3 className="font-bold">{car.name}</h3>
-                                                        <p className="text-sm text-gray-500">{car.category}</p>
-                                                    </div>
-                                                    <div className="text-right">
-                                                        <span className="font-bold text-lg">${car.price}</span>
-                                                        <p className="text-xs text-gray-500">per day</p>
-                                                    </div>
-                                                </div>
-                                                <div className="grid grid-cols-3 gap-2 mt-4 text-sm">
-                                                    <div className="flex flex-col items-center gap-1">
-                                                        <Users className="h-4 w-4 text-gray-500" />
-                                                        <span>{car.features.seats} Seats</span>
-                                                    </div>
-                                                    <div className="flex flex-col items-center gap-1">
-                                                        <Settings className="h-4 w-4 text-gray-500" />
-                                                        <span>{car.features.transmission}</span>
-                                                    </div>
-                                                    <div className="flex flex-col items-center gap-1">
-                                                        <Fuel className="h-4 w-4 text-gray-500" />
-                                                        <span>{car.features.fuel}</span>
-                                                    </div>
-                                                </div>
-                                            </CardContent>
-                                            <CardFooter className="p-4 pt-0">
-                                                <Button
-                                                    className="w-full bg-emerald-600 text-white hover:bg-emerald-700"
-                                                    onClick={() => openModal(car)}
-                                                >
-                                                    View Details
-                                                </Button>
-                                            </CardFooter>
-                                        </Card>
-                                    ))}
-                                </div>
-                                <div className="flex justify-center mt-8">
-                                    <div className="flex items-center gap-2">
-                                        <Button variant="outline" size="icon" disabled>
-                                            <ChevronDown className="h-4 w-4 rotate-90" />
+                                        <div className="grid grid-cols-3 gap-2 mt-4 text-sm">
+                                            <div className="flex flex-col items-center gap-1">
+                                                <Users className="h-4 w-4 text-gray-500" />
+                                                <span>{car.numberOfSeats} Seats</span>
+                                            </div>
+                                            <div className="flex flex-col items-center gap-1">
+                                                <Settings className="h-4 w-4 text-gray-500" />
+                                                <span>{car.transmissionType}</span>
+                                            </div>
+                                            <div className="flex flex-col items-center gap-1">
+                                                <Fuel className="h-4 w-4 text-gray-500" />
+                                                <span>{car.fuelType}</span>
+                                            </div>
+                                        </div>
+                                    </CardContent>
+                                    <CardFooter className="p-4 pt-0">
+                                        <Button
+                                            className="w-full bg-emerald-600 text-white hover:bg-emerald-700"
+                                            onClick={() => openModal(car)}
+                                        >
+                                            View Details
                                         </Button>
-                                        <Button variant="outline" size="sm" className="h-8 w-8">
-                                            1
-                                        </Button>
-                                        <Button variant="outline" size="sm" className="h-8 w-8">
-                                            2
-                                        </Button>
-                                        <Button variant="outline" size="sm" className="h-8 w-8">
-                                            3
-                                        </Button>
-                                        <Button variant="outline" size="icon">
-                                            <ChevronDown className="h-4 w-4 -rotate-90" />
-                                        </Button>
-                                    </div>
-                                </div>
-                            </div>
+                                    </CardFooter>
+                                </Card>
+                            ))}
                         </div>
                     </div>
                 </section>
