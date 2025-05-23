@@ -19,9 +19,6 @@ import java.util.Set;
  * The User class represents the entity class for the user entity.
  *
  * <p>The class uses JPA with annotations for ORM operations.</p>
- *
- * @author Group 4
- * @version v1.0 (2024.05.22)
  */
 @Entity(name = "user")
 @Schema(description = "A user entity, representing a specific user")

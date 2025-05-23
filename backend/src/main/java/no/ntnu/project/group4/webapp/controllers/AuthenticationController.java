@@ -31,9 +31,6 @@ import org.springframework.web.bind.annotation.RestController;
  * The AuthenticationController class represents the REST API controller class for authentication.
  *
  * <p>All HTTP requests affiliated with authentication is handled in this class.</p>
- *
- * @author Group 4
- * @version v1.2 (2024.05.22)
  */
 @CrossOrigin
 @RestController

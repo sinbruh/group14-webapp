@@ -13,9 +13,6 @@ import java.util.Set;
  * The Role class represents the entity class for the role entity.
  *
  * <p>The class uses JPA with annotations for ORM operations.</p>
- *
- * @author Group 4
- * @version v1.0 (2024.05.22)
  */
 @Entity(name = "role")
 @Schema(description = "A role entity, representing a specific role that can be added to a user")

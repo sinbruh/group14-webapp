@@ -8,9 +8,6 @@ import org.springframework.stereotype.Service;
 
 /**
  * The UserService class represents the service class for the user entity.
- *
- * @author Group 4
- * @version v1.0 (2024.05.22)
  */
 @Service
 public class UserService {

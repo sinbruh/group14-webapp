@@ -14,9 +14,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 /**
  * The AccessUserDetails class represents the class that contains the authentication information.
  * The class is needed by the AccessUserService class.
- *
- * @author Group 4
- * @version v1.0 (2024.05.22)
  */
 public class AccessUserDetails implements UserDetails {
   // The email of the user

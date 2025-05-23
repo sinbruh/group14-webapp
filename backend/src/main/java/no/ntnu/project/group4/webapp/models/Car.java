@@ -13,9 +13,6 @@ import java.util.Set;
  * The Car class represents the entity class for the car entity.
  *
  * <p>The class uses JPA with annotations for ORM operations.</p>
- *
- * @author Group 4
- * @version v1.0 (2024.05.22)
  */
 @Entity(name = "car")
 @Schema(description = "A car entity, representing a specific car")

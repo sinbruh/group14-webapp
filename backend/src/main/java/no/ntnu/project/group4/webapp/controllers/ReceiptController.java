@@ -32,9 +32,6 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
  * The ReceiptController class represents the controller class for the receipt entity.
  *
  * <p>All HTTP requests affiliated with receipts are handled in the class.</p>
- *
- * @author Group 4
- * @version v1.3 (2024.05.22)
  */
 @CrossOrigin
 @RestController

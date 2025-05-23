@@ -6,9 +6,6 @@ import org.springframework.stereotype.Repository;
 
 /**
  * The ExtraFeatureRepository class represents the repository class for the extra feature entity.
- *
- * @author Group 4
- * @version v1.0 (2024.05.22)
  */
 @Repository
 public interface ExtraFeatureRepository extends CrudRepository<ExtraFeature, Long> {

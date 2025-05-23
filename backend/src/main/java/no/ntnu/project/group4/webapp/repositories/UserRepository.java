@@ -7,9 +7,6 @@ import org.springframework.stereotype.Repository;
 
 /**
  * The UserRepository class represents the repository class for the user entity.
- *
- * @author Group 4
- * @version v1.0 (2024.05.22)
  */
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {

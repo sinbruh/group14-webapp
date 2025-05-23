@@ -15,9 +15,6 @@ import java.util.Set;
  * The Configuration class represents the entity class for the configuration entity.
  * 
  * <p>The class uses JPA with annotations for ORM operations.</p>
- *
- * @author Group 4
- * @version v1.0 (2024.05.22)
  */
 @Entity(name = "configuration")
 @Schema(

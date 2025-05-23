@@ -6,9 +6,6 @@ import org.springframework.boot.context.ApplicationPidFileWriter;
 
 /**
  * The WebappApplication class represents the application runner class for the application.
- *
- * @author Group 4
- * @version v1.0 (2024.05.22)
  */
 @SpringBootApplication
 public class WebappApplication {

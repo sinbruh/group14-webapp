@@ -3,9 +3,6 @@ package no.ntnu.project.group4.webapp.dto;
 /**
  * The AuthenticationRequest class represents an authentication request data transfer object (DTO).
  * The class contains data the user will send when requesting to authenticate (log in).
- *
- * @author Group 4
- * @version v1.0 (2024.05.22)
  */
 public class AuthenticationRequest {
   private String email;

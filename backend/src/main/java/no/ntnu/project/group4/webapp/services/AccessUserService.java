@@ -23,9 +23,6 @@ import org.springframework.stereotype.Service;
 /**
  * The AccessUserDetails class represents the provider for AccessUserDetails needed for
  * authentication.
- *
- * @author Group 4
- * @version v1.0 (2024.05.22)
  */
 @Service
 public class AccessUserService implements UserDetailsService {

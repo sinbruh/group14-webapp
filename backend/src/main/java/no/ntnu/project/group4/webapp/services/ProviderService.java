@@ -8,9 +8,6 @@ import org.springframework.stereotype.Service;
 
 /**
  * The ProviderService class represents the service class for the provider entity.
- *
- * @author Group 4
- * @version v1.0 (2024.05.22)
  */
 @Service
 public class ProviderService {

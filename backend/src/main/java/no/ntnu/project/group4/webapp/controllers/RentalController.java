@@ -33,9 +33,6 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
  * The RentalController class represents the REST API controller class for rentals.
  *
  * <p>All HTTP requests affiliated with rentals are handled in this class.</p>
- *
- * @author Group 4
- * @version v1.5 (2024.05.22)
  */
 @CrossOrigin
 @RestController

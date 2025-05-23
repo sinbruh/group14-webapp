@@ -9,9 +9,6 @@ import no.ntnu.project.group4.webapp.models.Role;
 
 /**
  * The UserDto class represents the data transfer object (DTO) for receiving user data.
- *
- * @author Group 4
- * @version v1.0 (2024.05.22)
  */
 public class UserDto {
   private Long id;

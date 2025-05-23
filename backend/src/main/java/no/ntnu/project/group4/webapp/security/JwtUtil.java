@@ -16,9 +16,6 @@ import org.springframework.stereotype.Component;
  * The JwtUtil class represents a utility class for handling JWT tokens.
  *
  * <p>Code from https://youtu.be/X80nJ5T7YpE.</p>
- *
- * @author Group 4
- * @version v1.0 (2024.05.22)
  */
 @Component
 public class JwtUtil {

@@ -8,9 +8,6 @@ import org.springframework.stereotype.Service;
 
 /**
  * The ReceiptService class represents the service class for the receipt entity.
- *
- * @author Group 4
- * @version 1.1 (2024.05.21)
  */
 @Service
 public class ReceiptService {

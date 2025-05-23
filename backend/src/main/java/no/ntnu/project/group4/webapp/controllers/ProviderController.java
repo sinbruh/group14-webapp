@@ -35,9 +35,6 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
  * The ProviderController class represents the REST API controller class for providers.
  *
  * <p>All HTTP requests affiliated with providers are handled in this class.</p>
- *
- * @author Group 4
- * @version v1.8 (2024.05.22)
  */
 @CrossOrigin
 @RestController

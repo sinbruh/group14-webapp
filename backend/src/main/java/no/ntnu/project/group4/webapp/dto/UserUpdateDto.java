@@ -5,9 +5,6 @@ import java.sql.Date;
 /**
  * The UserUpdateDto represents the data transfer object (DTO) for sending user data. The class
  * contains data for submitting changes to user data.
- *
- * @author Group 4
- * @version v1.0 (2024.05.22)
  */
 public class UserUpdateDto {
   private String firstName;

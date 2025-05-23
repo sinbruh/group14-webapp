@@ -8,9 +8,6 @@ import org.springframework.stereotype.Service;
 
 /**
  * The CarService class represents the service class for the car entity.
- *
- * @author Group 4
- * @version v1.0 (2024.05.22)
  */
 @Service
 public class CarService {

@@ -12,9 +12,6 @@ import jakarta.persistence.ManyToOne;
  * The ExtraFeature class represents the entity class for the extra feature entity.
  *
  * <p>The class uses JPA with annotations for ORM operations.</p>
- *
- * @author Group 4
- * @version v1.0 (2024.05.22)
  */
 @Entity(name = "extra_feature")
 @Schema(

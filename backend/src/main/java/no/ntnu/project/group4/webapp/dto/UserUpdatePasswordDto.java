@@ -3,9 +3,6 @@ package no.ntnu.project.group4.webapp.dto;
 /**
  * The UserUpdatePasswordDto represents the data transfer object (DTO) for sending user password
  * data. The class contains data for submitting changes to user password data.
- *
- * @author Group 4
- * @version v1.0 (2024.05.22)
  */
 public class UserUpdatePasswordDto {
   private String password;
