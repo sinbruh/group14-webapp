@@ -3,7 +3,7 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile
-    image: ghcr.io/sinbruh/group14-webapp/frontend:latest
+    image: ghcr.io/sinbruh/group14-webapp/frontend:v.1.0.2-alpha
     ports:
       - "3000:3000"
     depends_on:
@@ -27,7 +27,7 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
-    image: ghcr.io/sinbruh/group14-webapp/backend:latest
+    image: ghcr.io/sinbruh/group14-webapp/backend:v.1.0.2-alpha
     environment:
       - JWT_SECRET_KEY=${JWT_SECRET_KEY}
       - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/webapp
