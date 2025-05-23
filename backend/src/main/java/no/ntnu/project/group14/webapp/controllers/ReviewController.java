@@ -1,19 +1,7 @@
 package no.ntnu.project.group14.webapp.controllers;
 
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
-
 import java.util.Optional;
 
-import no.ntnu.project.group14.webapp.entities.Configuration;
-import no.ntnu.project.group14.webapp.entities.ExtraFeature;
-import no.ntnu.project.group14.webapp.entities.User;
-import no.ntnu.project.group14.webapp.services.AccessUserService;
-import no.ntnu.project.group14.webapp.services.ConfigurationService;
-import no.ntnu.project.group14.webapp.services.ExtraFeatureService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,17 +18,25 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
-/**
- * The ExtraFeatureController class represents the REST controller for
- * {@link ExtraFeature extra features}.
- */
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import no.ntnu.project.group14.webapp.entities.Configuration;
+import no.ntnu.project.group14.webapp.entities.Review;
+import no.ntnu.project.group14.webapp.entities.User;
+import no.ntnu.project.group14.webapp.services.AccessUserService;
+import no.ntnu.project.group14.webapp.services.ConfigurationService;
+import no.ntnu.project.group14.webapp.services.ReviewService;
+
 @RestController
 @CrossOrigin
-@RequestMapping("/api/extrafeatures")
-public class ExtraFeatureController {
+@RequestMapping("/api/reviews")
+public class ReviewController {
 
   @Autowired
-  private ExtraFeatureService extraFeatureService;
+  private ReviewService reviewService;
 
   @Autowired
   private ConfigurationService configurationService;
@@ -48,45 +44,45 @@ public class ExtraFeatureController {
   @Autowired
   private AccessUserService accessUserService;
 
-  private final Logger logger = LoggerFactory.getLogger(ExtraFeatureController.class);
+  private final Logger logger = LoggerFactory.getLogger(ReviewController.class);
 
   /**
-   * Endpoint for getting all extra features.
+   * Endpoint for getting all reviews.
    * 
-   * @return <p><b>200 OK</b> (<i>body:</i> all extra features)</p>
+   * @return <p><b>200 OK</b> (<i>body:</i> all reviews)</p>
    */
   @Operation(
-    summary = "Get extra features",
-    description = "Gets all extra features"
+    summary = "Get reviews",
+    description = "Gets all reviews"
   )
   @ApiResponses(value = {
     @ApiResponse(
       responseCode = "200",
-      description = "Signals success and contains all extra features"
+      description = "Signals success and contains all reviews"
     )
   })
   @GetMapping
-  public Iterable<ExtraFeature> getAll() {
-    Iterable<ExtraFeature> extraFeatures = this.extraFeatureService.getAll();
-    this.logger.info("[GET] Sending all extra features...");
-    return extraFeatures;
+  public Iterable<Review> getAll() {
+    Iterable<Review> reviews = this.reviewService.getAll();
+    this.logger.info("[GET] Sending all reviews...");
+    return reviews;
   }
 
   /**
-   * Endpoint for getting the extra feature with the specified ID.
+   * Endpoint for getting the review with the specified ID.
    * 
    * @param id The specified ID
-   * @return <p><b>200 OK</b> if extra feature exists (<i>body:</i> extra feature)</p>
-   *         <li><b>404 NOT FOUND</b> if extra feature does not exist</li>
+   * @return <p><b>200 OK</b> if review exists (<i>body:</i> review)</p>
+   *         <li><b>404 NOT FOUND</b> if review does not exist</li>
    */
   @Operation(
-    summary = "Get extra feature",
-    description = "Gets the extra feature with the specified ID"
+    summary = "Get review",
+    description = "Gets the review with the specified ID"
   )
   @ApiResponses(value = {
     @ApiResponse(
       responseCode = "200",
-      description = "Signals success and contains extra feature"
+      description = "Signals success and contains review"
     ),
     @ApiResponse(
       responseCode = "404",
@@ -95,30 +91,29 @@ public class ExtraFeatureController {
   })
   @GetMapping("/{id}")
   public ResponseEntity<Object> get(
-    @Parameter(description = "ID of extra feature to get")
+    @Parameter(description = "ID of review to get")
     @PathVariable Long id
   ) {
     ResponseEntity<Object> response;
-    Optional<ExtraFeature> extraFeature = this.extraFeatureService.get(id);
-    if (extraFeature.isPresent()) {
-      this.logger.info("[GET] Extra feature exists, sending extra feature...");
-      response = ResponseEntity.ok().body(extraFeature.get());
+    Optional<Review> review = this.reviewService.get(id);
+    if (review.isPresent()) {
+      this.logger.info("[GET] Review exists, sending review...");
+      response = ResponseEntity.ok().body(review.get());
     } else {
-      this.logger.error("[GET] Extra feature does not exist, sending error response...");
+      this.logger.error("[GET] Review does not exist, sending error response...");
       response = ResponseEntity.notFound().build();
     }
     return response;
   }
 
   /**
-   * Endpoint for adding the specified extra feature to the configuration with the specified
-   * configuration ID.
+   * Endpoint for adding the specified review to the configuration with the specified configuration ID.
    * 
    * @param configurationId The specified configuration ID
-   * @param extraFeature    The specified extra feature
-   * @return <p><b>201 CREATED</b> if extra feature is valid (<i>body:</i> generated ID of added
-   *         extra feature)</p>
-   *         <li><p><b>400 BAD REQUEST</b> if extra feature is invalid (<i>body:</i> error
+   * @param review          The specified review
+   * @return <p><b>201 CREATED</b> if review is valid (<i>body:</i> generated ID of added
+   *         review)</p>
+   *         <li><p><b>400 BAD REQUEST</b> if review is invalid (<i>body:</i> error
    *         message)</p></li>
    *         <li><p><b>401 UNAUTHORIZED</b> if user is not authenticated</p></li>
    *         <li><p><b>403 FORBIDDEN</b> if user is deactivated or not admin (<i>body:</i> error
@@ -126,14 +121,14 @@ public class ExtraFeatureController {
    *         <li><p><b>404 NOT FOUND</b> if configuration does not exist</p></li>
    */
   @Operation(
-    summary = "Add extra feature",
-    description = "Adds the specified extra feature to the configuration with the specified "
+    summary = "Add review",
+    description = "Adds the specified review to the configuration with the specified "
                 + "configuration ID"
   )
   @ApiResponses(value = {
     @ApiResponse(
       responseCode = "201",
-      description = "Signals success and contains generated ID of added extra feature"
+      description = "Signals success and contains generated ID of added review"
     ),
     @ApiResponse(
       responseCode = "400",
@@ -154,25 +149,24 @@ public class ExtraFeatureController {
   })
   @PostMapping("/configuration/{configurationId}")
   public ResponseEntity<Object> add(
-    @Parameter(description = "ID of configuration to add extra feature to")
+    @Parameter(description = "ID of configuration to add review to")
     @PathVariable Long configurationId,
-    @Parameter(description = "Extra feature to add")
-    @RequestBody ExtraFeature extraFeature
+    @Parameter(description = "Review to add")
+    @RequestBody Review review
   ) {
     ResponseEntity<Object> response;
     User sessionUser = this.accessUserService.getSessionUser();
     if (sessionUser != null && sessionUser.isActive() && sessionUser.isAdmin()) {
       Optional<Configuration> configuration = this.configurationService.get(configurationId);
       if (configuration.isPresent()) {
-        extraFeature.setConfiguration(configuration.get());
+        review.setUser(sessionUser);
+        review.setConfiguration(configuration.get());
         try {
-          this.extraFeatureService.add(extraFeature);
-          this.logger.info(
-            "[POST] Valid extra feature, sending generated ID of added extra feature..."
-          );
-          response = ResponseEntity.created(null).body(extraFeature.getId());
+          this.reviewService.add(review);
+          this.logger.info("[POST] Valid review, sending generated ID of added review...");
+          response = ResponseEntity.created(null).body(review.getId());
         } catch (IllegalArgumentException e) {
-          this.logger.error("[POST] Invalid extra feature, sending error message...");
+          this.logger.error("[POST] Invalid review, sending error message...");
           response = ResponseEntity.badRequest().body(e.getMessage());
         }
       } else {
@@ -193,23 +187,21 @@ public class ExtraFeatureController {
   }
 
   /**
-   * Endpoint for updating the extra feature with the specified ID with the specified update extra
-   * feature.
+   * Endpoint for updating the review with the specified ID with the specified update review.
    * 
-   * @param id           The specified ID
-   * @param extraFeature The specified update extra feature
-   * @return <p><b>200 OK</b> if extra feature exists and update extra feature is valid</p>
-   *         <li><p><b>400 BAD REQUEST</b> if update extra feature is invalid (<i>body:</i> error
+   * @param id     The specified ID
+   * @param review The specified update review
+   * @return <p><b>200 OK</b> if review exists and update review is valid</p>
+   *         <li><p><b>400 BAD REQUEST</b> if update review is invalid (<i>body:</i> error
    *         message)</p></li>
    *         <li><p><b>401 UNAUTHORIZED</b> if user is not authenticated</p></li>
    *         <li><p><b>403 FORBIDDEN</b> if user is deactivated or not admin (<i>body:</i> error
    *         message)</p></li>
-   *         <li><p><b>404 NOT FOUND</b> if extra feature does not exist</p></li>
+   *         <li><p><b>404 NOT FOUND</b> if review does not exist</p></li>
    */
   @Operation(
-    summary = "Update extra feature",
-    description = "Updates the extra feature with the specified ID with the specified update "
-                + "extra feature"
+    summary = "Update review",
+    description = "Updates the review with the specified ID with the specified update review"
   )
   @ApiResponses(value = {
     @ApiResponse(
@@ -235,27 +227,26 @@ public class ExtraFeatureController {
   })
   @PutMapping("/{id}")
   public ResponseEntity<Object> update(
-    @Parameter(description = "ID of extra feature to update")
+    @Parameter(description = "ID of review to update")
     @PathVariable Long id,
-    @Parameter(description = "Update extra feature")
-    @RequestBody ExtraFeature extraFeature
+    @Parameter(description = "Update review")
+    @RequestBody Review review
   ) {
     ResponseEntity<Object> response;
     User sessionUser = this.accessUserService.getSessionUser();
     if (sessionUser != null && sessionUser.isAdmin()) {
       try {
-        if (this.extraFeatureService.update(id, extraFeature)) {
+        if (this.reviewService.update(id, review)) {
           this.logger.info(
-            "[PUT] Extra feature exists and valid update extra feature, sending success "
-          + "response..."
+            "[PUT] Review exists and valid update review, sending success response..."
           );
           response = ResponseEntity.ok().build();
         } else {
-          this.logger.error("[PUT] Extra feature does not exist, sending error response...");
+          this.logger.error("[PUT] Review does not exist, sending error response...");
           response = ResponseEntity.notFound().build();
         }
       } catch (IllegalArgumentException e) {
-        this.logger.error("[PUT] Invalid update extra feature, sending error message...");
+        this.logger.error("[PUT] Invalid update review, sending error message...");
         response = ResponseEntity.badRequest().body(e.getMessage());
       }
     } else if (sessionUser == null) {
@@ -272,18 +263,18 @@ public class ExtraFeatureController {
   }
 
   /**
-   * Endpoint for deleting the extra feature with the specified ID.
+   * Endpoint for deleting the review with the specified ID.
    * 
    * @param id The specified ID
-   * @return <p><b>200 OK</b> if extra feature exists</b></p>
+   * @return <p><b>200 OK</b> if review exists</b></p>
    *         <li><p><b>401 UNAUTHORIZED</b> if user is not authenticated</p></li>
    *         <li><p><b>403 FORBIDDEN</b> if user is deactivated or not admin (<i>body:</i> error
    *         message)</p></li>
-   *         <li><p><b>404 NOT FOUND</b> if extra feature does not exist</p></li>
+   *         <li><p><b>404 NOT FOUND</b> if review does not exist</p></li>
    */
   @Operation(
-    summary = "Delete extra feature",
-    description = "Deletes the extra feature with the specified ID"
+    summary = "Delete review",
+    description = "Deletes the review with the specified ID"
   )
   @ApiResponses(value = {
     @ApiResponse(
@@ -305,17 +296,17 @@ public class ExtraFeatureController {
   })
   @DeleteMapping("/{id}")
   public ResponseEntity<Object> delete(
-    @Parameter(description = "ID of extra feature to delete")
+    @Parameter(description = "ID of review to delete")
     @PathVariable Long id
   ) {
     ResponseEntity<Object> response;
     User sessionUser = this.accessUserService.getSessionUser();
     if (sessionUser != null && sessionUser.isAdmin()) {
-      if (this.extraFeatureService.delete(id)) {
-        this.logger.info("[DELETE] Extra feature exists, sending success response...");
+      if (this.reviewService.delete(id)) {
+        this.logger.info("[DELETE] Review exists, sending success response...");
         response = ResponseEntity.ok().build();
       } else {
-        this.logger.error("[DELETE] Extra feature does not exist, sending error response...");
+        this.logger.error("[DELETE] Review does not exist, sending error response...");
         response = ResponseEntity.notFound().build();
       }
     } else if (sessionUser == null) {

@@ -104,6 +104,15 @@ public class Location {
   }
 
   /**
+   * Setter for region.
+   * 
+   * @param region The specified region
+   */
+  public void setRegion(Region region) {
+    this.region = region;
+  }
+
+  /**
    * Getter for pick up rentals.
    * 
    * @return Pick up rentals

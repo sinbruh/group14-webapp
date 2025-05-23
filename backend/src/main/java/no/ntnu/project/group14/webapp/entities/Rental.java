@@ -132,12 +132,30 @@ public class Rental {
   }
 
   /**
+   * Setter for pick up location.
+   * 
+   * @param pickUpLocation The specified pick up location
+   */
+  public void setPickUpLocation(Location pickUpLocation) {
+    this.pickUpLocation = pickUpLocation;
+  }
+
+  /**
    * Getter for drop off location.
    * 
    * @return Drop off location
    */
   public Location getDropOffLocation() {
     return this.dropOffLocation;
+  }
+
+  /**
+   * Setter for drop off location.
+   * 
+   * @param dropOffLocation The specified drop off location
+   */
+  public void setDropOffLocation(Location dropOffLocation) {
+    this.dropOffLocation = dropOffLocation;
   }
 
   /**
@@ -150,12 +168,30 @@ public class Rental {
   }
 
   /**
+   * Setter for rental object.
+   * 
+   * @param rentalObject The specified rental object
+   */
+  public void setRentalObject(RentalObject rentalObject) {
+    this.rentalObject = rentalObject;
+  }
+
+  /**
    * Getter for user.
    *
    * @return User
    */
   public User getUser() {
     return this.user;
+  }
+
+  /**
+   * Setter for user.
+   * 
+   * @param user The specified user
+   */
+  public void setUser(User user) {
+    this.user = user;
   }
 
   /**
