@@ -173,13 +173,14 @@ public class RentalController {
     ResponseEntity<Object> response;
     User sessionUser = this.accessUserService.getSessionUser();
     if (sessionUser != null && sessionUser.isActive()) {
-      Optional<RentalObject> rentalObject = this.rentalObjectService.get(rentalObjectId);
       Optional<Location> pickUpLocation = locationService.get(pickUpLocationId);
       Optional<Location> dropOffLocation = locationService.get(dropOffLocationId);
+      Optional<RentalObject> rentalObject = this.rentalObjectService.get(rentalObjectId);
       if (rentalObject.isPresent() && pickUpLocation.isPresent() && dropOffLocation.isPresent()) {
-        rental.setRentalObject(rentalObject.get());
         rental.setPickUpLocation(pickUpLocation.get());
         rental.setDropOffLocation(dropOffLocation.get());
+        rental.setUser(sessionUser);
+        rental.setRentalObject(rentalObject.get());
         try {
           this.rentalService.add(rental);
           this.logger.info("[POST] Valid rental, sending generated ID of added rental...");
