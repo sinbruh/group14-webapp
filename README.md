@@ -1,32 +1,36 @@
 # group14-webapp
-Fullstack webapp for the IDATA2306 course.
 
-## Project Description
-
-Exam Project in course
+Exam project in course
 [IDATA2306 Application Development](https://www.ntnu.edu/studies/courses/IDATA2306#tab=omEmnet) at
 [NTNU](https://www.ntnu.edu/) by group 14.
 
-Project theme given for this project: Car Rentals
+Project theme: Car Rentals
 
-## Installation
+### How to run
 
-1. Clone the repository 
-2. Make sure you have Java (JDK 17 or higher)
-3. Install independancies needed
-4. run mvn spring-boot:run in backend cd
-5. run npm run dev in frontend cd
+The project can be run in two ways. You can (1) run the project using a containerized environment
+or (2) run the project locally.
 
-## environment variables
+To run the project using a containerized environment, first make sure you have
+[Docker](https://www.docker.com/) installed. Then, run the following command:
 
+```shell
+docker compose up -f compose.dev.yaml -d
+```
 
-## Extra Features Implemented
+To run the project locally, refer to the `backend` and `frontend` project directories.
 
-- Admin Orders Overview
-- User Order History
-- Car Search by location
+**Note:** If you are running the project using the first option, make sure you have your
+environment set up properly. You should create a `.env` file in the root directory. See
+`docker.example.env` for environment variables.
+
+### Extra features
+
+- Admin orders overview
+- User order history
+- Car search by location
 - Admin car management
 - User profile management
-- CI/CD Continous Integration and Continuous Delivery/Deployment
-- Select Location
+- CD pipeline
+- Select location
 - Docker containerization
