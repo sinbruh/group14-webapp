@@ -5,9 +5,6 @@ import java.sql.Date;
 /**
  * The RegisterDto class represents the data transfer object (DTO) the user will send when
  * registering. The class contains data from the register form.
- *
- * @author Group 4
- * @version v1.0 (2024.05.22)
  */
 public class RegisterDto {
   private final String firstName;
