@@ -122,12 +122,30 @@ public class Review {
   }
 
   /**
+   * Setter for user.
+   * 
+   * @param user The specified user
+   */
+  public void setUser(User user) {
+    this.user = user;
+  }
+
+  /**
    * Getter for configuraiton.
    * 
    * @return Configuration
    */
   public Configuration getConfiguration() {
     return this.configuration;
+  }
+
+  /**
+   * Setter for configuration.
+   * 
+   * @param configuration The specified configuration
+   */
+  public void setConfiguration(Configuration configuration) {
+    this.configuration = configuration;
   }
 
   /**
