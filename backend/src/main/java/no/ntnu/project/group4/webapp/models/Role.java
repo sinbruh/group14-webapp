@@ -3,6 +3,7 @@ package no.ntnu.project.group4.webapp.models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
@@ -14,7 +15,8 @@ import java.util.Set;
  *
  * <p>The class uses JPA with annotations for ORM operations.</p>
  */
-@Entity(name = "role")
+@Entity
+@Table(name = "role")
 @Schema(description = "A role entity, representing a specific role that can be added to a user")
 public class Role {
   @Schema(description = "Unique ID")

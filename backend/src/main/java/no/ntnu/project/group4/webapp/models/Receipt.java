@@ -3,10 +3,12 @@ package no.ntnu.project.group4.webapp.models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import java.lang.annotation.Repeatable;
 import java.sql.Date;
 
 /**
@@ -14,7 +16,8 @@ import java.sql.Date;
  *
  * <p>The class uses JPA with annotations for ORM operations.</p>
  */
-@Entity(name = "receipt")
+@Entity
+@Table(name = "receipt")
 @Schema(
     description = "A receipt entity, representing a specific receipt that can be added to a user"
 )

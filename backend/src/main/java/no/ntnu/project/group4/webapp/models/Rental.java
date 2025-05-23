@@ -3,6 +3,7 @@ package no.ntnu.project.group4.webapp.models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -14,7 +15,8 @@ import java.sql.Date;
  *
  * <p>The class uses JPA with annotations for ORM operations.</p>
  */
-@Entity(name = "rental")
+@Entity
+@Table(name = "rental")
 @Schema(
     description = "A rental entity, representing a specific rental that can be added to a user "
                 + "and a configuration provider"
