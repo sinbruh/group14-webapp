@@ -18,7 +18,7 @@ import java.util.Set;
  * <p>The class uses JPA with annotations for ORM operations.</p>
  */
 @Entity
-@Table(name = "car")
+@Table(name = "configuration")
 @Schema(
     description = "A configuration entity, representing a specific car configuration that can be "
                 + "added to a car"
