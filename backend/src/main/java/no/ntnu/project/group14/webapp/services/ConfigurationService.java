@@ -1,7 +1,13 @@
 package no.ntnu.project.group14.webapp.services;
 
+import java.util.ArrayList;
 import java.util.Optional;
 
+import no.ntnu.project.group14.webapp.dto.SearchDto;
+import no.ntnu.project.group14.webapp.entities.Location;
+import no.ntnu.project.group14.webapp.entities.Region;
+import no.ntnu.project.group14.webapp.entities.Rental;
+import no.ntnu.project.group14.webapp.entities.RentalObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -97,5 +103,80 @@ public class ConfigurationService {
       this.configurationRepository.deleteById(id);
     }
     return exist;
+  }
+
+  public Iterable<Configuration> getConfigurationsByTime(SearchDto searchDto) {
+    Iterable<Configuration> configurations = this.configurationRepository.findAll();
+
+    ArrayList<Configuration> filteredConfigurations = new ArrayList<Configuration>();
+
+    for (Configuration configuration : configurations) {
+      if (validateSearchConfigurationTime(configuration, searchDto)) {
+        filteredConfigurations.add(configuration);
+      }
+    }
+
+    return filteredConfigurations;
+  }
+
+  public Iterable<Configuration> getConfigurationsByLocationsAndTime(SearchDto searchDto) {
+    Iterable<Configuration> configurations = this.configurationRepository.findAll();
+
+    ArrayList<Configuration> filteredConfigurations = new ArrayList<Configuration>();
+
+    for (Configuration configuration : configurations) {
+      if (configurationMatchesSearch(configuration, searchDto)) {
+        filteredConfigurations.add(configuration);
+      }
+    }
+
+    return filteredConfigurations;
+  }
+
+  public Iterable<Configuration> search(SearchDto searchDto) {
+      if (searchDto.getPickUpLocation() != null || searchDto.getDropOffLocation() != null) {
+          return getConfigurationsByLocationsAndTime(searchDto);
+        } else {
+        return getConfigurationsByTime(searchDto);
+      }
+  }
+
+  public boolean configurationMatchesSearch(Configuration configuration, SearchDto searchDto) {
+    return validateSearchConfigurationLocation(configuration, searchDto) &&
+           validateSearchConfigurationTime(configuration, searchDto);
+  }
+
+  private boolean validateSearchConfigurationTime(Configuration configuration,
+                                                  SearchDto searchDto) {
+    boolean overlappingRental = false;
+
+    for (RentalObject ro : configuration.getRentalObjects()) {
+      for (Rental rental : ro.getRentals()) {
+        if ((rental.getStartTime() >= searchDto.getStartTime() && rental.getStartTime() <= searchDto.getEndTime()) ||
+            (rental.getEndTime() >= searchDto.getStartTime() && rental.getEndTime() <= searchDto.getEndTime()) ||
+            (rental.getStartTime() < searchDto.getStartTime() && rental.getEndTime() > searchDto.getEndTime())) {
+          overlappingRental = true;
+          break;
+        }
+      }
+    }
+    return !overlappingRental;
+  }
+
+  private boolean validateSearchConfigurationLocation(Configuration configuration, SearchDto searchDto) {
+    boolean pickUpFound = false;
+    boolean dropOffFound = false;
+
+    for (RentalObject ro : configuration.getRentalObjects()) {
+      for (Region region : ro.getProvider().getRegions()) {
+        if (region.getLocations().contains(searchDto.getPickUpLocation())) {
+          pickUpFound = true;
+        }
+        if (region.getLocations().contains(searchDto.getDropOffLocation())) {
+          dropOffFound = true;
+        }
+      }
+    }
+    return pickUpFound && dropOffFound;
   }
 }

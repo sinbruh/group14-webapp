@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 import no.ntnu.project.group14.webapp.dto.ConfigurationDto;
+import no.ntnu.project.group14.webapp.dto.SearchDto;
 import no.ntnu.project.group14.webapp.entities.Car;
 import no.ntnu.project.group14.webapp.entities.Configuration;
 import no.ntnu.project.group14.webapp.entities.RentalObject;
@@ -71,8 +72,15 @@ public class ConfigurationController {
     )
   })
   @GetMapping("/search")
-  public Iterable<ConfigurationDto> getSearch() {
-    Iterable<Configuration> configurations = this.configurationService.getAll();
+  public Iterable<ConfigurationDto> getSearch(@Parameter(description = "The search request")
+      @RequestBody SearchDto searchDto
+  ) {
+    Iterable<Configuration> configurations;
+    if (searchDto == null) {
+      configurations = this.configurationService.getAll();
+    } else {
+      configurations = this.configurationService.search(searchDto);
+    }
     List<ConfigurationDto> dtos = new ArrayList<>();
     for (Configuration configuration : configurations) {
       double price = 9999;
